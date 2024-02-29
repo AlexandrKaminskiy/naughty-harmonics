@@ -1,0 +1,9 @@
+.tact-block {
+  display: block;
+  width: 100px;
+}
+
+.column-block {
+  display: inline-block;
+  /*width: 100px;*/
+}
