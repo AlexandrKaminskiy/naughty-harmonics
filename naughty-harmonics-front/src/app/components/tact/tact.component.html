@@ -1,12 +1,17 @@
 <!--<div class="tact-block">-->
 
 
-  <div class="column-block" *ngFor="let item of [].constructor(10)">
-    <app-note style="margin: 1px" *ngFor="let item of [].constructor(6)" (noteValue)="changeTactValue($event)">
+  <div class="column-block" *ngFor="let col of utilService.createRange(noteLength)">
+    <app-note
+      style="margin: 1px"
+      [oldValue]="notes[col - 1][row - 1]"
+      [column]="col" [row]="row"
+      *ngFor="let row of utilService.createRange(6)"
+      (noteValue)="changeTactValue($event)"
+      (action)="handleAction($event)"
+    >
 
     </app-note>
   </div>
-  <app-note>
 
-  </app-note>
 <!--</div>-->

@@ -32,11 +32,15 @@ input[type=number] {
   text-align: center;
   /*border: 10px #090808;*/
   border-radius: 3px;
+  background: red;
   /*transform: translateY(-12px);*/
 }
 
 .note {
   font-size: 16px;
+  /*background: #0061f1;*/
+}
+.note:focus {
   background: #0061f1;
 }
 

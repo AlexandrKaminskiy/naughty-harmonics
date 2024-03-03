@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NoteDto} from "../../dto/note";
-import {Validators} from "@angular/forms";
+import {Action} from "../../dto/action";
+import {NoteAction} from "../../dto/noteAction";
 
 @Component({
   selector: 'app-note',
@@ -11,13 +12,16 @@ import {Validators} from "@angular/forms";
 })
 export class NoteComponent {
 
-  @Output() noteValue = new EventEmitter<NoteDto>();
+  @Output() noteValue = new EventEmitter<any>();
+  @Output() action = new EventEmitter<NoteAction>();
+  @Input() oldValue: NoteDto
+  @Input() row : number;
+  @Input() column : number;
+
   value: string = "";
   freshFocus: boolean = false
   valueRegExp = /^[0-9]*$/
-  onClick() {
-
-  }
+  slideRegExp = /^([1-9]|[12][0-9]|3[01]\/[1-9]|[12][0-9]|3[01])$/
 
   onKeyDown($event: KeyboardEvent) {
     if (this.freshFocus) {
@@ -46,7 +50,21 @@ export class NoteComponent {
 
   setUnfocus() {
     this.freshFocus = false
-    // this.noteValue.emit("123132123")
+
+    if (this.oldValue?.value != this.value) {
+      this.noteValue.emit(
+        {
+          duration: 1,
+          value: this.value,
+          column: this.column,
+          row: this.row
+        })
+    }
     console.log("unfocus")
+  }
+
+  addColumn() {
+    console.log('enter')
+    this.action.emit({pos: this.column, action: Action.ADD_COLUMN})
   }
 }
