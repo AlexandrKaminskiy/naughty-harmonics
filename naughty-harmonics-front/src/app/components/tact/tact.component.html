@@ -1,17 +1,18 @@
 <!--<div class="tact-block">-->
 
 
-  <div class="column-block" *ngFor="let col of utilService.createRange(noteLength)">
-    <app-note
-      style="margin: 1px"
-      [oldValue]="notes[col - 1][row - 1]"
-      [column]="col" [row]="row"
-      *ngFor="let row of utilService.createRange(6)"
-      (noteValue)="changeTactValue($event)"
-      (action)="handleAction($event)"
-    >
+<div class="column-block" *ngFor="let col of notes">
+  <app-note
+    style="margin: 1px"
+    [oldValue]="notes[notes.indexOf(col)][col.indexOf(row)]"
+    [column]="notes.indexOf(col)" [row]="col.indexOf(row)"
+    *ngFor="let row of col"
+    (noteValue)="changeTactValue($event)"
+    (action)="handleAction($event)"
+  >
 
-    </app-note>
-  </div>
+  </app-note>
+</div>
+
 
 <!--</div>-->
