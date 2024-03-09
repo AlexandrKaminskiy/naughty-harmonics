@@ -43,8 +43,7 @@ export class TactComponent {
   changeTactValue($event: any) {
     console.log($event.column)
     console.log($event.row)
-    this.notes[$event.column][$event.row].value = $event.value
-    this.notes[$event.column][$event.row].duration = $event.duration
+    this.notes[$event.column][$event.row] = $event
 
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
