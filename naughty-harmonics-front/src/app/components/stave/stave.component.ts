@@ -19,4 +19,7 @@ export class StaveComponent {
   constructor(public utilService: UtilService) {
   }
 
+  addTact() {
+
+  }
 }

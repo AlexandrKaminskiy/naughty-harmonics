@@ -1,11 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
 import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
 import {Action} from "../../dto/action";
-import {NoteAction} from "../../dto/noteAction";
 
 @Component({
   selector: 'app-tact',
@@ -21,9 +20,12 @@ import {NoteAction} from "../../dto/noteAction";
 })
 export class TactComponent {
 
-  size: number = 4
+  size: number = 32
   noteLength: number = 2
   check: boolean
+
+  @Input() serialNumber: number
+  @Output() isFull: EventEmitter<any>
 
   public notes: NoteDto[][] = new Array(this.noteLength)
     .fill(false)
@@ -73,7 +75,7 @@ export class TactComponent {
 
   handleAction($event: any) {
     switch ($event.action) {
-      case Action.ADD_COLUMN :
+      case Action.ADD_COLUMN:
         this.addColumn($event.pos);
         break
       case Action.REMOVE_COLUMN:
@@ -83,6 +85,13 @@ export class TactComponent {
         this.notes[$event.pos].forEach((value, index, array) => {
           array[index] = {value: value.value, duration: $event.duration}
         })
+    }
+  }
+
+  checkFull() {
+    const sum = this.notes.reduce((acc, it) => it[0].duration + acc, 0);
+    if (sum >= this.size) {
+      this.isFull.emit({value: true, serialNumber: this.serialNumber})
     }
   }
 
