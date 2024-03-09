@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
 import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
@@ -13,7 +13,8 @@ import {NoteAction} from "../../dto/noteAction";
   imports: [
     CordComponent,
     NgForOf,
-    NoteComponent
+    NoteComponent,
+    NgIf
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -22,29 +23,47 @@ export class TactComponent {
 
   size: number = 4
   noteLength: number = 2
+  check: boolean
 
   public notes: NoteDto[][] = new Array(this.noteLength)
     .fill(false)
-    .map(() =>
-      new Array(6).fill({})
+    .map(() => [
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1}
+      ]
     );
 
   constructor(public utilService: UtilService) {
   }
 
   changeTactValue($event: any) {
-
-    this.notes[$event.column][$event.row] = $event
+    console.log($event.column)
+    console.log($event.row)
+    this.notes[$event.column][$event.row].value = $event.value
+    this.notes[$event.column][$event.row].duration = $event.duration
 
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
     }
 
-    console.log($event)
+    // console.log(this.notes)
   }
 
   addColumn(pos: number) {
-    this.notes.splice(pos, 0, new Array(6).fill({}));
+    this.notes.splice(pos, 0, [
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1},
+        {value: '', duration: 1}
+      ]
+    );
+    console.log(this.notes)
   }
 
   removeColumn(pos: number) {
@@ -56,8 +75,12 @@ export class TactComponent {
 
   handleAction($event: NoteAction) {
     switch ($event.action) {
-      case Action.ADD_COLUMN : this.addColumn($event.pos); break
-      case Action.REMOVE_COLUMN: this.removeColumn($event.pos); break
+      case Action.ADD_COLUMN :
+        this.addColumn($event.pos);
+        break
+      case Action.REMOVE_COLUMN:
+        this.removeColumn($event.pos);
+        break
     }
   }
 

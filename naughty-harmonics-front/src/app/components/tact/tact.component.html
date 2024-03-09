@@ -1,12 +1,12 @@
 <!--<div class="tact-block">-->
 
 
-<div class="column-block" *ngFor="let col of notes">
+<div class="column-block" *ngFor="let col of notes; index as i">
   <app-note
     style="margin: 1px"
-    [oldValue]="notes[notes.indexOf(col)][col.indexOf(row)]"
-    [column]="notes.indexOf(col)" [row]="col.indexOf(row)"
-    *ngFor="let row of col"
+    [oldValue]="notes[i][j]"
+    [column]="i" [row]="j"
+    *ngFor="let row of col; index as j"
     (noteValue)="changeTactValue($event)"
     (action)="handleAction($event)"
   >
@@ -14,5 +14,20 @@
   </app-note>
 </div>
 
+<!--<ng-container *ngIf="check">-->
+<!--  <div class="column-block" *ngFor="let col of notes; index as i">-->
+<!--    <app-note-->
+<!--      style="margin: 1px"-->
+<!--      [oldValue]="notes[i][j]"-->
+<!--      [column]="i" [row]="j"-->
+<!--      *ngFor="let row of col; index as j"-->
+<!--      (noteValue)="changeTactValue($event)"-->
+<!--      (action)="handleAction($event)"-->
+<!--    >-->
 
+<!--    </app-note>-->
+<!--  </div>-->
+<!--</ng-container>-->
+
+<!--<button (click)="setCheck()"></button>-->
 <!--</div>-->

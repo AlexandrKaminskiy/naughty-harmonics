@@ -1,4 +1,4 @@
 export interface NoteDto {
-  value?: string
-  duration?: number
+  value: string
+  duration: number
 }

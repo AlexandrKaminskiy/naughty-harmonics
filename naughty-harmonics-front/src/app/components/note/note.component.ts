@@ -23,16 +23,18 @@ export class NoteComponent implements OnInit {
   slideRegExp = /^([1-9]|[12][0-9]|3[01]\/[1-9]|[12][0-9]|3[01])$/
 
   ngOnInit() {
-    this.value = this.oldValue.value ? this.oldValue.value : ""
+    console.error(`i ${this.column} j ${this.row}`)
+    this.value = this.oldValue.value
   }
 
   onKeyDown($event: KeyboardEvent) {
-    const newValue = this.value + $event.key
 
     if (this.freshFocus) {
       this.freshFocus = false
       this.value = ""
     }
+
+    const newValue = this.value + $event.key
 
     if ($event.key == 'Backspace') {
       this.value = this.value.slice(0, -1)
@@ -54,7 +56,7 @@ export class NoteComponent implements OnInit {
   setUnfocus() {
     this.freshFocus = false
 
-    if (this.oldValue?.value != this.value) {
+    if (this.oldValue.value != this.value) {
       this.noteValue.emit(
         {
           duration: 1,
