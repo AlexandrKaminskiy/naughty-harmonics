@@ -48,8 +48,7 @@ export class TactComponent {
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
     }
-
-    // console.log(this.notes)
+    console.log(this.notes)
   }
 
   addColumn(pos: number) {
@@ -72,7 +71,7 @@ export class TactComponent {
     console.log(this.notes)
   }
 
-  handleAction($event: NoteAction) {
+  handleAction($event: any) {
     switch ($event.action) {
       case Action.ADD_COLUMN :
         this.addColumn($event.pos);
@@ -80,6 +79,10 @@ export class TactComponent {
       case Action.REMOVE_COLUMN:
         this.removeColumn($event.pos);
         break
+      case Action.CHANGE_DURATION:
+        this.notes[$event.pos].forEach((value, index, array) => {
+          array[index] = {value: value.value, duration: $event.duration}
+        })
     }
   }
 

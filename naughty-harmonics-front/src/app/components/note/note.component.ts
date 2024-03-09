@@ -2,29 +2,39 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NoteDto} from "../../dto/note";
 import {Action} from "../../dto/action";
 import {NoteAction} from "../../dto/noteAction";
+import {NgStyle} from "@angular/common";
+import {NoteDurationService} from "../../dto/noteDurationService";
 
 @Component({
   selector: 'app-note',
   standalone: true,
-  imports: [],
+  imports: [
+    NgStyle
+  ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css'
 })
 export class NoteComponent implements OnInit {
 
   @Output() noteValue = new EventEmitter<any>();
-  @Output() action = new EventEmitter<NoteAction>();
+  @Output() action = new EventEmitter<any>();
   @Input() oldValue: NoteDto
   @Input() row : number;
   @Input() column : number;
   value: string;
+  duration: number
   freshFocus: boolean = false
   valueRegExp = /^[0-9]*$/
   slideRegExp = /^([1-9]|[12][0-9]|3[01]\/[1-9]|[12][0-9]|3[01])$/
+  backGround: string;
+
+  constructor(public noteDurationService: NoteDurationService) {
+  }
 
   ngOnInit() {
-    console.error(`i ${this.column} j ${this.row}`)
     this.value = this.oldValue.value
+    this.duration = this.oldValue.duration
+    this.backGround = this.noteDurationService.getColorByDuration(this.duration)
   }
 
   onKeyDown($event: KeyboardEvent) {
@@ -49,12 +59,14 @@ export class NoteComponent implements OnInit {
   }
 
   setFocusable() {
+    this.backGround = 'pink'
     this.freshFocus = true
     console.log("focus")
   }
 
   setUnfocus() {
     this.freshFocus = false
+    this.backGround = this.noteDurationService.getColorByDuration(this.duration)
 
     if (this.oldValue.value != this.value) {
       this.noteValue.emit(
@@ -77,5 +89,16 @@ export class NoteComponent implements OnInit {
   removeColumn() {
     console.log('remove ' + this.column)
     this.action.emit({pos: this.column, action: Action.REMOVE_COLUMN})
+  }
+
+
+  decreaseDuration() {
+    this.duration /= 2
+    this.action.emit({pos: this.column, action: Action.CHANGE_DURATION})
+  }
+
+  increaseDuration() {
+    this.duration *= 2
+    this.action.emit({pos: this.column, action: Action.CHANGE_DURATION, duration: this.duration})
   }
 }

@@ -1,9 +1,12 @@
 <div class="note"
+     [ngStyle]="{'background': backGround}"
      (keydown)="onKeyDown($event)"
      (focusout)="setUnfocus()"
      (focus)="setFocusable()" tabindex="0"
      (keydown.enter)="addColumn()"
      (keydown.d)="removeColumn()"
+     (keydown.-)="decreaseDuration()"
+     (keydown.i)="increaseDuration()"
      >
   {{value}}
 </div>
