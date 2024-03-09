@@ -1,12 +1,14 @@
-<div class="column-block" *ngFor="let col of notes; index as i">
-  <app-note
-    style="margin: 1px"
-    [oldValue]="notes[i][j]"
-    [column]="i" [row]="j"
-    *ngFor="let row of col; index as j"
-    (noteValue)="changeTactValue($event)"
-    (action)="handleAction($event)"
-  >
+<div style="border: 2px red solid;">
+  <div class="column-block" *ngFor="let col of notes; index as i">
+    <app-note
+      style="margin: 1px"
+      [oldValue]="notes[i][j]"
+      [column]="i" [row]="j"
+      *ngFor="let row of col; index as j"
+      (noteValue)="changeTactValue($event)"
+      (action)="handleAction($event)"
+    >
 
-  </app-note>
+    </app-note>
+  </div>
 </div>

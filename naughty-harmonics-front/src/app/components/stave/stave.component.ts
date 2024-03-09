@@ -14,12 +14,12 @@ import {UtilService} from "../../util/utilService";
   styleUrl: './stave.component.css'
 })
 export class StaveComponent {
-  tactQuantity: number = 2;
+  tactQuantity: number = 1;
 
   constructor(public utilService: UtilService) {
   }
 
   addTact() {
-
+    this.tactQuantity++
   }
 }

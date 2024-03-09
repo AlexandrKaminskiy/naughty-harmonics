@@ -25,7 +25,7 @@ export class TactComponent {
   check: boolean
 
   @Input() serialNumber: number
-  @Output() isFull: EventEmitter<any>
+  @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
 
   public notes: NoteDto[][] = new Array(this.noteLength)
     .fill(false)
@@ -52,17 +52,20 @@ export class TactComponent {
     }
     console.log(this.notes)
   }
-
+  // 15 1111
   addColumn(pos: number) {
+    const dur = (Math.pow(2, Math.floor(Math.log2(this.size - this.getCurrentSize()))))
+    console.log(dur)
     this.notes.splice(pos, 0, [
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1}
+        {value: '', duration: dur},
+        {value: '', duration: dur},
+        {value: '', duration: dur},
+        {value: '', duration: dur},
+        {value: '', duration: dur},
+        {value: '', duration: dur}
       ]
     );
+    this.checkFull()
     console.log(this.notes)
   }
 
@@ -85,11 +88,17 @@ export class TactComponent {
         this.notes[$event.pos].forEach((value, index, array) => {
           array[index] = {value: value.value, duration: $event.duration}
         })
+        this.checkFull()
+        break
     }
   }
 
+  getCurrentSize() {
+    return this.notes.reduce((acc, it) => it[0].duration + acc, 0);
+  }
+
   checkFull() {
-    const sum = this.notes.reduce((acc, it) => it[0].duration + acc, 0);
+    const sum = this.getCurrentSize()
     if (sum >= this.size) {
       this.isFull.emit({value: true, serialNumber: this.serialNumber})
     }
