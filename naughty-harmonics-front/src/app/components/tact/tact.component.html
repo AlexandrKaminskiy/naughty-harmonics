@@ -1,4 +1,4 @@
-<div style="border: 2px red solid;">
+<div [ngStyle]="{border: warningBorder}">
   <div class="column-block" *ngFor="let col of notes; index as i">
     <app-note
       style="margin: 1px"

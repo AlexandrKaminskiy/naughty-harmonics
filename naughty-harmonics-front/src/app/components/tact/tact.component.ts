@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
 import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
@@ -13,7 +13,8 @@ import {Action} from "../../dto/action";
     CordComponent,
     NgForOf,
     NoteComponent,
-    NgIf
+    NgIf,
+    NgStyle
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -23,7 +24,7 @@ export class TactComponent {
   size: number = 32
   noteLength: number = 2
   check: boolean
-
+  warningBorder: string
   @Input() serialNumber: number
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
 
@@ -45,16 +46,20 @@ export class TactComponent {
   changeTactValue($event: any) {
     console.log($event.column)
     console.log($event.row)
-    this.notes[$event.column][$event.row] = $event
+    this.notes[$event.column][$event.row] = {value: $event.value, duration: $event.duration}
 
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
+      this.changeWarningBorder()
     }
     console.log(this.notes)
   }
-  // 15 1111
+
   addColumn(pos: number) {
-    const dur = (Math.pow(2, Math.floor(Math.log2(this.size - this.getCurrentSize()))))
+    if (this.getCurrentSize() >= this.size) {
+      return
+    }
+    const dur = Math.pow(2, Math.floor(Math.log2(this.size - this.getCurrentSize())))
     console.log(dur)
     this.notes.splice(pos, 0, [
         {value: '', duration: dur},
@@ -70,6 +75,10 @@ export class TactComponent {
   }
 
   removeColumn(pos: number) {
+    if (this.notes.length == 1) {
+      return
+    }
+
     console.log(`splice ${pos}`)
     this.notes.splice(pos, 1);
 
@@ -91,6 +100,7 @@ export class TactComponent {
         this.checkFull()
         break
     }
+    this.changeWarningBorder()
   }
 
   getCurrentSize() {
@@ -99,9 +109,17 @@ export class TactComponent {
 
   checkFull() {
     const sum = this.getCurrentSize()
-    if (sum >= this.size) {
+    if (!this.check && sum >= this.size) {
+      this.check = true
       this.isFull.emit({value: true, serialNumber: this.serialNumber})
     }
   }
 
+  changeWarningBorder() {
+    if (this.getCurrentSize() != this.size) {
+      this.warningBorder = '2px red solid'
+    } else {
+      this.warningBorder = ''
+    }
+  }
 }

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NoteDto} from "../../dto/note";
 import {Action} from "../../dto/action";
-import {NoteAction} from "../../dto/noteAction";
 import {NgStyle} from "@angular/common";
 import {NoteDurationService} from "../../dto/noteDurationService";
 
@@ -19,8 +18,8 @@ export class NoteComponent implements OnInit {
   @Output() noteValue = new EventEmitter<any>();
   @Output() action = new EventEmitter<any>();
   @Input() oldValue: NoteDto
-  @Input() row : number;
-  @Input() column : number;
+  @Input() row: number;
+  @Input() column: number;
   value: string;
   duration: number
   freshFocus: boolean = false
@@ -71,7 +70,7 @@ export class NoteComponent implements OnInit {
     if (this.oldValue.value != this.value) {
       this.noteValue.emit(
         {
-          duration: 1,
+          duration: this.duration,
           value: this.value,
           column: this.column,
           row: this.row
@@ -87,6 +86,7 @@ export class NoteComponent implements OnInit {
   }
 
   removeColumn() {
+    this.value = this.oldValue.value
     console.log('remove ' + this.column)
     this.action.emit({pos: this.column, action: Action.REMOVE_COLUMN})
   }
@@ -101,4 +101,5 @@ export class NoteComponent implements OnInit {
     this.duration *= 2
     this.action.emit({pos: this.column, action: Action.CHANGE_DURATION, duration: this.duration})
   }
+
 }
