@@ -93,11 +93,17 @@ export class NoteComponent implements OnInit {
 
 
   decreaseDuration() {
+    if (this.duration == 1) {
+      return
+    }
     this.duration /= 2
     this.action.emit({pos: this.column, action: Action.CHANGE_DURATION})
   }
 
   increaseDuration() {
+    if (this.duration == 32) {
+      return
+    }
     this.duration *= 2
     this.action.emit({pos: this.column, action: Action.CHANGE_DURATION, duration: this.duration})
   }

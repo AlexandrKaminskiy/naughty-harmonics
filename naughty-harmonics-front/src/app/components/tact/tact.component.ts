@@ -5,6 +5,7 @@ import {NoteComponent} from "../note/note.component";
 import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
 import {Action} from "../../dto/action";
+import {TactInfo} from "../../dto/tactInfo";
 
 @Component({
   selector: 'app-tact',
@@ -27,6 +28,7 @@ export class TactComponent {
   warningBorder: string
   @Input() serialNumber: number
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
+  @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()
 
   public notes: NoteDto[][] = new Array(this.noteLength)
     .fill(false)
