@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
@@ -20,29 +20,22 @@ import {TactInfo} from "../../dto/tactInfo";
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
 })
-export class TactComponent {
+export class TactComponent implements OnInit {
 
-  size: number = 32
-  noteLength: number = 2
-  check: boolean
+  @Input() size: number
+  @Input() staveAcknowledged: boolean
   warningBorder: string
   @Input() serialNumber: number
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
   @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()
 
-  public notes: NoteDto[][] = new Array(this.noteLength)
-    .fill(false)
-    .map(() => [
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1},
-        {value: '', duration: 1}
-      ]
-    );
+  @Input() notes: NoteDto[][]
 
   constructor(public utilService: UtilService) {
+  }
+
+  ngOnInit() {
+    this.changeWarningBorder();
   }
 
   changeTactValue($event: any) {
@@ -52,8 +45,8 @@ export class TactComponent {
 
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
-      this.changeWarningBorder()
     }
+    this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, size: this.size})
     console.log(this.notes)
   }
 
@@ -61,17 +54,9 @@ export class TactComponent {
     if (this.getCurrentSize() >= this.size) {
       return
     }
-    const dur = Math.pow(2, Math.floor(Math.log2(this.size - this.getCurrentSize())))
-    console.log(dur)
-    this.notes.splice(pos, 0, [
-        {value: '', duration: dur},
-        {value: '', duration: dur},
-        {value: '', duration: dur},
-        {value: '', duration: dur},
-        {value: '', duration: dur},
-        {value: '', duration: dur}
-      ]
-    );
+    const duration = Math.pow(2, Math.floor(Math.log2(this.size - this.getCurrentSize())))
+    console.log(duration)
+    this.notes.splice(pos, 0, this.utilService.createColumn(duration));
     this.checkFull()
     console.log(this.notes)
   }
@@ -102,7 +87,7 @@ export class TactComponent {
         this.checkFull()
         break
     }
-    this.changeWarningBorder()
+    this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, size: this.size})
   }
 
   getCurrentSize() {
@@ -111,8 +96,8 @@ export class TactComponent {
 
   checkFull() {
     const sum = this.getCurrentSize()
-    if (!this.check && sum >= this.size) {
-      this.check = true
+    if (!this.staveAcknowledged && sum >= this.size) {
+      this.staveAcknowledged = true
       this.isFull.emit({value: true, serialNumber: this.serialNumber})
     }
   }

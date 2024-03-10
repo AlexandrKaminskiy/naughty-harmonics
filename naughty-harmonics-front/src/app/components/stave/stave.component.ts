@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../util/utilService";
+import {TactInfo} from "../../dto/tactInfo";
 
 @Component({
   selector: 'app-stave',
@@ -14,12 +15,30 @@ import {UtilService} from "../../util/utilService";
   styleUrl: './stave.component.css'
 })
 export class StaveComponent {
-  tactQuantity: number = 1;
+  tacts: TactInfo[] = [];
+  noteLength: number = 2
 
   constructor(public utilService: UtilService) {
+    this.addTactInfo();
   }
 
   addTact() {
-    this.tactQuantity++
+    this.addTactInfo()
   }
+
+  updateTactInfo($event: TactInfo) {
+    this.tacts[$event.serialNumber] = $event
+    console.log(this.tacts)
+  }
+
+  addTactInfo() {
+    this.tacts.push({
+      size: 32, serialNumber: this.tacts.length,
+      notes: new Array(this.noteLength)
+        .fill(false)
+        .map(() => this.utilService.createColumn())
+    });
+
+  }
+
 }
