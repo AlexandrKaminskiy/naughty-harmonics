@@ -108,4 +108,7 @@ export class NoteComponent implements OnInit {
     this.action.emit({pos: this.column, action: Action.CHANGE_DURATION, duration: this.duration})
   }
 
+  eraseColumn() {
+    this.action.emit({pos: this.column, action: Action.ERASE_COLUMN})
+  }
 }

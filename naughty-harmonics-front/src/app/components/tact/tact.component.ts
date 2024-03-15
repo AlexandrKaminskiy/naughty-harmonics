@@ -86,6 +86,12 @@ export class TactComponent implements OnInit {
         })
         this.checkFull()
         break
+      case Action.ERASE_COLUMN:
+        this.notes[$event.pos].forEach((value, index, array) => {
+          array[index] = {value: '', duration: array[index].duration}
+        })
+        this.checkFull()
+        break
     }
     this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, size: this.size})
   }
