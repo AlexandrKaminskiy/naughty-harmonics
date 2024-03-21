@@ -6,6 +6,7 @@ import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
 import {Action} from "../../dto/action";
 import {TactInfo} from "../../dto/tactInfo";
+import {NoteDurationService} from "../../dto/noteDurationService";
 
 @Component({
   selector: 'app-tact',
@@ -31,7 +32,7 @@ export class TactComponent implements OnInit {
 
   @Input() notes: NoteDto[][]
 
-  constructor(public utilService: UtilService) {
+  constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }
 
   ngOnInit() {
@@ -108,11 +109,19 @@ export class TactComponent implements OnInit {
     }
   }
 
-  changeWarningBorder() {
+  changeWarningBorder(): string {
     if (this.getCurrentSize() != this.size) {
-      this.warningBorder = '2px red solid'
+      return '2px solid rgba(255, 0, 0, .4)'
     } else {
-      this.warningBorder = ''
+      return '2px solid rgba(0, 0, 0, .1)'
     }
+  }
+
+  getDurationColor(i: number): string {
+    return this.noteDurationService.getColorByDuration(this.notes[i][0].duration)
+  }
+
+  checkPauses(i: number): boolean {
+    return this.notes[i].some(it => it.value)
   }
 }

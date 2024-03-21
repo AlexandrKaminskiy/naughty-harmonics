@@ -1,55 +1,10 @@
-.text-field__input {
-  width: 24px;
-  height: 24px;
-  border: 0;
-  border-radius: 3px;
-  background: #f192ff;
-  padding: 0;
-  text-align: center;
-  font-family: inherit;
-  font-size: 16px;
-  /*font-weight: 400;*/
-  /*line-height: 1.5;*/
-  /*color: #212529;*/
-  /*background-color: #ffefa6;*/
-  /*background-clip: padding-box;*/
-  /*border: 1px solid #bdbdbd;*/
-  /*border-radius: 0.25rem;*/
-  /*transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
-
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-.spacing,
 .note {
-  width: 24px;
-  height: 24px;
-  /*line-height: 4px;*/
-  display: block;
-  text-align: center;
-  /*border: 10px #090808;*/
-  border-radius: 3px;
-  background: red;
-  /*transform: translateY(-12px);*/
-}
-
-.note {
+  width: 30px;
+  /*height: 13px;*/
+  position: relative;
   font-size: 16px;
-  /*background: #0061f1;*/
-}
-.note:focus {
-  background: #0061f1;
 }
 
-.spacing {
-  background: #090808;
-}
-
-.input-note {
-  transform: translateY(-19px);
-  display: inline-block;
-
+.line {
+  border: 1px solid #a6a3a3; display: inline-block; width: 100%;
 }

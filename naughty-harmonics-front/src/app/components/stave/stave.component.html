@@ -1,4 +1,4 @@
-<div *ngFor="let i of tacts; index as j">
+<div style="display: inline-block" *ngFor="let i of tacts; index as j">
   <app-tact
     (isFull)="addTact()"
     (tactInfo)="updateTactInfo($event)"

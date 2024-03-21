@@ -25,7 +25,7 @@ export class NoteComponent implements OnInit {
   freshFocus: boolean = false
   valueRegExp = /^[0-9]*$/
   slideRegExp = /^([1-9]|[12][0-9]|3[01]\/[1-9]|[12][0-9]|3[01])$/
-  backGround: string;
+  backGround: string = '#a6a3a3';
 
   constructor(public noteDurationService: NoteDurationService) {
   }
@@ -33,28 +33,28 @@ export class NoteComponent implements OnInit {
   ngOnInit() {
     this.value = this.oldValue.value
     this.duration = this.oldValue.duration
-    this.backGround = this.noteDurationService.getColorByDuration(this.duration)
   }
 
   onKeyDown($event: KeyboardEvent) {
 
-    if (this.freshFocus) {
-      this.freshFocus = false
-      this.value = ""
-    }
-
     const newValue = this.value + $event.key
+    if (this.valueRegExp.test(newValue) || $event.key == 'Backspace') {
 
-    if ($event.key == 'Backspace') {
-      this.value = this.value.slice(0, -1)
-      return
-    }
+      if (this.freshFocus) {
+        this.freshFocus = false
+        this.value = ""
+      }
 
-    if (this.valueRegExp.test(newValue)) {
+      if ($event.key == 'Backspace') {
+        this.value = this.value.slice(0, -1)
+        return
+      }
+
       this.value = newValue
+      console.log(this.value)
+
     }
 
-    console.log(this.value)
   }
 
   setFocusable() {
@@ -65,7 +65,7 @@ export class NoteComponent implements OnInit {
 
   setUnfocus() {
     this.freshFocus = false
-    this.backGround = this.noteDurationService.getColorByDuration(this.duration)
+    this.backGround = '#a6a3a3'
 
     if (this.oldValue.value != this.value) {
       this.noteValue.emit(
