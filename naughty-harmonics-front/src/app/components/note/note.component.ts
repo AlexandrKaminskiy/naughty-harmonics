@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NoteDto} from "../../dto/note";
-import {Action} from "../../dto/action";
+import {NoteAction} from "../../dto/noteAction";
 import {NgStyle} from "@angular/common";
 import {NoteDurationService} from "../../dto/noteDurationService";
 
@@ -51,8 +51,6 @@ export class NoteComponent implements OnInit {
       }
 
       this.value = newValue
-      console.log(this.value)
-
     }
 
   }
@@ -60,7 +58,6 @@ export class NoteComponent implements OnInit {
   setFocusable() {
     this.backGround = 'pink'
     this.freshFocus = true
-    console.log("focus")
   }
 
   setUnfocus() {
@@ -82,13 +79,13 @@ export class NoteComponent implements OnInit {
 
   addColumn() {
     console.log('enter')
-    this.action.emit({pos: this.column + 1, action: Action.ADD_COLUMN})
+    this.action.emit({pos: this.column + 1, action: NoteAction.ADD_COLUMN})
   }
 
   removeColumn() {
     this.value = this.oldValue.value
     console.log('remove ' + this.column)
-    this.action.emit({pos: this.column, action: Action.REMOVE_COLUMN})
+    this.action.emit({pos: this.column, action: NoteAction.REMOVE_COLUMN})
   }
 
 
@@ -97,7 +94,7 @@ export class NoteComponent implements OnInit {
       return
     }
     this.duration /= 2
-    this.action.emit({pos: this.column, action: Action.CHANGE_DURATION, duration: this.duration})
+    this.action.emit({pos: this.column, action: NoteAction.CHANGE_DURATION, duration: this.duration})
   }
 
   increaseDuration() {
@@ -105,10 +102,10 @@ export class NoteComponent implements OnInit {
       return
     }
     this.duration *= 2
-    this.action.emit({pos: this.column, action: Action.CHANGE_DURATION, duration: this.duration})
+    this.action.emit({pos: this.column, action: NoteAction.CHANGE_DURATION, duration: this.duration})
   }
 
   eraseColumn() {
-    this.action.emit({pos: this.column, action: Action.ERASE_COLUMN})
+    this.action.emit({pos: this.column, action: NoteAction.ERASE_COLUMN})
   }
 }

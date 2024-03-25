@@ -1,6 +1,6 @@
-import {Action} from "../dto/action";
+import {NoteAction} from "../dto/noteAction";
 
 export interface TactActionHandler {
   handle(): void
-  actionType(): Action
+  actionType(): NoteAction
 }

@@ -3,6 +3,7 @@ import {TactComponent} from "../tact/tact.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../util/utilService";
 import {TactInfo} from "../../dto/tactInfo";
+import {TactAction} from "../../dto/tactAction";
 
 @Component({
   selector: 'app-stave',
@@ -28,7 +29,6 @@ export class StaveComponent {
 
   updateTactInfo($event: TactInfo) {
     this.tacts[$event.serialNumber] = $event
-    console.log(this.tacts)
   }
 
   addTactInfo() {
@@ -40,5 +40,4 @@ export class StaveComponent {
     });
 
   }
-
 }

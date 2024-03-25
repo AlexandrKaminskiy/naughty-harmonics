@@ -4,7 +4,7 @@ import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
 import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
-import {Action} from "../../dto/action";
+import {NoteAction} from "../../dto/noteAction";
 import {TactInfo} from "../../dto/tactInfo";
 import {NoteDurationService} from "../../dto/noteDurationService";
 
@@ -29,6 +29,7 @@ export class TactComponent implements OnInit {
   @Input() serialNumber: number
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
   @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()
+  @Output() tactAction: EventEmitter<any> = new EventEmitter<any>()
 
   @Input() notes: NoteDto[][]
 
@@ -40,15 +41,12 @@ export class TactComponent implements OnInit {
   }
 
   changeTactValue($event: any) {
-    console.log($event.column)
-    console.log($event.row)
     this.notes[$event.column][$event.row] = {value: $event.value, duration: $event.duration}
 
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
     }
     this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, size: this.size})
-    console.log(this.notes)
   }
 
   addColumn(pos: number) {
@@ -56,10 +54,8 @@ export class TactComponent implements OnInit {
       return
     }
     const duration = Math.pow(2, Math.floor(Math.log2(this.size - this.getCurrentSize())))
-    console.log(duration)
     this.notes.splice(pos, 0, this.utilService.createColumn(duration));
     this.checkFull()
-    console.log(this.notes)
   }
 
   removeColumn(pos: number) {
@@ -67,27 +63,24 @@ export class TactComponent implements OnInit {
       return
     }
 
-    console.log(`splice ${pos}`)
     this.notes.splice(pos, 1);
-
-    console.log(this.notes)
   }
 
   handleAction($event: any) {
     switch ($event.action) {
-      case Action.ADD_COLUMN:
+      case NoteAction.ADD_COLUMN:
         this.addColumn($event.pos);
         break
-      case Action.REMOVE_COLUMN:
+      case NoteAction.REMOVE_COLUMN:
         this.removeColumn($event.pos);
         break
-      case Action.CHANGE_DURATION:
+      case NoteAction.CHANGE_DURATION:
         this.notes[$event.pos].forEach((value, index, array) => {
           array[index] = {value: value.value, duration: $event.duration}
         })
         this.checkFull()
         break
-      case Action.ERASE_COLUMN:
+      case NoteAction.ERASE_COLUMN:
         this.notes[$event.pos].forEach((value, index, array) => {
           array[index] = {value: '', duration: array[index].duration}
         })

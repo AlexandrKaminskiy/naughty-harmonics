@@ -1,6 +1,3 @@
-import {Action} from "./action";
-
-export interface NoteAction {
-  pos: number
-  action: Action
+export enum NoteAction {
+  ADD_COLUMN, REMOVE_COLUMN, ADD_PAUSE, CHANGE_DURATION, ERASE_COLUMN
 }

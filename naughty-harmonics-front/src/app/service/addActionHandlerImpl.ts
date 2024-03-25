@@ -1,9 +1,9 @@
 import {TactActionHandler} from "./tactActionHandler";
-import {Action} from "../dto/action";
+import {NoteAction} from "../dto/noteAction";
 
 export class AddActionHandlerImpl implements TactActionHandler{
-  actionType(): Action {
-    return Action.ADD_COLUMN;
+  actionType(): NoteAction {
+    return NoteAction.ADD_COLUMN;
   }
 
   handle(): void {
