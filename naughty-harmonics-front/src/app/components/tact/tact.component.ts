@@ -23,20 +23,27 @@ import {NoteDurationService} from "../../dto/noteDurationService";
 })
 export class TactComponent implements OnInit {
 
-  @Input() size: number
+  @Input() sizeStr: string
   @Input() staveAcknowledged: boolean
   warningBorder: string
   @Input() serialNumber: number
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
   @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()
   @Output() tactAction: EventEmitter<any> = new EventEmitter<any>()
+  @Output() active: EventEmitter<any> = new EventEmitter<any>()
 
   @Input() notes: NoteDto[][]
+  @Input() activeBorder: boolean
+
+  size: number
 
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }
 
   ngOnInit() {
+    const parts = this.sizeStr.split('/');
+    this.size = parseInt(parts[0]) * 32 / parseInt(parts[1])
+    console.log(this.size)
     this.changeWarningBorder();
   }
 
@@ -46,7 +53,7 @@ export class TactComponent implements OnInit {
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
     }
-    this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, size: this.size})
+    this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, sizeStr: this.sizeStr})
   }
 
   addColumn(pos: number) {
@@ -87,7 +94,7 @@ export class TactComponent implements OnInit {
         this.checkFull()
         break
     }
-    this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, size: this.size})
+    this.tactInfo.emit({notes: this.notes, serialNumber: this.serialNumber, sizeStr: this.sizeStr})
   }
 
   getCurrentSize() {
@@ -103,6 +110,10 @@ export class TactComponent implements OnInit {
   }
 
   changeWarningBorder(): string {
+    if (this.activeBorder) {
+      return '2px solid rgba(255, 0, 255, .4)'
+    }
+
     if (this.getCurrentSize() != this.size) {
       return '2px solid rgba(255, 0, 0, .4)'
     } else {
@@ -116,5 +127,9 @@ export class TactComponent implements OnInit {
 
   checkPauses(i: number): boolean {
     return this.notes[i].some(it => it.value)
+  }
+
+  acknowledgeStaveActive() {
+    this.active.emit({serialNumber: this.serialNumber})
   }
 }

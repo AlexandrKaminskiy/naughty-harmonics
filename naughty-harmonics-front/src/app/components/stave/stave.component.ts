@@ -1,9 +1,8 @@
-import {Component, input} from '@angular/core';
+import {Component} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../util/utilService";
 import {TactInfo} from "../../dto/tactInfo";
-import {TactAction} from "../../dto/tactAction";
 
 @Component({
   selector: 'app-stave',
@@ -18,6 +17,9 @@ import {TactAction} from "../../dto/tactAction";
 export class StaveComponent {
   tacts: TactInfo[] = [];
   noteLength: number = 2
+  activeTact: number;
+  activeTactSize: string = '';
+  tactSizeValue: string;
 
   constructor(public utilService: UtilService) {
     this.addTactInfo();
@@ -33,11 +35,29 @@ export class StaveComponent {
 
   addTactInfo() {
     this.tacts.push({
-      size: 32, serialNumber: this.tacts.length,
+      sizeStr: '4/4', serialNumber: this.tacts.length,
       notes: new Array(this.noteLength)
         .fill(false)
         .map(() => this.utilService.createColumn())
     });
 
+  }
+
+  updateActiveTact($event: any) {
+
+    this.activeTact = $event.serialNumber
+    this.activeTactSize = this.tacts[$event.serialNumber].sizeStr
+
+    console.log(this.activeTact)
+  }
+
+
+  changeTactDuration($event: any) {
+    const size: string = $event.target.value
+    const numerator = size.split("/")[0]
+    const denominator = size.split("/")[0]
+
+    console.log(size)
+    this.tacts[this.activeTact].sizeStr = size;
   }
 }

@@ -1,7 +1,7 @@
 import {NoteDto} from "./note";
 
 export interface TactInfo {
-  size: number
+  sizeStr: string
   notes: NoteDto[][]
   serialNumber: number
 }

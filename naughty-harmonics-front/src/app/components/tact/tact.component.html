@@ -1,4 +1,4 @@
-<div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" >
+<div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()" >
   <div class="column-block" *ngFor="let col of notes; index as i">
     <div class="vl" [ngStyle]="{'border-color': getDurationColor(i)}"></div>
     <div class="pause" [hidden]="checkPauses(i)" ></div>
@@ -17,8 +17,3 @@
 </div>
 
 <div class="vl"></div>
-
-<!--<div class="pause">-->
-<!--  <img style="scale: 10%" src="assets/quarter+rest.png">-->
-<!--</div>-->
-

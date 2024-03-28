@@ -2,9 +2,13 @@
   <app-tact
     (isFull)="addTact()"
     (tactInfo)="updateTactInfo($event)"
+    (active)="updateActiveTact($event)"
     [serialNumber]="i.serialNumber"
-    [size]="i.size"
+    [sizeStr]="i.sizeStr"
     [notes]="i.notes"
     [staveAcknowledged] = "tacts.length - 1 != j"
+    [activeBorder] = "activeTact == i.serialNumber"
   />
 </div>
+
+<input [value]="activeTactSize" (blur)="changeTactDuration($event)" type="text">
