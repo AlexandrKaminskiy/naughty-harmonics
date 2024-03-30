@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
-import {NgForOf, NgIf, NgStyle} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
 import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
@@ -16,7 +16,8 @@ import {NoteDurationService} from "../../dto/noteDurationService";
     NgForOf,
     NoteComponent,
     NgIf,
-    NgStyle
+    NgStyle,
+    NgOptimizedImage
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -36,7 +37,7 @@ export class TactComponent implements OnInit {
   @Input() activeBorder: boolean
 
   size: number
-
+  bI: "~/assets/quarterrest.png";
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }
 
@@ -126,7 +127,7 @@ export class TactComponent implements OnInit {
   }
 
   checkPauses(i: number): boolean {
-    return this.notes[i].some(it => it.value)
+    return !this.notes[i].some(it => it.value)
   }
 
   acknowledgeStaveActive() {

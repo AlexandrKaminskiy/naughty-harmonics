@@ -20,13 +20,16 @@
   opacity: 30%;
 }
 
-/*todo fix this to image*/
 .pause {
-  top: 50px;
-  width: 50%;
+  top: 43px;
+  left: 3px;
+  width: 23px;
   margin: auto;
-  height: 100px;
+  height: 70px;
   position: absolute;
-  background-color: black;
-  opacity: 10%;
+}
+
+.pause-image {
+  max-height:100%;
+  max-width:100%;
 }

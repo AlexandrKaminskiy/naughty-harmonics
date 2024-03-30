@@ -58,6 +58,16 @@ export class StaveComponent {
     const denominator = size.split("/")[0]
 
     console.log(size)
+    // const tactInfo : TactInfo = {
+    //   notes: this.tacts[this.activeTact].notes,
+    //   serialNumber: this.tacts[this.activeTact].serialNumber,
+    //   sizeStr: size
+    // }
+    // this.tacts[this.activeTact] = tactInfo;
     this.tacts[this.activeTact].sizeStr = size;
+  }
+
+  trackByTactValue(index: number, item: TactInfo) {
+    return JSON.stringify(item);
   }
 }
