@@ -1,3 +1,5 @@
+import {NoteFunctionType} from "./noteFunctionType";
+
 export class FunctionDescription {
-  description: string
+  type: NoteFunctionType;
 }

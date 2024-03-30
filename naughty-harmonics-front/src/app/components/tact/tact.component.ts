@@ -7,7 +7,7 @@ import {UtilService} from "../../util/utilService";
 import {NoteAction} from "../../dto/noteAction";
 import {TactInfo} from "../../dto/tactInfo";
 import {NoteDurationService} from "../../dto/noteDurationService";
-import {NotePauseComponent} from "../../note-pause/note-pause.component";
+import {NotePauseComponent} from "../note-pause/note-pause.component";
 
 @Component({
   selector: 'app-tact',
@@ -48,6 +48,7 @@ export class TactComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.notes)
     const parts = this.sizeStr.split('/');
     this.size = parseInt(parts[0]) * 32 / parseInt(parts[1])
     console.log(this.size)
@@ -55,7 +56,7 @@ export class TactComponent implements OnInit {
   }
 
   changeTactValue($event: any) {
-    this.notes[$event.column][$event.row] = {value: $event.value, duration: $event.duration}
+    this.notes[$event.column][$event.row] = {value: $event.value, duration: $event.duration, functionType: $event.functionType}
 
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
@@ -90,13 +91,13 @@ export class TactComponent implements OnInit {
         break
       case NoteAction.CHANGE_DURATION:
         this.notes[$event.pos].forEach((value, index, array) => {
-          array[index] = {value: value.value, duration: $event.duration}
+          array[index] = {value: value.value, duration: $event.duration, functionType: $event.functionType}
         })
         this.checkFull()
         break
       case NoteAction.ERASE_COLUMN:
         this.notes[$event.pos].forEach((value, index, array) => {
-          array[index] = {value: '', duration: array[index].duration}
+          array[index] = {value: '', duration: array[index].duration, functionType: $event.functionType}
         })
         this.checkFull()
         break

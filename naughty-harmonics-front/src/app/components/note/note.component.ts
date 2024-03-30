@@ -3,12 +3,15 @@ import {NoteDto} from "../../dto/note";
 import {NoteAction} from "../../dto/noteAction";
 import {NgStyle} from "@angular/common";
 import {NoteDurationService} from "../../dto/noteDurationService";
+import {NoteActionComponent} from "../note-action/note-action.component";
+import {NoteFunctionType} from "../../dto/noteFunctionType";
 
 @Component({
   selector: 'app-note',
   standalone: true,
   imports: [
-    NgStyle
+    NgStyle,
+    NoteActionComponent
   ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css'
@@ -26,6 +29,7 @@ export class NoteComponent implements OnInit {
   valueRegExp = /^[0-9]*$/
   slideRegExp = /^([1-9]|[12][0-9]|3[01]\/[1-9]|[12][0-9]|3[01])$/
   backGround: string = '#a6a3a3';
+  functionType: NoteFunctionType;
 
   constructor(public noteDurationService: NoteDurationService) {
   }
@@ -33,6 +37,7 @@ export class NoteComponent implements OnInit {
   ngOnInit() {
     this.value = this.oldValue.value
     this.duration = this.oldValue.duration
+    this.functionType = this.oldValue.functionType
   }
 
   onKeyDown($event: KeyboardEvent) {
@@ -64,9 +69,10 @@ export class NoteComponent implements OnInit {
     this.freshFocus = false
     this.backGround = '#a6a3a3'
 
-    if (this.oldValue.value != this.value) {
+    if (this.oldValue.value != this.value || this.oldValue.functionType != this.functionType) {
       this.noteValue.emit(
         {
+          functionType: this.functionType,
           duration: this.duration,
           value: this.value,
           column: this.column,
@@ -107,5 +113,35 @@ export class NoteComponent implements OnInit {
 
   eraseColumn() {
     this.action.emit({pos: this.column, action: NoteAction.ERASE_COLUMN})
+  }
+
+
+  bandUp() {
+    if (!this.value) return
+    this.functionType = NoteFunctionType.BAND_UP;
+  }
+
+  bandUp12() {
+    if (!this.value) return
+    this.functionType = NoteFunctionType.BAND_UP_12;
+  }
+
+  bandDown() {
+    if (!this.value) return
+    this.functionType = NoteFunctionType.BAND_DOWN;
+  }
+
+  bandDown12() {
+    if (!this.value) return
+    this.functionType = NoteFunctionType.BAND_DOWN_12;
+  }
+
+  vibrato() {
+    this.functionType = NoteFunctionType.VIBRATO;
+  }
+
+  default() {
+    if (!this.value) return
+    this.functionType = NoteFunctionType.DEFAULT;
   }
 }

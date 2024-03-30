@@ -1,0 +1,27 @@
+<div *ngIf="function == NoteFunctionType.BAND_UP_12" class="container">
+  <div class="half">1/2</div>
+  <div class="band up"></div>
+</div>
+
+<div *ngIf="function == NoteFunctionType.BAND_DOWN_12" class="container">
+  <div class="half">1/2</div>
+  <div class="band"></div>
+</div>
+
+<div *ngIf="function == NoteFunctionType.BAND_UP" class="container">
+  <div class="band up"></div>
+</div>
+
+<div *ngIf="function == NoteFunctionType.BAND_DOWN" class="container">
+  <div class="band"></div>
+</div>
+
+<div class="value">
+  {{value}}
+</div>
+
+<div *ngIf="function == NoteFunctionType.VIBRATO" class="container">
+  <div class="vibrato"></div>
+</div>
+
+

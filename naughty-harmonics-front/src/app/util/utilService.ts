@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {NoteDto} from "../dto/note";
+import {NoteFunctionType} from "../dto/noteFunctionType";
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,12 @@ export class UtilService {
 
   createColumn(duration: number = 1): NoteDto[] {
     return [
-      {value: '', duration: duration},
-      {value: '', duration: duration},
-      {value: '', duration: duration},
-      {value: '', duration: duration},
-      {value: '', duration: duration},
-      {value: '', duration: duration}
+      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT}
     ]
   }
 

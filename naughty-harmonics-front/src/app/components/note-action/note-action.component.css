@@ -1,0 +1,43 @@
+.band {
+  background-repeat: no-repeat;
+  background-image: url('/assets/arrow/arrow.png');
+  background-size: contain;
+  width: 100%;
+  height: 20px;
+  rotate: -90deg;
+}
+
+.container {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  top: -16px;
+  font-size: 5px;
+  font-family: 'Zapfino', serif;
+}
+
+.band.up {
+  transform: scaleX(-1);
+}
+
+.vibrato {
+  position: absolute;
+  left: -12px;
+  background-repeat: no-repeat;
+  background-image: url('/assets/wave.png');
+  background-size: contain;
+  width: 100%;
+  height: 20px;
+}
+
+.value {
+  display: inline-block;
+  text-align: center
+}
+
+.half {
+  left: -8px;
+  position: absolute;
+  width: min-content;
+  height: min-content
+}
