@@ -1,8 +1,10 @@
 <div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()" >
   <div class="column-block" *ngFor="let col of notes; index as i">
-    <div class="vl" [ngStyle]="{'border-color': getDurationColor(i)}"></div>
+    <app-note-pause [size]="utilService.toRealDuration(getDurationOfColumn(i))" class="note-pause">
+    </app-note-pause>
+
     <div *ngIf="checkPauses(i)" class="pause" >
-      <img ngSrc="{{bI}}" alt="?" class="pause-image">
+      <img [src]="getImg(utilService.toRealDuration(getDurationOfColumn(i)))" alt="?" class="pause-image">
     </div>
 
     <app-note
@@ -17,5 +19,3 @@
   </div>
 
 </div>
-
-<div class="vl"></div>

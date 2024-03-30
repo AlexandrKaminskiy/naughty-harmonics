@@ -7,6 +7,7 @@ import {UtilService} from "../../util/utilService";
 import {NoteAction} from "../../dto/noteAction";
 import {TactInfo} from "../../dto/tactInfo";
 import {NoteDurationService} from "../../dto/noteDurationService";
+import {NotePauseComponent} from "../../note-pause/note-pause.component";
 
 @Component({
   selector: 'app-tact',
@@ -17,7 +18,8 @@ import {NoteDurationService} from "../../dto/noteDurationService";
     NoteComponent,
     NgIf,
     NgStyle,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NotePauseComponent
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -37,7 +39,11 @@ export class TactComponent implements OnInit {
   @Input() activeBorder: boolean
 
   size: number
-  bI: "~/assets/quarterrest.png";
+
+  getImg(i: number) {
+    return `assets/pause/${i}.png`
+  }
+
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }
 
@@ -122,8 +128,8 @@ export class TactComponent implements OnInit {
     }
   }
 
-  getDurationColor(i: number): string {
-    return this.noteDurationService.getColorByDuration(this.notes[i][0].duration)
+  getDurationOfColumn(i: number): number {
+    return this.notes[i][0].duration
   }
 
   checkPauses(i: number): boolean {
