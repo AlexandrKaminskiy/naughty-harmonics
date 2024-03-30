@@ -1,0 +1,9 @@
+<div style="height: 100px;">
+
+  <div style="display: inline-block" [ngClass]="getVerticalLineStyle()"></div>
+
+  <div *ngIf="size >= 4" style="display: inline-block; width: 10px; margin: 0">
+    <hr *ngFor="let i of utilService.createRange(getRange())" class="hr">
+  </div>
+</div>
+
