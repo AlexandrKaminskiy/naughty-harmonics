@@ -1,0 +1,17 @@
+<app-stave *ngFor="let i of this.staves; index as j" [hidden]="visibleStave != j" [tacts]="staves[j].tacts"/>
+
+<div class="navigation-bar">
+  <div (click)="changeContext(j)" *ngFor="let i of utilService.createRange(this.staves.length); index as j" class="tactButton">
+    <div>
+      {{i}}
+    </div>
+    <div (click)="deleteStave(j)" style="background-color: aquamarine">
+      X
+    </div>
+  </div>
+  <div class="tactButton" (click)="addStave()">
+    <div>
+      +
+    </div>
+  </div>
+</div>

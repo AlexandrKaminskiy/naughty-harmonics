@@ -8,6 +8,7 @@ import {NoteAction} from "../../dto/noteAction";
 import {TactInfo} from "../../dto/tactInfo";
 import {NoteDurationService} from "../../dto/noteDurationService";
 import {NotePauseComponent} from "../note-pause/note-pause.component";
+import {NoteActionComponent} from "../note-action/note-action.component";
 
 @Component({
   selector: 'app-tact',
@@ -19,7 +20,8 @@ import {NotePauseComponent} from "../note-pause/note-pause.component";
     NgIf,
     NgStyle,
     NgOptimizedImage,
-    NotePauseComponent
+    NotePauseComponent,
+    NoteActionComponent
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -28,7 +30,6 @@ export class TactComponent implements OnInit {
 
   @Input() sizeStr: string
   @Input() staveAcknowledged: boolean
-  warningBorder: string
   @Input() serialNumber: number
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
   @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()

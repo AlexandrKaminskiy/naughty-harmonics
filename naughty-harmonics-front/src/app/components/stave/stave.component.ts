@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../util/utilService";
 import {TactInfo} from "../../dto/tactInfo";
+import {StaveInfo} from "../../dto/staveInfo";
 
 @Component({
   selector: 'app-stave',
@@ -14,19 +15,28 @@ import {TactInfo} from "../../dto/tactInfo";
   templateUrl: './stave.component.html',
   styleUrl: './stave.component.css'
 })
-export class StaveComponent {
-  tacts: TactInfo[] = [];
-  noteLength: number = 2
+export class StaveComponent implements OnInit {
+  @Input() id: number
+  @Input() tacts: TactInfo[];
+  // @Output() stave: EventEmitter<StaveInfo> = new EventEmitter<StaveInfo>()
+  readonly noteLength: number = 2
   activeTact: number;
   activeTactSize: string = '';
   tactSizeValue: string;
 
   constructor(public utilService: UtilService) {
-    this.addTactInfo();
+  }
+
+  ngOnInit() {
+    if (this.tacts.length > 0) {
+      return
+    }
+    this.addTactInfo()
   }
 
   addTact() {
     this.addTactInfo()
+    // this.stave.emit({tacts: this.tacts, id: this.id})
   }
 
   updateTactInfo($event: TactInfo) {
@@ -58,12 +68,6 @@ export class StaveComponent {
     const denominator = size.split("/")[0]
 
     console.log(size)
-    // const tactInfo : TactInfo = {
-    //   notes: this.tacts[this.activeTact].notes,
-    //   serialNumber: this.tacts[this.activeTact].serialNumber,
-    //   sizeStr: size
-    // }
-    // this.tacts[this.activeTact] = tactInfo;
     this.tacts[this.activeTact].sizeStr = size;
   }
 

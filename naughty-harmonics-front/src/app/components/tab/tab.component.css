@@ -1,0 +1,12 @@
+.navigation-bar {
+  height: 50px;
+}
+
+.tactButton {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  background-color: aqua;
+  height: 100%;
+  align-content: center;
+}

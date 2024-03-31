@@ -1,4 +1,20 @@
 <div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()" >
+
+  <div class="column-block">
+    <div style="position: absolute">
+      <div class="tact-digit" style="top: 0">
+        4
+<!--        todo add size value-->
+      </div>
+      <div class="tact-digit" style="top: 50px">
+        4
+      </div>
+    </div>
+    <div style="display: block; width: 50px" *ngFor="let col of notes[0];">
+      <hr style="border: 1px solid; width: 100%; margin-top: 20px; ">
+    </div>
+  </div>
+
   <div class="column-block" *ngFor="let col of notes; index as i">
     <app-note-pause [size]="utilService.toRealDuration(getDurationOfColumn(i))" class="note-pause">
     </app-note-pause>
