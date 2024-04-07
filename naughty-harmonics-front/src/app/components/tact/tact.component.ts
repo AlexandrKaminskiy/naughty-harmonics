@@ -6,9 +6,10 @@ import {NoteDto} from "../../dto/note";
 import {UtilService} from "../../util/utilService";
 import {NoteAction} from "../../dto/noteAction";
 import {TactInfo} from "../../dto/tactInfo";
-import {NoteDurationService} from "../../dto/noteDurationService";
+import {NoteDurationService} from "../../util/noteDurationService";
 import {NotePauseComponent} from "../note-pause/note-pause.component";
 import {NoteActionComponent} from "../note-action/note-action.component";
+import {START_TACT_LENGTH} from "../../util/constants";
 
 @Component({
   selector: 'app-tact',
@@ -31,6 +32,7 @@ export class TactComponent implements OnInit {
   @Input() sizeStr: string
   @Input() staveAcknowledged: boolean
   @Input() serialNumber: number
+  @Input() showSize: boolean
   @Output() isFull: EventEmitter<any> = new EventEmitter<any>()
   @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()
   @Output() tactAction: EventEmitter<any> = new EventEmitter<any>()
@@ -141,4 +143,6 @@ export class TactComponent implements OnInit {
   acknowledgeStaveActive() {
     this.active.emit({serialNumber: this.serialNumber})
   }
+
+  protected readonly START_TACT_LENGTH = START_TACT_LENGTH;
 }

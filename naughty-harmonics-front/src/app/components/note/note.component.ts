@@ -1,17 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NoteDto} from "../../dto/note";
 import {NoteAction} from "../../dto/noteAction";
-import {NgStyle} from "@angular/common";
-import {NoteDurationService} from "../../dto/noteDurationService";
+import {NgClass, NgStyle} from "@angular/common";
+import {NoteDurationService} from "../../util/noteDurationService";
 import {NoteActionComponent} from "../note-action/note-action.component";
 import {NoteFunctionType} from "../../dto/noteFunctionType";
+import {NOTE_LENGTH} from "../../util/constants";
 
 @Component({
   selector: 'app-note',
   standalone: true,
   imports: [
     NgStyle,
-    NoteActionComponent
+    NoteActionComponent,
+    NgClass
   ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css'
@@ -144,4 +146,6 @@ export class NoteComponent implements OnInit {
     if (!this.value) return
     this.functionType = NoteFunctionType.DEFAULT;
   }
+
+  protected readonly NOTE_LENGTH = NOTE_LENGTH;
 }

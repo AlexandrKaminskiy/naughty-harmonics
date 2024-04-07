@@ -1,7 +1,8 @@
 <div class="wrapper">
   <div class="note-container">
-    <div class="note-type" *ngFor="let i of functions">
-      {{i.description}}
-    </div>
+    <button (click)="play()">Play</button>
+    <button (click)="continue()">Continue</button>
+    <button (click)="suspend()">Suspend</button>
+    <button (click)="stop()">Stop</button>
   </div>
 </div>

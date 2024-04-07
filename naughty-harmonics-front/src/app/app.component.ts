@@ -6,11 +6,12 @@ import {TactComponent} from "./components/tact/tact.component";
 import {StaveComponent} from "./components/stave/stave.component";
 import {SideBarComponent} from "./components/side-bar/side-bar.component";
 import {TabComponent} from "./components/tab/tab.component";
+import {AudioControlComponent} from "./components/audio-control/audio-control.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent, AudioControlComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

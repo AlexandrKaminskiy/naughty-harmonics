@@ -1,0 +1,6 @@
+.current-position-line {
+  border-left: 2px solid black;
+  height: 150px;
+  display: inline-block;
+  position: absolute;
+}

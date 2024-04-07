@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {FunctionDescription} from "../../dto/functionDescription";
+import {Component, EventEmitter, Output} from '@angular/core';
 import {NgForOf} from "@angular/common";
-import {NoteFunctionType} from "../../dto/noteFunctionType";
+import {PlayMusicAction} from "../../dto/playMusicAction";
+import {MusicActionType} from "../../dto/musicActionType";
 
 @Component({
   selector: 'app-side-bar',
@@ -13,13 +13,22 @@ import {NoteFunctionType} from "../../dto/noteFunctionType";
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
-  public functions: any[] = [
-    {description: 'up', type: NoteFunctionType.BAND_UP},
-    {description: 'down', type: NoteFunctionType.BAND_DOWN},
-    {description: 'up 1/2', type: NoteFunctionType.BAND_UP_12},
-    {description: 'down 1/2', type: NoteFunctionType.BAND_DOWN_12},
-    {description: 'vibrato', type: NoteFunctionType.VIBRATO},
-  ]
 
+  @Output() playMusicAction = new EventEmitter<PlayMusicAction>();
 
+  play() {
+    this.playMusicAction.emit({action: MusicActionType.PLAY, reset: true})
+  }
+
+  stop() {
+    this.playMusicAction.emit({action: MusicActionType.STOP, reset: true})
+  }
+
+  suspend() {
+    this.playMusicAction.emit({action: MusicActionType.SUSPEND, reset: false})
+  }
+
+  continue() {
+    this.playMusicAction.emit({action: MusicActionType.CONTINUE, reset: false})
+  }
 }

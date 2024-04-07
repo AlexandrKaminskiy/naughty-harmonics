@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {StaveComponent} from "../stave/stave.component";
 import {NgForOf} from "@angular/common";
@@ -19,6 +19,7 @@ import {StaveInfo} from "../../dto/staveInfo";
 export class TabComponent {
   readonly startStavesCount: number = 1;
   staves: StaveInfo[] = []
+  @Output() stavesEmitter = new EventEmitter<StaveInfo[]>
   visibleStave: number
 
   constructor(public utilService: UtilService) {
@@ -28,10 +29,12 @@ export class TabComponent {
 
   deleteStave(i: number) {
     this.staves.splice(i,1)
+    this.stavesEmitter.emit(this.staves)
   }
 
   addStave() {
     this.staves.push({tacts: []})
+    this.stavesEmitter.emit(this.staves)
   }
 
   changeContext(i: number) {

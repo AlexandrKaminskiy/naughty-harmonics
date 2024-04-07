@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 })
 export class MathService {
 
-  readonly N: number = 50000
+  readonly N: number = 100000
 
   carplusStrong(rate: number): number[] {
 
@@ -18,8 +18,8 @@ export class MathService {
     for (let i = noise.length; i < this.N; i++) {
       samples.push(0)
       samples[i] = this.hZ(samples, noise.length, i);
-      samples[i] = this.hD(samples, i, 0.001);
-      samples[i] = this.hRo(samples, i, 0.6);
+      samples[i] = this.hD(samples, i, 0.01);
+      samples[i] = this.hRo(samples, i, 0.5);
     }
     console.log(samples)
     return this.hL(samples, 0.32, Math.PI * rate / this.N)

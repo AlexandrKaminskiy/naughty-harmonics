@@ -1,15 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgStyle} from "@angular/common";
 import {UtilService} from "../../util/utilService";
 import {TactInfo} from "../../dto/tactInfo";
+import {VERTICAL_TACT_MARGIN} from "../../util/constants";
 
 @Component({
   selector: 'app-stave',
   standalone: true,
   imports: [
     TactComponent,
-    NgForOf
+    NgForOf,
+    NgStyle
   ],
   templateUrl: './stave.component.html',
   styleUrl: './stave.component.css'
@@ -17,7 +19,6 @@ import {TactInfo} from "../../dto/tactInfo";
 export class StaveComponent implements OnInit {
   @Input() id: number
   @Input() tacts: TactInfo[];
-  // @Output() stave: EventEmitter<StaveInfo> = new EventEmitter<StaveInfo>()
   readonly noteLength: number = 2
   activeTact: number;
   activeTactSize: string = '';
@@ -72,5 +73,15 @@ export class StaveComponent implements OnInit {
 
   trackByTactValue(index: number, item: TactInfo) {
     return JSON.stringify(item);
+  }
+
+  protected readonly VERTICAL_TACT_MARGIN = VERTICAL_TACT_MARGIN;
+
+  showSize(i: number): boolean {
+    if (i == 0) {
+      return true
+    }
+
+    return this.tacts[i].sizeStr !== this.tacts[i - 1].sizeStr;
   }
 }
