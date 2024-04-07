@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../util/utilService";
 import {TactInfo} from "../../dto/tactInfo";
-import {StaveInfo} from "../../dto/staveInfo";
 
 @Component({
   selector: 'app-stave',

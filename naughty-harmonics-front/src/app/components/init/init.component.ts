@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {MathService} from "../../util/mathService";
 
 @Component({
   selector: 'app-init',
@@ -7,49 +8,30 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './init.component.html',
   styleUrl: './init.component.css'
 })
-export class InitComponent implements OnInit {
+export class InitComponent {
 
-  ngOnInit(): void {
-
+  constructor(public mathService: MathService) {
   }
 
   playS() {
 
+
     const audioCtx = new AudioContext();
+    var audioBuffer = audioCtx.createBuffer(1, 50000, 100000);
+    var channelData = audioBuffer.getChannelData(0);
+    var spectre = this.mathService.carplusStrong(165);
+    var spectre2 = this.mathService.carplusStrong(100);
 
-    const real = new Float32Array(2);
-    const imag = new Float32Array(2);
-    const osc = audioCtx.createOscillator();
-    const osc1 = audioCtx.createOscillator();
-    const osc2 = audioCtx.createOscillator();
-    osc1.type = "sine"
-    osc1.frequency.value = 1000;
-    osc2.type = "sawtooth"
-    osc2.frequency.value = 500;
+    for (let i = 0; i < channelData.length; i++) {
+      channelData[i] = spectre[i] + spectre2[i]
+    }
 
-    real[0] = 1;
-    imag[0] = 1;
-    real[1] = 0.5;
-    real[1] = 0.5;
-    imag[1] = 1;
-    imag[1] = 1;
+    const source = audioCtx.createBufferSource();
 
-    const wave = audioCtx.createPeriodicWave(real, imag);
-    // audioCtx.createConvolver();
+    source.buffer = audioBuffer;
 
-    osc.setPeriodicWave(wave);
-
-    osc.connect(audioCtx.destination);
-    // osc1.connect(audioCtx.destination);
-    // osc2.connect(audioCtx.destination);
-
-    // osc2.start()
-    // osc1.start()
-    osc.start();
-    // osc2.stop(0.5)
-    // osc1.stop(0.5)
-    osc.stop(0.5);
-
+    source.connect(audioCtx.destination);
+    source.start(0, 0, 5);
   }
 
 }
