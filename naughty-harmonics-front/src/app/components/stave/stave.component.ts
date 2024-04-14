@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
-import {NgForOf, NgStyle} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {UtilService} from "../../util/utilService";
 import {TactInfo} from "../../dto/tactInfo";
-import {VERTICAL_TACT_MARGIN} from "../../util/constants";
+import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../util/constants";
 
 @Component({
   selector: 'app-stave',
@@ -11,12 +11,13 @@ import {VERTICAL_TACT_MARGIN} from "../../util/constants";
   imports: [
     TactComponent,
     NgForOf,
-    NgStyle
+    NgStyle,
+    NgIf
   ],
   templateUrl: './stave.component.html',
   styleUrl: './stave.component.css'
 })
-export class StaveComponent implements OnInit {
+export class StaveComponent implements OnInit, AfterViewInit {
   @Input() id: number
   @Input() tacts: TactInfo[];
   readonly noteLength: number = 2
@@ -24,7 +25,21 @@ export class StaveComponent implements OnInit {
   activeTactSize: string = '';
   tactSizeValue: string;
 
+  @ViewChildren("tact") children: QueryList<ElementRef>
+
   constructor(public utilService: UtilService) {
+  }
+
+  ngAfterViewInit() {
+    this.children.changes
+      .subscribe((next: QueryList<ElementRef>) => {
+        next.forEach(it => this.handleTactChange(it.nativeElement))
+      });
+  }
+
+  private handleTactChange(nativeElement: any) {
+    this.tacts[nativeElement.id].topLeftCorner = nativeElement.getBoundingClientRect().y
+    console.log(this.tacts[nativeElement.id].topLeftCorner)
   }
 
   ngOnInit() {
@@ -32,6 +47,7 @@ export class StaveComponent implements OnInit {
       return
     }
     this.addTactInfo()
+
   }
 
   addTact() {
@@ -84,4 +100,6 @@ export class StaveComponent implements OnInit {
 
     return this.tacts[i].sizeStr !== this.tacts[i - 1].sizeStr;
   }
+
+  protected readonly TACTS_WIDTH = TACTS_WIDTH;
 }

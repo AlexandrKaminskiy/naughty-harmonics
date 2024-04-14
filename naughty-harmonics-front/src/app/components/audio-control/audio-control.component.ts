@@ -38,8 +38,8 @@ export class AudioControlComponent {
 
   handlePlaying() {
     this.timer = setInterval(() => {
-      this.left += 100;
-    }, 1000)
+      this.left += 1;
+    }, 1)
   }
 
   handleStop() {

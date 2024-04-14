@@ -7,21 +7,17 @@ export class MathService {
 
   readonly N: number = 100000
 
-  carplusStrong(rate: number): number[] {
-
+  karplusStrong(rate: number): number[] {
     const noise = this.noise(this.N / rate);
     const hps = this.hP(noise, 0.5);
     const hBs = this.hB(hps, noise.length, 0.5);
-
     const samples = [...hBs];
-
     for (let i = noise.length; i < this.N; i++) {
       samples.push(0)
       samples[i] = this.hZ(samples, noise.length, i);
       samples[i] = this.hD(samples, i, 0.01);
-      samples[i] = this.hRo(samples, i, 0.5);
+      samples[i] = this.hRo(samples, i, 0.4);
     }
-    console.log(samples)
     return this.hL(samples, 0.32, Math.PI * rate / this.N)
   }
 

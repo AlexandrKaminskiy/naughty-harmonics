@@ -1,21 +1,24 @@
-<div
-  style="display: inline-block;"
-  [ngStyle]="{marginBottom: VERTICAL_TACT_MARGIN + 'px'}"
-  *ngFor="let i of tacts; index as j; trackBy: trackByTactValue"
->
-  <app-tact
-    (isFull)="addTact()"
-    (tactInfo)="updateTactInfo($event)"
-    (active)="updateActiveTact($event)"
-    [serialNumber]="i.serialNumber"
-    [sizeStr]="i.sizeStr"
-    [notes]="i.notes"
-    [showSize]="showSize(j)"
-    [staveAcknowledged] = "tacts.length - 1 != j"
-    [activeBorder] = "activeTact == i.serialNumber"
-  />
+<div [ngStyle]="{width: TACTS_WIDTH + 'px'}" >
+  <div #tact
+       style="display: inline-block;"
+    [ngStyle]="{marginBottom: VERTICAL_TACT_MARGIN + 'px'}"
+    *ngFor="let i of tacts; index as j; trackBy: trackByTactValue"
+      id="{{j}}"
+  >
+    <app-tact style="display: block"
+              (isFull)="addTact()"
+              (tactInfo)="updateTactInfo($event)"
+              (active)="updateActiveTact($event)"
+              [serialNumber]="i.serialNumber"
+              [sizeStr]="i.sizeStr"
+              [notes]="i.notes"
+              [showSize]="showSize(j)"
+              [staveAcknowledged]="tacts.length - 1 != j"
+              [activeBorder]="activeTact == i.serialNumber"
+    />
+  </div>
 </div>
-
 <div>
   <input [value]="activeTactSize" (blur)="changeTactDuration($event)" type="text">
 </div>
+<input  >

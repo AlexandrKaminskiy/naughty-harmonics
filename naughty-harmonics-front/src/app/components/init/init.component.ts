@@ -18,7 +18,7 @@ export class InitComponent {
     const audioCtx = new AudioContext();
     const audioBuffer = audioCtx.createBuffer(1, 100000, 200000);
     const channelData = audioBuffer.getChannelData(0);
-    const samples = this.mathService.carplusStrong(100);
+    const samples = this.mathService.karplusStrong(150);
 
     for (let i = 0; i < channelData.length; i++) {
       channelData[i] = samples[i]
