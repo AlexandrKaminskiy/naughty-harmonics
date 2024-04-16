@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class MathService {
+export class SoundService {
 
   readonly N: number = 100000
 

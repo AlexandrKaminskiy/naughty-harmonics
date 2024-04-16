@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {StaveComponent} from "../stave/stave.component";
 import {NgForOf} from "@angular/common";
@@ -16,7 +16,7 @@ import {StaveInfo} from "../../dto/staveInfo";
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.css'
 })
-export class TabComponent {
+export class TabComponent implements OnInit {
   readonly startStavesCount: number = 1;
   staves: StaveInfo[] = []
   @Output() stavesEmitter = new EventEmitter<StaveInfo[]>
@@ -25,6 +25,9 @@ export class TabComponent {
   constructor(public utilService: UtilService) {
     this.addStave()
     this.visibleStave = 0;
+  }
+  ngOnInit() {
+    this.stavesEmitter.emit(this.staves)
   }
 
   deleteStave(i: number) {

@@ -38,7 +38,9 @@ export class StaveComponent implements OnInit, AfterViewInit {
   }
 
   private handleTactChange(nativeElement: any) {
-    this.tacts[nativeElement.id].topLeftCorner = nativeElement.getBoundingClientRect().y
+    const rect = nativeElement.getBoundingClientRect();
+    this.tacts[nativeElement.id].topLeftCorner = rect.y
+    this.tacts[nativeElement.id].width = rect.width
     console.log(this.tacts[nativeElement.id].topLeftCorner)
   }
 

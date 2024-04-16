@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MathService} from "../../util/mathService";
+import {SoundService} from "../../util/sound.service";
 
 @Component({
   selector: 'app-init',
@@ -10,7 +10,7 @@ import {MathService} from "../../util/mathService";
 })
 export class InitComponent {
 
-  constructor(public mathService: MathService) {
+  constructor(public mathService: SoundService) {
   }
 
   playS() {
@@ -18,7 +18,7 @@ export class InitComponent {
     const audioCtx = new AudioContext();
     const audioBuffer = audioCtx.createBuffer(1, 100000, 200000);
     const channelData = audioBuffer.getChannelData(0);
-    const samples = this.mathService.karplusStrong(150);
+    const samples = this.mathService.karplusStrong(100);
 
     for (let i = 0; i < channelData.length; i++) {
       channelData[i] = samples[i]
