@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {TabComponent} from "../tab/tab.component";
 import {PlayMusicAction} from "../../dto/playMusicAction";
@@ -6,7 +6,6 @@ import {StaveInfo} from "../../dto/staveInfo";
 import {NgStyle} from "@angular/common";
 import {MusicActionType} from "../../dto/musicActionType";
 import {MusicPositionService} from "../../util/musicPositionService";
-import {concatMap, delay, from, interval, timeout, timer} from "rxjs";
 import {PlaySoundService} from "../../util/play-sound.service";
 import {SliderMovementInfo} from "../../dto/sliderMovementInfo";
 
@@ -31,6 +30,10 @@ export class AudioControlComponent {
   playing: boolean;
   left: number = this.START_LEFT_OFFSET;
   timer: NodeJS.Timeout;
+  timeouts: any[] = [];
+  intervals: any[] = [];
+  currentInterval: number
+  playIntervals: SliderMovementInfo[]
 
   constructor(
     public musicPositionService: MusicPositionService,
@@ -41,40 +44,82 @@ export class AudioControlComponent {
   handleMusicAction($event: PlayMusicAction) {
     switch ($event.action) {
       case MusicActionType.CONTINUE:
+        this.handleContinue();
+        break
       case MusicActionType.STOP:
+        this.handleStop();
+        break
       case MusicActionType.PLAY:
-        this.handlePlaying();
+        this.handleStartPlay();
         break
       case MusicActionType.SUSPEND:
+        this.handleSuspend();
+        break
     }
   }
 
-  handlePlaying() {
+  handleStartPlay() {
+    this.clearTimeouts();
     this.left = this.START_LEFT_OFFSET;
-    console.log(this.staveInfo[0].tacts)
+    // console.log(this.staveInfo[0].tacts)
     const playIntervals = this.musicPositionService.calculateTime(this.staveInfo[0].tacts);
-    let timeout = 0;
-    for (let i = 0; i < playIntervals.length; i++) {
+    this.currentInterval = 0;
+    this.playIntervals = playIntervals;
 
-      setTimeout(i => {
-        let times = playIntervals[i].time
-        const notes = this.getNotes(playIntervals[i]);
+    this.play()
+  }
+
+  private handleSuspend() {
+    this.clearTimeoutsForSuspend();
+  }
+
+  private handleContinue() {
+    this.currentInterval++
+    this.play()
+  }
+
+  private handleStop() {
+    this.clearTimeouts();
+    this.left = this.START_LEFT_OFFSET;
+    this.currentInterval = 0;
+    this.playIntervals = [];
+  }
+
+  private play() {
+    let sliderDelay = 0;
+    for (let i = this.currentInterval; i < this.playIntervals.length; i++) {
+      const timeout = setTimeout(i => {
+        this.currentInterval = i;
+        let times = this.playIntervals[i].time
+        const notes = this.getNotes(this.playIntervals[i]);
         if (notes.length > 0) {
           this.playSoundService.playSound(notes)
         }
-        console.log(timeout)
-        let interval = setInterval(inc => {
+        console.log(sliderDelay)
+        let currentInterval = setInterval(inc => {
           this.left += inc
           times--
           if (times <= 0) {
-            clearInterval(interval)
+            clearInterval(currentInterval)
           }
-        }, 10, playIntervals[i].speed)
-
-      }, timeout, i)
-      timeout += playIntervals[i].time * 10
+        }, 10, this.playIntervals[i].speed)
+        this.intervals.push(currentInterval)
+      }, sliderDelay, i);
+      this.timeouts.push(timeout)
+      sliderDelay += this.playIntervals[i].time * 10
     }
+  }
 
+  private clearTimeouts() {
+    this.timeouts.forEach(it => clearTimeout(it))
+    this.timeouts = []
+    this.intervals.forEach(it => clearInterval(it))
+    this.intervals = []
+  }
+
+  private clearTimeoutsForSuspend() {
+    this.timeouts.forEach(it => clearTimeout(it))
+    this.timeouts = []
   }
 
   getNotes(slideMovementInfo: SliderMovementInfo): number[] {
@@ -108,9 +153,7 @@ export class AudioControlComponent {
   }
 
 
-  handleStop() {
-    clearTimeout(this.timer)
-  }
+
 
   handleReset() {
     this.left = 0
