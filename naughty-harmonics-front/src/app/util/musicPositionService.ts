@@ -20,7 +20,8 @@ export class MusicPositionService {
       tacts[i].notes.forEach((it, index) => {
         const time = it[0].duration / 32.0 * MusicPositionService.ENTIRE_NOTE
         const speed = NOTE_LENGTH / time
-        movements.push( {speed: speed, time: time, tact: tacts[i].serialNumber, note: index} )
+        let jb = i + 1 < tacts.length && index + 1 == tacts[i].notes.length && tacts[i].topLeftCorner != tacts[i + 1].topLeftCorner
+        movements.push( {speed: speed, time: time, tact: tacts[i].serialNumber, note: index, jumpBelow: jb, jumpHeight: tacts[i].height} )
       })
     }
     return movements

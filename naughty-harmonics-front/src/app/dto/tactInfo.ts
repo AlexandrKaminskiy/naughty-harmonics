@@ -6,4 +6,5 @@ export interface TactInfo {
   serialNumber: number
   topLeftCorner?: number
   width?: number
+  height?: number
 }

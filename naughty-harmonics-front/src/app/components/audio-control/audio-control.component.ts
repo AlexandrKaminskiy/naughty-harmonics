@@ -8,6 +8,7 @@ import {MusicActionType} from "../../dto/musicActionType";
 import {MusicPositionService} from "../../util/musicPositionService";
 import {PlaySoundService} from "../../util/play-sound.service";
 import {SliderMovementInfo} from "../../dto/sliderMovementInfo";
+import {VERTICAL_TACT_MARGIN} from "../../util/constants";
 
 @Component({
   selector: 'app-audio-control',
@@ -61,6 +62,7 @@ export class AudioControlComponent {
   handleStartPlay() {
     this.clearTimeouts();
     this.left = this.START_LEFT_OFFSET;
+    this.top = this.START_TOP_OFFSET;
     // console.log(this.staveInfo[0].tacts)
     const playIntervals = this.musicPositionService.calculateTime(this.staveInfo[0].tacts);
     this.currentInterval = 0;
@@ -81,6 +83,7 @@ export class AudioControlComponent {
   private handleStop() {
     this.clearTimeouts();
     this.left = this.START_LEFT_OFFSET;
+    this.top = this.START_TOP_OFFSET;
     this.currentInterval = 0;
     this.playIntervals = [];
   }
@@ -96,17 +99,26 @@ export class AudioControlComponent {
           this.playSoundService.playSound(notes)
         }
         console.log(sliderDelay)
-        let currentInterval = setInterval(inc => {
+        let interval = setInterval(inc => {
           this.left += inc
           times--
           if (times <= 0) {
-            clearInterval(currentInterval)
+            this.handleJump(i)
+
+            clearInterval(interval)
           }
         }, 10, this.playIntervals[i].speed)
-        this.intervals.push(currentInterval)
+        this.intervals.push(interval)
       }, sliderDelay, i);
       this.timeouts.push(timeout)
       sliderDelay += this.playIntervals[i].time * 10
+    }
+  }
+
+  private handleJump(i: number) {
+    if (this.playIntervals[i].jumpBelow) {
+      this.left = this.START_LEFT_OFFSET
+      this.top += this.playIntervals[i].jumpHeight! + VERTICAL_TACT_MARGIN
     }
   }
 
@@ -151,9 +163,6 @@ export class AudioControlComponent {
         })
     }).flat()
   }
-
-
-
 
   handleReset() {
     this.left = 0
