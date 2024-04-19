@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {UtilService} from "../../util/utilService";
+import {UtilService} from "../../../util/utilService";
 
 @Component({
   selector: 'app-note-pause',

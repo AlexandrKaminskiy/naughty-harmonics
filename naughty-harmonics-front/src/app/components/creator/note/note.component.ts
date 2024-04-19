@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NoteDto} from "../../dto/note";
-import {NoteAction} from "../../dto/noteAction";
+import {NoteDto} from "../../../dto/note";
+import {NoteAction} from "../../../dto/noteAction";
 import {NgClass, NgStyle} from "@angular/common";
-import {NoteDurationService} from "../../util/noteDurationService";
+import {NoteDurationService} from "../../../util/noteDurationService";
 import {NoteActionComponent} from "../note-action/note-action.component";
-import {NoteFunctionType} from "../../dto/noteFunctionType";
-import {NOTE_LENGTH} from "../../util/constants";
+import {NoteFunctionType} from "../../../dto/noteFunctionType";
+import {NOTE_LENGTH} from "../../../util/constants";
 
 @Component({
   selector: 'app-note',

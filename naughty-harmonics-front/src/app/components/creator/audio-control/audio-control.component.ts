@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {TabComponent} from "../tab/tab.component";
-import {PlayMusicAction} from "../../dto/playMusicAction";
-import {StaveInfo} from "../../dto/staveInfo";
+import {PlayMusicAction} from "../../../dto/playMusicAction";
+import {StaveInfo} from "../../../dto/staveInfo";
 import {NgStyle} from "@angular/common";
-import {MusicActionType} from "../../dto/musicActionType";
-import {MusicPositionService} from "../../util/musicPositionService";
-import {PlaySoundService} from "../../util/play-sound.service";
-import {SliderMovementInfo} from "../../dto/sliderMovementInfo";
-import {VERTICAL_TACT_MARGIN} from "../../util/constants";
+import {MusicActionType} from "../../../dto/musicActionType";
+import {MusicPositionService} from "../../../util/musicPositionService";
+import {PlaySoundService} from "../../../util/play-sound.service";
+import {SliderMovementInfo} from "../../../dto/sliderMovementInfo";
+import {VERTICAL_TACT_MARGIN} from "../../../util/constants";
 
 @Component({
   selector: 'app-audio-control',

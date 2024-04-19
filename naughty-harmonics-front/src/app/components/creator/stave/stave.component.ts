@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
-import {UtilService} from "../../util/utilService";
-import {TactInfo} from "../../dto/tactInfo";
-import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../util/constants";
+import {UtilService} from "../../../util/utilService";
+import {TactInfo} from "../../../dto/tactInfo";
+import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../../util/constants";
 
 @Component({
   selector: 'app-stave',

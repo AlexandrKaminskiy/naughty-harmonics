@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgIf} from "@angular/common";
-import {NoteFunctionType} from "../../dto/noteFunctionType";
+import {NoteFunctionType} from "../../../dto/noteFunctionType";
 
 @Component({
   selector: 'app-note-action',

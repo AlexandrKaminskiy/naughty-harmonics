@@ -1,9 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {StaveComponent} from "../stave/stave.component";
 import {NgForOf} from "@angular/common";
-import {UtilService} from "../../util/utilService";
-import {StaveInfo} from "../../dto/staveInfo";
+import {UtilService} from "../../../util/utilService";
+import {StaveInfo} from "../../../dto/staveInfo";
 
 @Component({
   selector: 'app-tab',
@@ -18,20 +18,23 @@ import {StaveInfo} from "../../dto/staveInfo";
 })
 export class TabComponent implements OnInit {
   readonly startStavesCount: number = 1;
-  staves: StaveInfo[] = []
+  @Input() staves: StaveInfo[] = []
   @Output() stavesEmitter = new EventEmitter<StaveInfo[]>
   visibleStave: number
 
   constructor(public utilService: UtilService) {
-    this.addStave()
     this.visibleStave = 0;
   }
+
   ngOnInit() {
+    if (this.staves.length == 0) {
+      this.addStave()
+    }
     this.stavesEmitter.emit(this.staves)
   }
 
   deleteStave(i: number) {
-    this.staves.splice(i,1)
+    this.staves.splice(i, 1)
     this.stavesEmitter.emit(this.staves)
   }
 

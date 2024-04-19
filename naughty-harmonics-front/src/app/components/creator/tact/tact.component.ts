@@ -2,14 +2,14 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
 import {NgForOf, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
-import {NoteDto} from "../../dto/note";
-import {UtilService} from "../../util/utilService";
-import {NoteAction} from "../../dto/noteAction";
-import {TactInfo} from "../../dto/tactInfo";
-import {NoteDurationService} from "../../util/noteDurationService";
+import {NoteDto} from "../../../dto/note";
+import {UtilService} from "../../../util/utilService";
+import {NoteAction} from "../../../dto/noteAction";
+import {TactInfo} from "../../../dto/tactInfo";
+import {NoteDurationService} from "../../../util/noteDurationService";
 import {NotePauseComponent} from "../note-pause/note-pause.component";
 import {NoteActionComponent} from "../note-action/note-action.component";
-import {START_TACT_LENGTH} from "../../util/constants";
+import {START_TACT_LENGTH} from "../../../util/constants";
 
 @Component({
   selector: 'app-tact',

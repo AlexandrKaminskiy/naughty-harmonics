@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {NgForOf} from "@angular/common";
-import {PlayMusicAction} from "../../dto/playMusicAction";
-import {MusicActionType} from "../../dto/musicActionType";
+import {PlayMusicAction} from "../../../dto/playMusicAction";
+import {MusicActionType} from "../../../dto/musicActionType";
 
 @Component({
   selector: 'app-side-bar',
