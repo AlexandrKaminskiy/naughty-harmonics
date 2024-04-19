@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: naughty-harmonics-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=nh
+    username: service
+    password: secret
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
