@@ -1,6 +1,6 @@
 .band {
   background-repeat: no-repeat;
-  background-image: url('/src/assets/arrow/arrow.png');
+  background-image: url('/assets/arrow/arrow.png');
   background-size: contain;
   width: 100%;
   height: 20px;
@@ -24,7 +24,7 @@
   position: absolute;
   left: -12px;
   background-repeat: no-repeat;
-  background-image: url('/src/assets/wave.png');
+  background-image: url('/assets/wave.png');
   background-size: contain;
   width: 100%;
   height: 20px;
