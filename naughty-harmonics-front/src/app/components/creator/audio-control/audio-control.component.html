@@ -1,3 +1,4 @@
 <div [ngStyle]="{top: top + 'px', left: left + 'px'}" class="current-position-line"></div>
 <app-side-bar [playing]="this.playing" [paused]="this.paused" (playMusicAction) = "handleMusicAction($event)"></app-side-bar>
 <app-tab [staves]=[] (stavesEmitter)="updateStaves($event)"></app-tab>
+<input type="text" [value]="bpm" (blur)="setBpm($event)">

@@ -36,6 +36,7 @@ export class AudioControlComponent {
   intervals: any[] = [];
   currentInterval: number
   playIntervals: SliderMovementInfo[]
+  bpm: number = 300
 
   constructor(
     public musicPositionService: MusicPositionService,
@@ -66,7 +67,10 @@ export class AudioControlComponent {
     this.left = this.START_LEFT_OFFSET;
     this.top = this.START_TOP_OFFSET;
     // console.log(this.staveInfo[0].tacts)
-    const playIntervals = this.musicPositionService.calculateTime(this.staveInfo[0].tacts);
+    const playIntervals = this.musicPositionService.calculateTime(
+      this.bpm,
+      this.staveInfo[0].tacts
+    );
     this.currentInterval = 0;
     this.playIntervals = playIntervals;
     this.changeFlags(true, false)
@@ -110,6 +114,8 @@ export class AudioControlComponent {
           times--
           if (times <= 0) {
             this.handleJump(i)
+            this.normalizeX(i)
+
             if (this.currentInterval == this.playIntervals.length - 1) {
               this.playing = false
             }
@@ -127,6 +133,12 @@ export class AudioControlComponent {
     if (this.playIntervals[i].jumpBelow) {
       this.left = this.START_LEFT_OFFSET
       this.top += this.playIntervals[i].jumpHeight! + VERTICAL_TACT_MARGIN
+    }
+  }
+
+  private normalizeX(i: number) {
+    if (this.playIntervals[i].normalizedX) {
+      this.left = this.playIntervals[i].normalizedX!!
     }
   }
 
@@ -172,5 +184,10 @@ export class AudioControlComponent {
 
   updateStaves($event: StaveInfo[]) {
     this.staveInfo = $event;
+  }
+
+  setBpm($event: any) {
+    this.bpm = +$event.target.value
+    console.log(this.bpm)
   }
 }
