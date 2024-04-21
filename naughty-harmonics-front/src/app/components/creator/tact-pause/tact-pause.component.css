@@ -1,0 +1,42 @@
+.pause-image {
+  max-height:100%;
+  max-width:100%;
+}
+
+
+.pause {
+  top: 43px;
+  left: 3px;
+  width: 23px;
+  margin: auto;
+  height: 70px;
+  position: absolute;
+}
+
+.pause._1 {
+  top: 46px;
+}
+
+.pause._2 {
+  top: 60px;
+}
+
+.pause._4 {
+  top: 40px;
+}
+
+.pause._8 {
+  left: 0;
+  width: 33px;
+}
+
+.pause._16 {
+  left: 0;
+  width: 20px;
+}
+
+.pause._32 {
+  left: 0;
+  width: 34px;
+  height: 100px;
+}

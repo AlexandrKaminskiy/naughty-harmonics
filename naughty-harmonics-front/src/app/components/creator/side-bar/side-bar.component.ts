@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {PlayMusicAction} from "../../../dto/playMusicAction";
 import {MusicActionType} from "../../../dto/musicActionType";
@@ -15,6 +15,8 @@ import {MusicActionType} from "../../../dto/musicActionType";
 export class SideBarComponent {
 
   @Output() playMusicAction = new EventEmitter<PlayMusicAction>();
+  @Input() playing: boolean
+  @Input() paused: boolean
 
   play() {
     this.playMusicAction.emit({action: MusicActionType.PLAY, reset: true})

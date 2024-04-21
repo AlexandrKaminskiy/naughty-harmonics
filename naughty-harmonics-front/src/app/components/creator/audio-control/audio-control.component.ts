@@ -9,6 +9,7 @@ import {MusicPositionService} from "../../../util/musicPositionService";
 import {PlaySoundService} from "../../../util/play-sound.service";
 import {SliderMovementInfo} from "../../../dto/sliderMovementInfo";
 import {VERTICAL_TACT_MARGIN} from "../../../util/constants";
+import {FrequencyService} from "../../../util/frequencyService";
 
 @Component({
   selector: 'app-audio-control',
@@ -28,9 +29,9 @@ export class AudioControlComponent {
 
   staveInfo: StaveInfo[]
   top: number = this.START_TOP_OFFSET
-  playing: boolean;
+  playing: boolean = false;
+  paused: boolean = false;
   left: number = this.START_LEFT_OFFSET;
-  timer: NodeJS.Timeout;
   timeouts: any[] = [];
   intervals: any[] = [];
   currentInterval: number
@@ -38,7 +39,8 @@ export class AudioControlComponent {
 
   constructor(
     public musicPositionService: MusicPositionService,
-    public playSoundService: PlaySoundService
+    public playSoundService: PlaySoundService,
+    public frequencyService: FrequencyService
   ) {
   }
 
@@ -67,20 +69,24 @@ export class AudioControlComponent {
     const playIntervals = this.musicPositionService.calculateTime(this.staveInfo[0].tacts);
     this.currentInterval = 0;
     this.playIntervals = playIntervals;
-
+    this.changeFlags(true, false)
     this.play()
   }
 
   private handleSuspend() {
+    this.changeFlags(false, true)
     this.clearTimeoutsForSuspend();
   }
 
   private handleContinue() {
+    this.changeFlags(true, false)
     this.currentInterval++
     this.play()
   }
 
   private handleStop() {
+    this.changeFlags(false, false)
+
     this.clearTimeouts();
     this.left = this.START_LEFT_OFFSET;
     this.top = this.START_TOP_OFFSET;
@@ -104,7 +110,9 @@ export class AudioControlComponent {
           times--
           if (times <= 0) {
             this.handleJump(i)
-
+            if (this.currentInterval == this.playIntervals.length - 1) {
+              this.playing = false
+            }
             clearInterval(interval)
           }
         }, 10, this.playIntervals[i].speed)
@@ -141,27 +149,21 @@ export class AudioControlComponent {
     return this.staveInfo.map((stave, index) => {
       let notes = stave.tacts[slideMovementInfo.tact!!].notes[slideMovementInfo.note!!];
       return notes
-        .filter(it => it.value)
         .map(it => it.value)
         .map((it, index) => {
-          switch (index) {//todo
-            case 0:
-              return 100;
-            case 1:
-              return 140;
-            case 2:
-              return 180;
-            case 3:
-              return 220;
-            case 4:
-              return 260;
-            case 5:
-              return 300;
-            default:
-              throw Error()
-          }
+          if (!it) return null
+          const number = this.frequencyService.calculateFrecuency(index, +it);
+          console.log(number)
+          return number
         })
+        .filter(it => it)
+        .map(it => it!!)
     }).flat()
+  }
+
+  changeFlags(playing: boolean, paused: boolean) {
+    this.playing = playing
+    this.paused = paused
   }
 
   handleReset() {

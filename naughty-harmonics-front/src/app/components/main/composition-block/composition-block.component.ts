@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CompositionDocument} from "../../dto/compositionDocument";
+import {CompositionDocument} from "../../../dto/compositionDocument";
 import {Router} from "@angular/router";
 
 @Component({

@@ -2,19 +2,19 @@
 
   <div class="column-block" *ngIf="showSize">
     <div style="position: absolute">
-      <div class="tact-digit" style="top: 10px">
-        4
+      <div class="tact-digit" style="top: 14px">
+        {{sizeStr.split('/')[0]}}
 <!--        todo add size value-->
       </div>
-      <div class="tact-digit" style="top: 50px">
-        4
+      <div class="tact-digit" style="top: 10px">
+        {{sizeStr.split('/')[1]}}
       </div>
     </div>
     <div
       [ngStyle]="{width: START_TACT_LENGTH + 'px', marginBottom: (col == 6 ? 0 : 20) + 'px'}"
       *ngFor="let col of utilService.createRange(6);"
     >
-      <hr style="border: 1px solid; width: 100%">
+      <hr style="border: 1px solid; width: 100%; opacity: 10%">
     </div>
   </div>
 
@@ -22,9 +22,10 @@
     <app-note-pause [size]="utilService.toRealDuration(getDurationOfColumn(i))" class="note-pause">
     </app-note-pause>
 
-    <div *ngIf="checkPauses(i)" class="pause" >
-      <img [src]="getImg(utilService.toRealDuration(getDurationOfColumn(i)))" alt="?" class="pause-image">
-    </div>
+    <app-tact-pause
+      *ngIf="checkPauses(i)"
+      [duration]="utilService.toRealDuration(getDurationOfColumn(i))">
+    </app-tact-pause>
 
     <app-note
       [oldValue]="notes[i][j]"

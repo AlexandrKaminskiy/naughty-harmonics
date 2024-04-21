@@ -10,6 +10,7 @@ import {NoteDurationService} from "../../../util/noteDurationService";
 import {NotePauseComponent} from "../note-pause/note-pause.component";
 import {NoteActionComponent} from "../note-action/note-action.component";
 import {START_TACT_LENGTH} from "../../../util/constants";
+import {TactPauseComponent} from "../tact-pause/tact-pause.component";
 
 @Component({
   selector: 'app-tact',
@@ -22,7 +23,8 @@ import {START_TACT_LENGTH} from "../../../util/constants";
     NgStyle,
     NgOptimizedImage,
     NotePauseComponent,
-    NoteActionComponent
+    NoteActionComponent,
+    TactPauseComponent
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -42,10 +44,6 @@ export class TactComponent implements OnInit {
   @Input() activeBorder: boolean
 
   size: number
-
-  getImg(i: number) {
-    return `assets/pause/${i}.png`
-  }
 
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }

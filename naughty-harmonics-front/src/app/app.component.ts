@@ -7,12 +7,13 @@ import {StaveComponent} from "./components/creator/stave/stave.component";
 import {SideBarComponent} from "./components/creator/side-bar/side-bar.component";
 import {TabComponent} from "./components/creator/tab/tab.component";
 import {AudioControlComponent} from "./components/creator/audio-control/audio-control.component";
-import {RegistryComponent} from "./components/registry/registry.component";
+import {RegistryComponent} from "./components/main/registry/registry.component";
+import {InitComponent} from "./components/main/init/init.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent, AudioControlComponent, RegistryComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent, AudioControlComponent, RegistryComponent, InitComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

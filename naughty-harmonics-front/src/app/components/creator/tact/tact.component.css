@@ -19,22 +19,8 @@
   opacity: 30%;
 }
 
-.pause {
-  top: 43px;
-  left: 3px;
-  width: 23px;
-  margin: auto;
-  height: 70px;
-  position: absolute;
-}
-
-.pause-image {
-  max-height:100%;
-  max-width:100%;
-}
-
 .tact-digit {
-  position: absolute;
-  font-family: "Apple Braille", serif;
-  font-size: 20px;
+  left: 10px;
+  position: relative;
+  font: 50px 'Academy Engraved LET';
 }

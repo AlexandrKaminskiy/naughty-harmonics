@@ -4,6 +4,7 @@ import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {UtilService} from "../../../util/utilService";
 import {TactInfo} from "../../../dto/tactInfo";
 import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../../util/constants";
+import {retry} from "rxjs";
 
 @Component({
   selector: 'app-stave',
@@ -20,7 +21,10 @@ import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../../util/constants";
 export class StaveComponent implements OnInit, AfterViewInit {
   @Input() id: number
   @Input() tacts: TactInfo[];
-  readonly noteLength: number = 2
+  readonly NOTE_LENGTH: number = 2
+  private static readonly MAX_TACT_SIZE = 2
+  private static readonly ATOMIC_TACT_DIVISION = 0.125
+
   activeTact: number;
   activeTactSize: string = '';
   tactSizeValue: string;
@@ -64,12 +68,16 @@ export class StaveComponent implements OnInit, AfterViewInit {
 
   addTactInfo() {
     this.tacts.push({
-      sizeStr: '4/4', serialNumber: this.tacts.length,
-      notes: new Array(this.noteLength)
+      sizeStr: this.getPreviousTactSize(), serialNumber: this.tacts.length,
+      notes: new Array(this.NOTE_LENGTH)
         .fill(false)
         .map(() => this.utilService.createColumn())
     });
 
+  }
+
+  getPreviousTactSize() {
+    return this.tacts.length == 0 ? '4/4' : this.tacts[this.tacts.length - 1].sizeStr
   }
 
   updateActiveTact($event: any) {
@@ -83,8 +91,26 @@ export class StaveComponent implements OnInit, AfterViewInit {
 
   changeTactDuration($event: any) {
     const size: string = $event.target.value
-    const numerator = size.split("/")[0]
-    const denominator = size.split("/")[0]
+
+    const numerator = +size.split("/")[0]
+    const denominator = +size.split("/")[1]
+
+    console.log(numerator, ' ', denominator)
+    if (isNaN(numerator) || isNaN(denominator)) {
+      $event.target.value = this.tacts[this.activeTact].sizeStr
+      return;
+    }
+    if (numerator / denominator > StaveComponent.MAX_TACT_SIZE) {
+      console.log('size > 2, ', size)
+      $event.target.value = this.tacts[this.activeTact].sizeStr
+      return
+    }
+
+    if (((numerator % denominator) / denominator) % StaveComponent.ATOMIC_TACT_DIVISION > 0) {
+      console.log('size dont match ATOMIC_TACT_DIVISION, ', size)
+      $event.target.value = this.tacts[this.activeTact].sizeStr
+      return
+    }
 
     console.log(size)
     this.tacts[this.activeTact].sizeStr = size;

@@ -1,8 +1,8 @@
 <div class="wrapper">
   <div class="note-container">
     <button (click)="play()">Play</button>
-    <button (click)="continue()">Continue</button>
-    <button (click)="suspend()">Suspend</button>
-    <button (click)="stop()">Stop</button>
+    <button [disabled]="!paused" (click)="continue()">Continue</button>
+    <button [disabled]="!playing || paused" (click)="suspend()">Suspend</button>
+    <button [disabled]="!playing" (click)="stop()">Stop</button>
   </div>
 </div>

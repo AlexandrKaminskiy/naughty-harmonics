@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {SoundService} from "../../util/sound.service";
+import {Component, OnInit} from '@angular/core';
+import {SoundService} from "../../../util/sound.service";
 
 @Component({
   selector: 'app-init',
@@ -8,9 +8,14 @@ import {SoundService} from "../../util/sound.service";
   templateUrl: './init.component.html',
   styleUrl: './init.component.css'
 })
-export class InitComponent {
+export class InitComponent implements OnInit {
 
   constructor(public mathService: SoundService) {
+  }
+
+  ngOnInit() {
+    console.log('asdasdasdasdads')
+    console.log(Math.round((2 ** (2 / 12.0)) * 82.0));
   }
 
   playS() {
