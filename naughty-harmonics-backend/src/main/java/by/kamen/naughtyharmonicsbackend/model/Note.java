@@ -19,8 +19,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Note extends PrimaryEntity {
 
+    private int stringNumber;
     private Integer value;
-    private Integer duration;
 
     @Enumerated(EnumType.STRING)
     private FunctionType functionType;

@@ -19,4 +19,10 @@ public class TactColumn extends PrimaryEntity {
 
     @ManyToOne
     private Tact tact;
+
+    private int numberInTact;
+    private int duration;
+
+    @OneToMany(mappedBy = "tactColumn")
+    private List<Note> notes;
 }

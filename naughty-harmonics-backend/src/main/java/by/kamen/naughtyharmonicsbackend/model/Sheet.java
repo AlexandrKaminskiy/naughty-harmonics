@@ -2,10 +2,13 @@ package by.kamen.naughtyharmonicsbackend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,5 +20,8 @@ public class Sheet extends PrimaryEntity {
     private String number;
 
     @ManyToOne
-    private Tab client;
+    private Composition composition;
+
+    @OneToMany(mappedBy = "sheet")
+    private List<Tact> tacts;
 }

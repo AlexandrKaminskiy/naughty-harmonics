@@ -2,6 +2,7 @@ package by.kamen.naughtyharmonicsbackend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,7 @@ public class Tact extends PrimaryEntity {
 
     @ManyToOne
     private Sheet sheet;
+
+    @OneToMany(mappedBy = "tact")
+    private List<TactColumn> tactColumns;
 }
