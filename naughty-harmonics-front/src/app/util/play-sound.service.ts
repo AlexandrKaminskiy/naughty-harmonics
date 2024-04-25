@@ -11,7 +11,7 @@ export class PlaySoundService {
 
   public playSound(rates: number[]) {
     const audioCtx = new AudioContext();
-    const audioBuffer = audioCtx.createBuffer(1, 100000, 200000);
+    const audioBuffer = audioCtx.createBuffer(1, 200000, 400000);
     const channelData = audioBuffer.getChannelData(0);
 
     const sampleArrays = rates.map(it => this.mathService.karplusStrong(it));
@@ -34,7 +34,7 @@ export class PlaySoundService {
     source.buffer = audioBuffer;
 
     source.connect(audioCtx.destination);
-    source.start(0, 0, 5);
+    source.start(0, 0, 1);
 
   }
 }

@@ -5,17 +5,19 @@ import {Injectable} from '@angular/core';
 })
 export class SoundService {
 
-  readonly N: number = 100000
+  readonly N: number = 200000
 
   karplusStrong(rate: number): number[] {
+    console.log('rate ', rate)
+
     const noise = this.noise(this.N / rate);
     const hps = this.hP(noise, 0.5);
-    const hBs = this.hB(hps, noise.length, 0.5);
+    const hBs = this.hB(hps, noise.length, 0.1);
     const samples = [...hBs];
     for (let i = noise.length; i < this.N; i++) {
       samples.push(0)
       samples[i] = this.hZ(samples, noise.length, i);
-      samples[i] = this.hD(samples, i, 0.01);
+      samples[i] = this.hD(samples, i, 0.5);
       samples[i] = this.hRo(samples, i, 0.4);
     }
     return this.hL(samples, 0.32, Math.PI * rate / this.N)
@@ -29,8 +31,8 @@ export class SoundService {
     return samples
   }
 
-  private noise(n: number) {
-    return Array.from({length: n}, () => Math.floor((Math.random() - 1)));
+  public noise(n: number) {
+    return Array.from({length: n}, () => (Math.random() * 2 - 1));
   }
 
   private hP(data: number[], p: number): number[] {
