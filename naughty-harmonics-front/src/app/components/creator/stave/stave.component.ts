@@ -43,11 +43,10 @@ export class StaveComponent implements OnInit, AfterViewInit {
 
   private handleTactChange(nativeElement: any) {
     const rect = nativeElement.getBoundingClientRect();
-    this.tacts[nativeElement.id].topLeftCornerY = rect.y
-    this.tacts[nativeElement.id].topLeftCornerX = rect.x
+    this.tacts[nativeElement.id].topLeftCorner = rect.y
     this.tacts[nativeElement.id].width = rect.width
     this.tacts[nativeElement.id].height = rect.height
-    console.log(this.tacts[nativeElement.id].topLeftCornerY)
+    console.log(this.tacts[nativeElement.id].topLeftCorner)
   }
 
   ngOnInit() {

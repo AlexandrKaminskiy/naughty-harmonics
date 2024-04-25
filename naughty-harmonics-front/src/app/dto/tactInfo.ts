@@ -4,8 +4,7 @@ export interface TactInfo {
   sizeStr: string
   notes: NoteDto[][]
   serialNumber: number
-  topLeftCornerY?: number
-  topLeftCornerX?: number
+  topLeftCorner?: number
   width?: number
   height?: number
 }

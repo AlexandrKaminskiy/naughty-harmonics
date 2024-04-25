@@ -8,22 +8,20 @@ import {NOTE_LENGTH, START_TACT_LENGTH} from "./constants";
 })
 export class MusicPositionService {
 
-  private static ENTIRE_NOTE: number = 125
-  private static FORTH_NOTE_MULTIPLIER = 4
-  public calculateTime(bpm: number, tacts: TactInfo[]): SliderMovementInfo[] {
+  private static ENTIRE_NOTE: number = 1000
+
+  public calculateTime(tacts: TactInfo[]): SliderMovementInfo[] {
     const movements: SliderMovementInfo[] = [];
 
-    const entireNote = 60000 / bpm * 4
     for (let i = 0; i < tacts.length; i++) {
       if (i == 0 || tacts[i].sizeStr != tacts[i - 1].sizeStr) {
         movements.push({speed: START_TACT_LENGTH, time: 0})
       }
       tacts[i].notes.forEach((it, index) => {
-        const time = it[0].duration / 32.0 * entireNote
+        const time = it[0].duration / 32.0 * MusicPositionService.ENTIRE_NOTE
         const speed = NOTE_LENGTH / time
-        let jb = i + 1 < tacts.length && index + 1 == tacts[i].notes.length && tacts[i].topLeftCornerY != tacts[i + 1].topLeftCornerY
-        let normalizedX = i + 1 < tacts.length && index + 1 == tacts[i].notes.length ? tacts[i + 1].topLeftCornerX : 0
-        movements.push( {speed: speed, time: time, tact: tacts[i].serialNumber, note: index, jumpBelow: jb, jumpHeight: tacts[i].height, normalizedX: normalizedX} )
+        let jb = i + 1 < tacts.length && index + 1 == tacts[i].notes.length && tacts[i].topLeftCorner != tacts[i + 1].topLeftCorner
+        movements.push( {speed: speed, time: time, tact: tacts[i].serialNumber, note: index, jumpBelow: jb, jumpHeight: tacts[i].height} )
       })
     }
     return movements
