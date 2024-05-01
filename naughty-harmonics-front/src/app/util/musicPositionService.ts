@@ -8,7 +8,7 @@ import {NOTE_LENGTH, START_TACT_LENGTH} from "./constants";
 })
 export class MusicPositionService {
 
-  private static ENTIRE_NOTE: number = 1000
+  private static ENTIRE_NOTE: number = 100
 
   public calculateTime(tacts: TactInfo[]): SliderMovementInfo[] {
     const movements: SliderMovementInfo[] = [];
@@ -21,7 +21,8 @@ export class MusicPositionService {
         const time = it[0].duration / 32.0 * MusicPositionService.ENTIRE_NOTE
         const speed = NOTE_LENGTH / time
         let jb = i + 1 < tacts.length && index + 1 == tacts[i].notes.length && tacts[i].topLeftCorner != tacts[i + 1].topLeftCorner
-        movements.push( {speed: speed, time: time, tact: tacts[i].serialNumber, note: index, jumpBelow: jb, jumpHeight: tacts[i].height} )
+        let endOfTact = index + 1 == tacts[i].notes.length
+        movements.push( {speed: speed, time: time, tact: tacts[i].serialNumber, note: index, jumpBelow: jb, jumpHeight: tacts[i].height, endOfTact: endOfTact} )
       })
     }
     return movements

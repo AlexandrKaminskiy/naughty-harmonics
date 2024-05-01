@@ -8,7 +8,7 @@ import {MusicActionType} from "../../../dto/musicActionType";
 import {MusicPositionService} from "../../../util/musicPositionService";
 import {PlaySoundService} from "../../../util/play-sound.service";
 import {SliderMovementInfo} from "../../../dto/sliderMovementInfo";
-import {VERTICAL_TACT_MARGIN} from "../../../util/constants";
+import {SLIDER_NORMALIZATION, VERTICAL_TACT_MARGIN} from "../../../util/constants";
 import {FrequencyService} from "../../../util/frequencyService";
 
 @Component({
@@ -99,23 +99,28 @@ export class AudioControlComponent {
     for (let i = this.currentInterval; i < this.playIntervals.length; i++) {
       const timeout = setTimeout(i => {
         this.currentInterval = i;
-        let times = this.playIntervals[i].time
+        let times = Math.floor(this.playIntervals[i].time)
+        let fractional = this.playIntervals[i].time % 1
         const notes = this.getNotes(this.playIntervals[i]);
         if (notes.length > 0) {
           this.playSoundService.playSound(notes)
         }
         console.log(sliderDelay)
-        let interval = setInterval(inc => {
+        let interval = setInterval((inc, shouldNormalize) => {
           this.left += inc
           times--
           if (times <= 0) {
+            this.left += fractional * inc
             this.handleJump(i)
             if (this.currentInterval == this.playIntervals.length - 1) {
               this.playing = false
             }
+            if (shouldNormalize) {
+              this.left += SLIDER_NORMALIZATION
+            }
             clearInterval(interval)
           }
-        }, 10, this.playIntervals[i].speed)
+        }, 10, this.playIntervals[i].speed, this.playIntervals[i].endOfTact)
         this.intervals.push(interval)
       }, sliderDelay, i);
       this.timeouts.push(timeout)

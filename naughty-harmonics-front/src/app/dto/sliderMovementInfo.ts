@@ -4,5 +4,6 @@ export interface SliderMovementInfo {
   tact?: number,
   note?: number,
   jumpBelow?: boolean,
-  jumpHeight?: number
+  jumpHeight?: number,
+  endOfTact?: boolean
 }
