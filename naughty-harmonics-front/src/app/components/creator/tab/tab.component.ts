@@ -17,9 +17,14 @@ import {StaveInfo} from "../../../dto/staveInfo";
   styleUrl: './tab.component.css'
 })
 export class TabComponent implements OnInit {
+
+  readonly START_LEFT_OFFSET = 10;
+  readonly START_TOP_OFFSET = 10;
+
   readonly startStavesCount: number = 1;
   @Input() staves: StaveInfo[] = []
   @Output() stavesEmitter = new EventEmitter<StaveInfo[]>
+  @Output() visibleStaveEmitter = new EventEmitter<number>
   visibleStave: number
 
   constructor(public utilService: UtilService) {
@@ -30,7 +35,7 @@ export class TabComponent implements OnInit {
     if (this.staves.length == 0) {
       this.addStave()
     }
-    this.stavesEmitter.emit(this.staves)
+    // this.stavesEmitter.emit(this.staves)
   }
 
   deleteStave(i: number) {
@@ -39,11 +44,21 @@ export class TabComponent implements OnInit {
   }
 
   addStave() {
-    this.staves.push({tacts: []})
+    this.staves.push({
+      tacts: [], sliderContext: {
+        left: this.START_LEFT_OFFSET,
+        top: this.START_TOP_OFFSET,
+        playIntervals: [],
+        currentInterval: 0,
+        intervals: [],
+        timeouts: []
+      }
+    })
     this.stavesEmitter.emit(this.staves)
   }
 
   changeContext(i: number) {
     this.visibleStave = i
+    this.visibleStaveEmitter.emit(i)
   }
 }

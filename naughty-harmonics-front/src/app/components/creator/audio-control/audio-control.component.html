@@ -1,3 +1,6 @@
-<div [ngStyle]="{top: top + 'px', left: left + 'px'}" class="current-position-line"></div>
+<div [ngStyle]="{top: this.getTopStaveOffset() + 'px', left: this.getLeftStaveOffset() + 'px'}"
+     class="current-position-line">
+
+</div>
 <app-side-bar [playing]="this.playing" [paused]="this.paused" (playMusicAction) = "handleMusicAction($event)"></app-side-bar>
-<app-tab [staves]=[] (stavesEmitter)="updateStaves($event)"></app-tab>
+<app-tab [staves]=[] (visibleStaveEmitter)="changeVisibleStave($event)" (stavesEmitter)="updateStaves($event)"></app-tab>
