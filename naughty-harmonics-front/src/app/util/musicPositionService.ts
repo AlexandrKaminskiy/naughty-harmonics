@@ -8,8 +8,6 @@ import {NOTE_LENGTH, START_TACT_LENGTH} from "./constants";
 })
 export class MusicPositionService {
 
-  private static ENTIRE_NOTE: number = 100
-
   public calculateTime(tacts: TactInfo[], bpm: number): SliderMovementInfo[] {
     const movements: SliderMovementInfo[] = [];
 
