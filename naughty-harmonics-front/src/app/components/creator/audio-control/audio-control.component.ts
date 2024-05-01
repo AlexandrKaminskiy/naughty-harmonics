@@ -201,12 +201,6 @@ export class AudioControlComponent {
     this.paused = paused
   }
 
-  // handleReset() {
-  //   this.sliderContexts.forEach(it => {
-  //     it.left = 0
-  //   })
-  // }
-
   updateStaves($event: StaveInfo[]) {
     this.staveInfo = $event;
   }
