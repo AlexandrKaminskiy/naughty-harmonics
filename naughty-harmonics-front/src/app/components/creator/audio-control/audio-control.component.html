@@ -4,3 +4,4 @@
 </div>
 <app-side-bar [playing]="this.playing" [paused]="this.paused" (playMusicAction) = "handleMusicAction($event)"></app-side-bar>
 <app-tab [staves]=[] (visibleStaveEmitter)="changeVisibleStave($event)" (stavesEmitter)="updateStaves($event)"></app-tab>
+<input type="text" [value]="bpm" (blur)="setBpm($event)">

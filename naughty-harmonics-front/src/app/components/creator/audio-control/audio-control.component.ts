@@ -10,7 +10,6 @@ import {PlaySoundService} from "../../../util/play-sound.service";
 import {SliderMovementInfo} from "../../../dto/sliderMovementInfo";
 import {SLIDER_NORMALIZATION, VERTICAL_TACT_MARGIN} from "../../../util/constants";
 import {FrequencyService} from "../../../util/frequencyService";
-import {SliderComponent} from "../slider/slider.component";
 import {SliderContext} from "../../../dto/sliderContext";
 
 @Component({
@@ -19,8 +18,7 @@ import {SliderContext} from "../../../dto/sliderContext";
   imports: [
     SideBarComponent,
     TabComponent,
-    NgStyle,
-    SliderComponent
+    NgStyle
   ],
   templateUrl: './audio-control.component.html',
   styleUrl: './audio-control.component.css'
@@ -34,6 +32,7 @@ export class AudioControlComponent {
   staveInfo: StaveInfo[]
   playing: boolean = false;
   paused: boolean = false;
+  bpm: number = 300
 
   // sliderContexts: SliderContext[] = []
 
@@ -82,7 +81,7 @@ export class AudioControlComponent {
     this.staveInfo.map((it, index) => {
       it.sliderContext.left = this.START_LEFT_OFFSET
       it.sliderContext.top = this.START_TOP_OFFSET
-      it.sliderContext.playIntervals = this.musicPositionService.calculateTime(it.tacts)
+      it.sliderContext.playIntervals = this.musicPositionService.calculateTime(it.tacts, this.bpm)
       it.sliderContext.currentInterval = 0
     })
 
@@ -214,5 +213,10 @@ export class AudioControlComponent {
 
   changeVisibleStave($event: number) {
     this.visibleStave = $event
+  }
+
+  setBpm($event: any) {
+    this.bpm = +$event.target.value
+    console.log(this.bpm)
   }
 }
