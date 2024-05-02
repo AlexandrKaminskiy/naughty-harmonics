@@ -14,15 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CompositionServiceImpl implements CompositionService {
-    private final CompositionRepository compositionRepository;
 
+    private final CompositionRepository compositionRepository;
     private final CompositionMapper compositionMapper;
 
     @Override

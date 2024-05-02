@@ -21,6 +21,12 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    swaggerVer = '3.0.0'
+    swaggerUiVer = '2.0.2'
+    mapStructVersion = '1.5.5.Final'
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -28,12 +34,16 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
+
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    implementation 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    implementation "org.mapstruct:mapstruct:1.5.5.Final"
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
 
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVer}"
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVer}"
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${swaggerUiVer}"
 }
 
 tasks.named('test') {
