@@ -1,6 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.response;
 
-public record CompositionDocumentReponse(
+public record CompositionDocumentResponse(
     String name,
     Integer complexity,
     String description,
@@ -8,4 +8,5 @@ public record CompositionDocumentReponse(
     String videoLink,
     boolean unique
 ) {
+
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {CommonModule} from "@angular/common";
 import {NoteComponent} from "./components/creator/note/note.component";
@@ -13,6 +13,7 @@ import {InitComponent} from "./components/main/init/init.component";
 @Component({
   selector: 'app-root',
   standalone: true,
+
   imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent, AudioControlComponent, RegistryComponent, InitComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

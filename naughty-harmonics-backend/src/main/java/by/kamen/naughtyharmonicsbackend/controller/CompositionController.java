@@ -1,7 +1,8 @@
 package by.kamen.naughtyharmonicsbackend.controller;
 
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
-import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentReponse;
+import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
+import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.List;
-
 @RestController
 @RequestMapping("/composition")
 @RequiredArgsConstructor
@@ -28,7 +26,7 @@ public class CompositionController {
     private final CompositionService compositionService;
 
     @GetMapping
-    public Page<CompositionDocumentReponse> findAll(
+    public Page<CompositionDocumentResponse> findAll(
         @RequestParam(required = false) final String name,
         @PageableDefault final Pageable pageable
     ) {

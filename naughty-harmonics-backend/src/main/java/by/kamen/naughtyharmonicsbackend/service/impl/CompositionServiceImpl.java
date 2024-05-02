@@ -5,12 +5,14 @@ import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.repository.CompositionRepository;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
-import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentReponse;
+import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
+import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,11 @@ public class CompositionServiceImpl implements CompositionService {
     private final CompositionMapper compositionMapper;
 
     @Override
-    public Page<CompositionDocumentReponse> findAllCompositions(final String name, final Pageable pageable) {
-        return compositionRepository.findCompositions(name, pageable);
+    public Page<CompositionDocumentResponse> findAllCompositions(final String name, final Pageable pageable) {
+        return new PageImpl<>(compositionRepository.findCompositions(name, pageable)
+            .stream()
+            .map(compositionMapper::toCompositionResponse)
+            .toList());
     }
 
     @Override
