@@ -1,10 +1,10 @@
 package by.kamen.naughtyharmonicsbackend.projection;
 
 public interface CompositionDocumentProjection {
-    String name();
-    Integer complexity();
-    String description();
-    Integer bpm();
-    String videoLink();
-    boolean unique();
+    String getName();
+    Integer getComplexity();
+    String getDescription();
+    Integer getBpm();
+    String getVideoLink();
+    Boolean getIsUnique();
 }

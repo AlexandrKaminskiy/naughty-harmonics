@@ -5,7 +5,6 @@ import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.repository.CompositionRepository;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
-import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
@@ -26,15 +25,16 @@ public class CompositionServiceImpl implements CompositionService {
 
     @Override
     public Page<CompositionDocumentResponse> findAllCompositions(final String name, final Pageable pageable) {
-        return new PageImpl<>(compositionRepository.findCompositions(name, pageable)
-            .stream()
-            .map(compositionMapper::toCompositionResponse)
+        return new PageImpl<>(compositionRepository.findCompositions(name, pageable).stream()
+            .map(compositionMapper::toCompositionDocumentResponse)
             .toList());
     }
 
     @Override
     public CompositionResponse findComposition(final Long id) {
-        throw null;
+        return compositionRepository.findById(id)
+            .map(compositionMapper::toCompositionResponse)
+            .orElseThrow(() -> new NaughtyHarmonicsException("Cannot find composition with id " + id));
     }
 
     @Override

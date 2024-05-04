@@ -1,7 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.controller;
 
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
-import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;

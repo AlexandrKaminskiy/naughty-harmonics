@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * DTO for {@link Tact}
  */
-public record TactResponse(
+public record TactDto(
     int serialNumber,
     String size,
     List<TactColumnDto> tactColumns

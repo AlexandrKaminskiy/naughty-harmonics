@@ -1,6 +1,7 @@
 package by.kamen.naughtyharmonicsbackend.model;
 
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 public abstract class PrimaryEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
 }

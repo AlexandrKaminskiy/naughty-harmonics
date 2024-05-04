@@ -1,5 +1,3 @@
-<div *ngFor="let i of compositions | async">
-  <app-composition-block  [document]=i>
+<app-composition-block *ngFor="let i of compositions" [document]=i>
 
-  </app-composition-block>
-</div>
+</app-composition-block>

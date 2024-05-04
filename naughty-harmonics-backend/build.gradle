@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.5'
+    id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -8,7 +8,7 @@ group = 'by.kamen'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -37,9 +37,9 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
     implementation "org.mapstruct:mapstruct:1.5.5.Final"
     annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVer}"
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVer}"
