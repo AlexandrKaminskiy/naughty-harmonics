@@ -4,5 +4,6 @@
     <button [disabled]="!paused" (click)="continue()">Continue</button>
     <button [disabled]="!playing || paused" (click)="suspend()">Suspend</button>
     <button [disabled]="!playing" (click)="stop()">Stop</button>
+    <button (click)="save()">Save</button>
   </div>
 </div>

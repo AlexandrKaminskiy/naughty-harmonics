@@ -1,14 +1,15 @@
 package by.kamen.naughtyharmonicsbackend.model;
 
+import by.kamen.naughtyharmonicsbackend.dto.StaveDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class Composition extends PrimaryEntity {
     @Column(name = "is_unique")
     private boolean unique;
 
-    @OneToMany(mappedBy = "composition")
-    private List<Sheet> sheets;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private List<StaveDto> staves;
 }

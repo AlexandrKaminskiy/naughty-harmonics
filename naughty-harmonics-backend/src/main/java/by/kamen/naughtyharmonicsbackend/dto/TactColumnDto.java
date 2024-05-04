@@ -1,7 +1,5 @@
 package by.kamen.naughtyharmonicsbackend.dto;
 
-import by.kamen.naughtyharmonicsbackend.model.TactColumn;
-
 import java.util.List;
 
 /**

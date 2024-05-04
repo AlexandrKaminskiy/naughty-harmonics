@@ -1,6 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.response;
 
-import by.kamen.naughtyharmonicsbackend.dto.SheetDto;
+import by.kamen.naughtyharmonicsbackend.dto.StaveDto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public record CompositionResponse(
     String description,
     Integer bpm,
     String videoLink,
-    List<SheetDto> sheets
+    List<StaveDto> staves
 ) {
 
 }

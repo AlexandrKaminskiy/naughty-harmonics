@@ -11,6 +11,7 @@ import {SliderMovementInfo} from "../../../dto/sliderMovementInfo";
 import {SLIDER_NORMALIZATION, VERTICAL_TACT_MARGIN} from "../../../util/constants";
 import {FrequencyService} from "../../../util/frequencyService";
 import {SliderContext} from "../../../dto/sliderContext";
+import {ApiService} from "../../../util/apiService";
 
 @Component({
   selector: 'app-audio-control',
@@ -40,7 +41,8 @@ export class AudioControlComponent {
   constructor(
     public musicPositionService: MusicPositionService,
     public playSoundService: PlaySoundService,
-    public frequencyService: FrequencyService
+    public frequencyService: FrequencyService,
+    public apiService: ApiService,
   ) {
   }
 
@@ -212,5 +214,16 @@ export class AudioControlComponent {
   setBpm($event: any) {
     this.bpm = +$event.target.value
     console.log(this.bpm)
+  }
+
+  saveSong($event: any) {
+    this.apiService.saveSheet({
+      name: 'test',
+      bpm: 100,
+      complexity: 10,
+      description: 'test desc',
+      videoLink: 'youtube.com',
+      staves: this.staveInfo
+    }).subscribe()
   }
 }

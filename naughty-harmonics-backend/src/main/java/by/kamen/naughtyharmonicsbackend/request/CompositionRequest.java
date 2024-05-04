@@ -1,6 +1,7 @@
 package by.kamen.naughtyharmonicsbackend.request;
 
-import by.kamen.naughtyharmonicsbackend.dto.SheetDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ public record CompositionRequest(
     String description,
     Integer bpm,
     String videoLink,
-    List<SheetDto> sheets
+    @NotEmpty List<StaveRequest> staves
 ) {
 }

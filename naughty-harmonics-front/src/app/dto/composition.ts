@@ -2,7 +2,7 @@ import {NoteFunctionType} from "./noteFunctionType";
 import {StaveInfo} from "./staveInfo";
 
 export interface Composition {
-  id: number;
+  id?: number;
   staves: StaveInfo[];
   name: string;
   complexity: number;

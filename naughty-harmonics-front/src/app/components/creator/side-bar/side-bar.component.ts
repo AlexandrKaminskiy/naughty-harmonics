@@ -15,6 +15,7 @@ import {MusicActionType} from "../../../dto/musicActionType";
 export class SideBarComponent {
 
   @Output() playMusicAction = new EventEmitter<PlayMusicAction>();
+  @Output() saveEmitter = new EventEmitter();
   @Input() playing: boolean
   @Input() paused: boolean
 
@@ -32,5 +33,9 @@ export class SideBarComponent {
 
   continue() {
     this.playMusicAction.emit({action: MusicActionType.CONTINUE, reset: false})
+  }
+
+  save() {
+    this.saveEmitter.emit();
   }
 }

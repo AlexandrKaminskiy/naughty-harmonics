@@ -1,7 +1,7 @@
 package by.kamen.naughtyharmonicsbackend.service;
 
-import by.kamen.naughtyharmonicsbackend.model.Note;
-import by.kamen.naughtyharmonicsbackend.model.TactColumn;
+import by.kamen.naughtyharmonicsbackend.dto.NoteDto;
+import by.kamen.naughtyharmonicsbackend.dto.TactColumnDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,18 +32,19 @@ public class UniqueCompositionService {
         
     }
     private List<Double> getFunctionValues(Long id) {
-        return compositionService.findCompositionModel(id).getSheets()
+        return compositionService.findCompositionModel(id).getStaves()
             .stream()
-            .flatMap(it -> it.getTacts().stream())
-            .flatMap(it -> it.getTactColumns().stream())
+            .flatMap(it -> it.tacts().stream())
+            .flatMap(it -> it.tactColumns().stream())
             .map(UniqueCompositionService::cartesianDistance)
             .toList();
     }
 
-    public static double cartesianDistance(final TactColumn tactColumn) {
-        return tactColumn.getNotes()
+    public static double cartesianDistance(final TactColumnDto tactColumn) {
+        return tactColumn.notes()
             .stream()
-            .map(Note::getValue)
+            .map(NoteDto::value)
+            .map(Integer::parseInt)
             .reduce((a, b) -> a * a + b)
             .map(Math::sqrt)
             .orElse(0.0);

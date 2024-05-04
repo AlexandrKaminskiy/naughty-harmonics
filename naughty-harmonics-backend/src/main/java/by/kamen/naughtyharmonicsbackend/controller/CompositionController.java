@@ -4,6 +4,7 @@ import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,14 +39,14 @@ public class CompositionController {
     }
 
     @PostMapping
-    public void createComposition(@RequestBody final CompositionRequest compositionRequest) {
+    public void createComposition(@RequestBody @Valid final CompositionRequest compositionRequest) {
         compositionService.createComposition(compositionRequest);
     }
 
     @PutMapping("/{id}")
     public void updateComposition(
         @PathVariable final Long id,
-        @RequestBody final CompositionRequest compositionRequest
+        @RequestBody @Valid final CompositionRequest compositionRequest
     ) {
         compositionService.updateComposition(id, compositionRequest);
     }
