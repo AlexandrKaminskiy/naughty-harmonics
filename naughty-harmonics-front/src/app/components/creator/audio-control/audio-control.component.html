@@ -10,5 +10,5 @@
 >
 
 </app-side-bar>
-<app-tab [staves]=[] (visibleStaveEmitter)="changeVisibleStave($event)" (stavesEmitter)="updateStaves($event)"></app-tab>
+<app-tab [staves]="this.staveInfo ? this.staveInfo : []" (visibleStaveEmitter)="changeVisibleStave($event)" (stavesEmitter)="updateStaves($event)"></app-tab>
 <input type="text" [value]="bpm" (blur)="setBpm($event)">

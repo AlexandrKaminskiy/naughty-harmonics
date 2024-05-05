@@ -12,6 +12,9 @@ import by.kamen.naughtyharmonicsbackend.request.StaveRequest;
 import by.kamen.naughtyharmonicsbackend.request.TactRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
+import by.kamen.naughtyharmonicsbackend.response.NoteResponse;
+import by.kamen.naughtyharmonicsbackend.response.StaveResponse;
+import by.kamen.naughtyharmonicsbackend.response.TactResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -31,7 +34,7 @@ public interface CompositionMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "complexity", source = "complexity")
     @Mapping(target = "videoLink", source = "videoLink")
-    @Mapping(target = "sheets", source = "sheets", qualifiedByName = "toSheetDtoFromSheetRequest")
+    @Mapping(target = "staves", source = "staves", qualifiedByName = "toSheetDtoFromSheetRequest")
     Composition toComposition(final CompositionRequest compositionRequest);
 
     @Named("toSheetDtoFromSheetRequest")
@@ -62,9 +65,27 @@ public interface CompositionMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "complexity", source = "complexity")
     @Mapping(target = "videoLink", source = "videoLink")
-    @Mapping(target = "sheets", source = "staves")
+    @Mapping(target = "staves", source = "staves", qualifiedByName = "toStavesResponseFromStavesDto")
     CompositionResponse toCompositionResponse(Composition composition);
 
+    @Named("toStavesResponseFromStavesDto")
+    @Mapping(target = "number", source = "number")
+    @Mapping(target = "tacts", source = "tacts", qualifiedByName = "toTactResponseFromTactDto")
+    StaveResponse toStavesResponseFromStavesDto(final StaveDto staveDto);
+
+    @Named("toTactResponseFromTactDto")
+    default TactResponse toTactResponseFromTactDto(final TactDto tactDto) {
+        final List<List<NoteResponse>> notes = tactDto.tactColumns()
+            .stream()
+            .map(it -> it.notes()
+                .stream()
+                .map(note -> new NoteResponse(note.value(), it.duration(), note.functionType()))
+                .toList()
+            ).toList();
+        return new TactResponse(tactDto.size(), notes, tactDto.serialNumber());
+    }
+
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "bpm", source = "bpm")
     @Mapping(target = "name", source = "name")

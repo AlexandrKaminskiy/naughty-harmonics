@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {TabComponent} from "../tab/tab.component";
 import {PlayMusicAction} from "../../../dto/playMusicAction";
@@ -12,6 +12,7 @@ import {SLIDER_NORMALIZATION, VERTICAL_TACT_MARGIN} from "../../../util/constant
 import {FrequencyService} from "../../../util/frequencyService";
 import {SliderContext} from "../../../dto/sliderContext";
 import {ApiService} from "../../../util/apiService";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-audio-control',
@@ -24,37 +25,48 @@ import {ApiService} from "../../../util/apiService";
   templateUrl: './audio-control.component.html',
   styleUrl: './audio-control.component.css'
 })
-export class AudioControlComponent {
+export class AudioControlComponent implements OnInit {
 
   readonly START_LEFT_OFFSET = 10;
   readonly START_TOP_OFFSET = 10;
-
   visibleStave: number = 0
   staveInfo: StaveInfo[]
   playing: boolean = false;
   paused: boolean = false;
   bpm: number = 300
-
+  id: number
   // sliderContexts: SliderContext[] = []
-
 
   constructor(
     public musicPositionService: MusicPositionService,
     public playSoundService: PlaySoundService,
     public frequencyService: FrequencyService,
     public apiService: ApiService,
+    public activatedRoute: ActivatedRoute,
+    public router: Router
   ) {
   }
 
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.id = params['id'];
+      if (this.id) {
+        this.apiService.findById(this.id).subscribe(
+          it => this.staveInfo = it.staves,
+          () => this.router.navigate(['not-found']))
+      }
+    })
+  }
+
   getTopStaveOffset() {
-    if (this.staveInfo) {
+    if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave].sliderContext) {
       return this.staveInfo[this.visibleStave].sliderContext.top
     }
     return this.START_TOP_OFFSET
   }
 
   getLeftStaveOffset() {
-    if (this.staveInfo) {
+    if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave].sliderContext) {
       return this.staveInfo[this.visibleStave].sliderContext.left
     }
     return this.START_LEFT_OFFSET
@@ -217,13 +229,21 @@ export class AudioControlComponent {
   }
 
   saveSong($event: any) {
-    this.apiService.saveSheet({
+    const composition = {
       name: 'test',
       bpm: 100,
       complexity: 10,
       description: 'test desc',
       videoLink: 'youtube.com',
       staves: this.staveInfo
-    }).subscribe()
+    };
+
+    if (!this.id) {
+      this.apiService.saveSheet(composition).subscribe(it => this.id = it)
+    } else {
+      this.apiService.updateSheet(this.id, composition).subscribe()
+    }
+
+    console.log(this.id)
   }
 }

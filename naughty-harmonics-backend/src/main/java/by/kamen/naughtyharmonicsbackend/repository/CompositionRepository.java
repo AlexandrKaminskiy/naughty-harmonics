@@ -19,6 +19,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
 
     @Query(value = """
         SELECT
+            c.id as id,
             c.name as name,
             c.complexity as complexity,
             c.description as description,

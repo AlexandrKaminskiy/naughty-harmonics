@@ -19,7 +19,15 @@ export class ApiService {
     return this.httpClient.get<Page<CompositionDocument>>(`${BACKEND_HOST}/composition?page=${page}&name=${name}`)
   }
 
-  saveSheet(composition: Composition): Observable<Response> {
-    return this.httpClient.post<Response>(`${BACKEND_HOST}/composition`, composition)
+  saveSheet(composition: Composition): Observable<number> {
+    return this.httpClient.post<number>(`${BACKEND_HOST}/composition`, composition)
+  }
+
+  updateSheet(id: number, composition: Composition): Observable<number> {
+    return this.httpClient.put<number>(`${BACKEND_HOST}/composition/${id}`, composition)
+  }
+
+  findById(id: number) {
+    return this.httpClient.get<Composition>(`${BACKEND_HOST}/composition/${id}`)
   }
 }

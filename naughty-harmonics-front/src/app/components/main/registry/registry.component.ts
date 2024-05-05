@@ -29,7 +29,4 @@ export class RegistryComponent implements OnInit {
       .subscribe(it => this.compositions = it.content)
   }
 
-  protected readonly async = async;
-  protected readonly document = document;
-  protected readonly JSON = JSON;
 }

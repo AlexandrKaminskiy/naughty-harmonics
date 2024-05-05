@@ -1,7 +1,5 @@
 package by.kamen.naughtyharmonicsbackend.response;
 
-import by.kamen.naughtyharmonicsbackend.dto.StaveDto;
-
 import java.util.List;
 
 
@@ -12,7 +10,7 @@ public record CompositionResponse(
     String description,
     Integer bpm,
     String videoLink,
-    List<StaveDto> staves
+    List<StaveResponse> staves
 ) {
 
 }

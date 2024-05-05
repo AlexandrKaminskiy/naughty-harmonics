@@ -44,15 +44,17 @@ public class CompositionServiceImpl implements CompositionService {
     }
 
     @Override
-    public void createComposition(final CompositionRequest compositionRequest) {
+    public Long createComposition(final CompositionRequest compositionRequest) {
         final Composition composition = compositionMapper.toComposition(compositionRequest);
-        compositionRepository.save(composition);
+        final Composition saved = compositionRepository.save(composition);
+        return saved.getId();
     }
 
     @Override
-    public void updateComposition(final Long id, final CompositionRequest compositionRequest) {
+    public Long updateComposition(final Long id, final CompositionRequest compositionRequest) {
         final Composition composition = compositionMapper.toComposition(compositionRequest);
         composition.setId(id);
         compositionRepository.save(composition);
+        return id;
     }
 }

@@ -12,6 +12,6 @@ public interface CompositionService {
     Page<CompositionDocumentResponse> findAllCompositions(final String name, final Pageable pageable);
     CompositionResponse findComposition(final Long id);
     Composition findCompositionModel(final Long id);
-    void createComposition(final CompositionRequest compositionRequest);
-    void updateComposition(final Long id, final CompositionRequest compositionRequest);
+    Long createComposition(final CompositionRequest compositionRequest);
+    Long updateComposition(final Long id, final CompositionRequest compositionRequest);
 }

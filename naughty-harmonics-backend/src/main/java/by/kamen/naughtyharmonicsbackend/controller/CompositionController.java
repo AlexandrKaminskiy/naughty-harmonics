@@ -39,15 +39,15 @@ public class CompositionController {
     }
 
     @PostMapping
-    public void createComposition(@RequestBody @Valid final CompositionRequest compositionRequest) {
-        compositionService.createComposition(compositionRequest);
+    public Long createComposition(@RequestBody @Valid final CompositionRequest compositionRequest) {
+        return compositionService.createComposition(compositionRequest);
     }
 
     @PutMapping("/{id}")
-    public void updateComposition(
+    public Long updateComposition(
         @PathVariable final Long id,
         @RequestBody @Valid final CompositionRequest compositionRequest
     ) {
-        compositionService.updateComposition(id, compositionRequest);
+        return compositionService.updateComposition(id, compositionRequest);
     }
 }
