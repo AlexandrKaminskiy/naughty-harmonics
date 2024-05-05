@@ -13,6 +13,8 @@ import {FrequencyService} from "../../../util/frequencyService";
 import {SliderContext} from "../../../dto/sliderContext";
 import {ApiService} from "../../../util/apiService";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NoteDto} from "../../../dto/note";
+import {UtilService} from "../../../util/utilService";
 
 @Component({
   selector: 'app-audio-control',
@@ -43,7 +45,8 @@ export class AudioControlComponent implements OnInit {
     public frequencyService: FrequencyService,
     public apiService: ApiService,
     public activatedRoute: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    public utilService: UtilService
   ) {
   }
 
@@ -245,5 +248,39 @@ export class AudioControlComponent implements OnInit {
     }
 
     console.log(this.id)
+  }
+
+  normalizeStaves() {
+    this.staveInfo.forEach(it => it.tacts.forEach(it => it.notes = this.check(it.notes)))
+    console.log(this.staveInfo)
+  }
+
+  check(arr: NoteDto[][]): NoteDto[][] {
+    let isValid = true;
+    for (let i = 0; i < arr.length - 1; i++) {
+      if (!arr[i].some(it => it.value) &&
+        arr[i][0].duration == arr[i + 1][0].duration &&
+        arr[i][0].duration + arr[i + 1][0].duration <= 32
+      ) {
+        isValid = false;
+        break;
+      }
+    }
+    if (isValid) {
+      return arr;
+    }
+    const result: NoteDto[][] = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (i + 1 != arr.length &&
+        !arr[i].some(it => it.value) &&
+        arr[i][0].duration === arr[i + 1][0].duration &&
+        arr[i][0].duration + arr[i + 1][0].duration <= 32) {
+        result.push(this.utilService.createColumn(arr[i][0].duration * 2, ''));
+        i++;
+      } else {
+        result.push(arr[i]);
+      }
+    }
+    return this.check(result);
   }
 }

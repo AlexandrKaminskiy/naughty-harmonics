@@ -16,6 +16,7 @@ export class SideBarComponent {
 
   @Output() playMusicAction = new EventEmitter<PlayMusicAction>();
   @Output() saveEmitter = new EventEmitter();
+  @Output() normalizeEmitter = new EventEmitter();
   @Input() playing: boolean
   @Input() paused: boolean
 
@@ -37,5 +38,9 @@ export class SideBarComponent {
 
   save() {
     this.saveEmitter.emit();
+  }
+
+  normalize() {
+    this.normalizeEmitter.emit();
   }
 }

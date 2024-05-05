@@ -12,14 +12,14 @@ export class UtilService {
       .map((n, index) => index + 1);
   }
 
-  createColumn(duration: number = 1): NoteDto[] {
+  createColumn(duration: number = 1, value = ''): NoteDto[] {
     return [
-      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
-      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
-      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
-      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
-      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT},
-      {value: '', duration: duration, functionType: NoteFunctionType.DEFAULT}
+      {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT},
+      {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT}
     ]
   }
 

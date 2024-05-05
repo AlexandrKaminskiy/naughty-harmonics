@@ -4,6 +4,7 @@ import {StaveComponent} from "../stave/stave.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../../util/utilService";
 import {StaveInfo} from "../../../dto/staveInfo";
+import {NoteDto} from "../../../dto/note";
 
 @Component({
   selector: 'app-tab',
@@ -70,8 +71,10 @@ export class TabComponent implements OnInit, OnChanges {
       timeouts: []
     }
   }
+
   changeContext(i: number) {
     this.visibleStave = i
     this.visibleStaveEmitter.emit(i)
   }
+
 }

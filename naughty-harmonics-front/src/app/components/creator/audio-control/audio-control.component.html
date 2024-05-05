@@ -7,8 +7,15 @@
   [paused]="this.paused"
   (playMusicAction) = "handleMusicAction($event)"
   (saveEmitter) = "saveSong($event)"
+  (normalizeEmitter)="normalizeStaves()"
 >
 
 </app-side-bar>
-<app-tab [staves]="this.staveInfo ? this.staveInfo : []" (visibleStaveEmitter)="changeVisibleStave($event)" (stavesEmitter)="updateStaves($event)"></app-tab>
+<app-tab
+  [staves]="this.staveInfo ? this.staveInfo : []"
+  (visibleStaveEmitter)="changeVisibleStave($event)"
+  (stavesEmitter)="updateStaves($event)">
+
+</app-tab>
 <input type="text" [value]="bpm" (blur)="setBpm($event)">
+
