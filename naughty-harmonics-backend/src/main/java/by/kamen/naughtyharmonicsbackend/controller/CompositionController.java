@@ -4,6 +4,8 @@ import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
+import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
+import by.kamen.naughtyharmonicsbackend.service.impl.UniqueCompositionServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CompositionController {
 
     private final CompositionService compositionService;
+    private final UniqueCompositionService uniqueCompositionService;
 
     @GetMapping
     public Page<CompositionDocumentResponse> findAll(
@@ -49,5 +52,12 @@ public class CompositionController {
         @RequestBody @Valid final CompositionRequest compositionRequest
     ) {
         return compositionService.updateComposition(id, compositionRequest);
+    }
+
+    @PostMapping("/{id}")
+    public void checkIfUnique(
+        @PathVariable final Long id
+    ) {
+        uniqueCompositionService.checkUnique(id);
     }
 }

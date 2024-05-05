@@ -1,3 +1,5 @@
+<input type="text" [value]="compositionName" (input)="change($event)">
+<button (click)="search()">Find</button>
 <app-composition-block *ngFor="let i of compositions" [document]=i>
 
 </app-composition-block>

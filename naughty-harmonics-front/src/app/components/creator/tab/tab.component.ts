@@ -33,7 +33,6 @@ export class TabComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
     if (this.staves.length > 0) {
       this.staves.forEach(it => {
         it.sliderContext = this.createSliderContext()

@@ -20,6 +20,7 @@ import {async, Observable, Subscription} from "rxjs";
 export class RegistryComponent implements OnInit {
 
   compositions: CompositionDocument[]
+  compositionName: string = '';
 
   constructor(public apiService: ApiService) {
   }
@@ -29,4 +30,14 @@ export class RegistryComponent implements OnInit {
       .subscribe(it => this.compositions = it.content)
   }
 
+
+  change($event: any) {
+    this.compositionName = $event.target.value
+    console.log(this.compositionName)
+  }
+
+  search() {
+    this.apiService.findAll(this.compositionName)
+      .subscribe(it => this.compositions = it.content)
+  }
 }
