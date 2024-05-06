@@ -4,6 +4,7 @@ import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
+import by.kamen.naughtyharmonicsbackend.service.PdfCreatorService;
 import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
 import by.kamen.naughtyharmonicsbackend.service.impl.UniqueCompositionServiceImpl;
 import jakarta.validation.Valid;
@@ -27,6 +28,7 @@ public class CompositionController {
 
     private final CompositionService compositionService;
     private final UniqueCompositionService uniqueCompositionService;
+    private final PdfCreatorService pdfCreatorService;
 
     @GetMapping
     public Page<CompositionDocumentResponse> findAll(
