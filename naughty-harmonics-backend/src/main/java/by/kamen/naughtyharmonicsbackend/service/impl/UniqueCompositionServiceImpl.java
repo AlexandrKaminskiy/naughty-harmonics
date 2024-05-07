@@ -1,7 +1,9 @@
 package by.kamen.naughtyharmonicsbackend.service.impl;
 
+import by.kamen.naughtyharmonicsbackend.dto.CorrelationResult;
 import by.kamen.naughtyharmonicsbackend.dto.NoteDto;
 import by.kamen.naughtyharmonicsbackend.dto.TactColumnDto;
+import by.kamen.naughtyharmonicsbackend.projection.CompositionIdProjection;
 import by.kamen.naughtyharmonicsbackend.repository.CompositionRepository;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
@@ -12,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @Slf4j
@@ -20,25 +24,41 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class UniqueCompositionServiceImpl implements UniqueCompositionService {
 
+    public static final double UNIQUE_COEFFICIENT = 0.4;
     private final CompositionService compositionService;
     private final CompositionRepository compositionRepository;
 
     @Override
-    public void checkUnique(final Long id) {
-        compareCompositions(id, id);
+    public CorrelationResult checkUnique(final Long id) {
+        //function that will be static
+        final List<Double> immobile = getFunctionValues(id);
+
+        return compositionRepository.findAllIds()
+            .stream()
+            .map(CompositionIdProjection::getId)
+            .filter(it -> !Objects.equals(id, it))
+            .map(it -> compareCompositions(immobile, it))
+            .max(Comparator.comparingDouble(CorrelationResult::maxCorrelationValue))
+            .orElseGet(() -> new CorrelationResult(0, 0, true));
     }
 
-    public void compareCompositions(final Long first, final Long second) {
-        //function that will be static
-        final List<Double> immobile = getFunctionValues(first);
+    public CorrelationResult compareCompositions(final List<Double> immobile, final Long second) {
 
         //function that will drive
         final List<Double> exploring = getFunctionValues(second);
 
-        double immobileSum = immobile.stream().reduce(Double::sum).orElse(1.0);
-        double exploringSum = exploring.stream().reduce(Double::sum).orElse(1.0);
+        double immobileSum = immobile
+            .stream()
+            .map(it -> it * it)
+            .reduce(Double::sum)
+            .orElse(1.0);
+        double exploringSum = exploring
+            .stream()
+            .map(it -> it * it)
+            .reduce(Double::sum)
+            .orElse(1.0);
 
-        final List<Double> corellation = new ArrayList<>();
+        final List<Double> correlation = new ArrayList<>();
 
         for (int i = 0; i < immobile.size() + exploring.size() * 2; i++) {
             double result = 0;
@@ -48,12 +68,16 @@ public class UniqueCompositionServiceImpl implements UniqueCompositionService {
                 }
                 result += exploring.get(j) * immobile.get(j + i - exploring.size());
             }
-            corellation.add(result / Math.sqrt(immobileSum * exploringSum));
+            correlation.add(result / Math.sqrt(immobileSum * exploringSum));
         }
 
-        IntStream.range(0, corellation.size()).forEach(
-            it -> System.out.print("(" + it + "," + corellation.get(it) + "), ")
+        IntStream.range(0, correlation.size()).forEach(
+            it -> System.out.print("(" + it + "," + correlation.get(it) + "), ")
         );
+        final double maxCoefficient = correlation.stream()
+            .max(Comparator.comparingDouble(Double::doubleValue))
+            .orElse(0.0);
+        return new CorrelationResult(maxCoefficient, second, UNIQUE_COEFFICIENT > maxCoefficient);
     }
 
     private boolean inBounds(int index, int immobileSize, int exploringSize) {

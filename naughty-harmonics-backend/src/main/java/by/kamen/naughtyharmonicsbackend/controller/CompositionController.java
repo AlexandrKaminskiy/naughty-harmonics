@@ -1,5 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.controller;
 
+import by.kamen.naughtyharmonicsbackend.dto.CorrelationResult;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
@@ -57,9 +58,9 @@ public class CompositionController {
     }
 
     @PostMapping("/{id}")
-    public void checkIfUnique(
+    public CorrelationResult checkIfUnique(
         @PathVariable final Long id
     ) {
-        uniqueCompositionService.checkUnique(id);
+        return uniqueCompositionService.checkUnique(id);
     }
 }

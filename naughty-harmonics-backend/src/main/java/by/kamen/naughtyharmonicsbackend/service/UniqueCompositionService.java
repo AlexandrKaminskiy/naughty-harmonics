@@ -1,5 +1,7 @@
 package by.kamen.naughtyharmonicsbackend.service;
 
+import by.kamen.naughtyharmonicsbackend.dto.CorrelationResult;
+
 public interface UniqueCompositionService {
-    void checkUnique(final Long id);
+    CorrelationResult checkUnique(final Long id);
 }
