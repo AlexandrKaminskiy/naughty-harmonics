@@ -14,4 +14,5 @@ public interface CompositionService {
     Composition findCompositionModel(final Long id);
     Long createComposition(final CompositionRequest compositionRequest);
     Long updateComposition(final Long id, final CompositionRequest compositionRequest);
+    void updateCompositionUniqueStatus(final Long id, final boolean unique);
 }

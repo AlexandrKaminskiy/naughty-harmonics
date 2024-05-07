@@ -57,4 +57,11 @@ public class CompositionServiceImpl implements CompositionService {
         compositionRepository.save(composition);
         return id;
     }
+
+    @Override
+    public void updateCompositionUniqueStatus(final Long id, final boolean unique) {
+        final Composition composition = findCompositionModel(id);
+        composition.setUnique(unique);
+        compositionRepository.save(composition);
+    }
 }

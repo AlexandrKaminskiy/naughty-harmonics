@@ -39,10 +39,14 @@ public class UniqueCompositionServiceImpl implements UniqueCompositionService {
             .filter(it -> !Objects.equals(id, it))
             .map(it -> compareCompositions(immobile, it))
             .max(Comparator.comparingDouble(CorrelationResult::maxCorrelationValue))
+            .stream()
+            .peek(it -> compositionService.updateCompositionUniqueStatus(id, it.isUnique()))
+            .findFirst()
             .orElseGet(() -> new CorrelationResult(0, 0, true));
     }
 
-    public CorrelationResult compareCompositions(final List<Double> immobile, final Long second) {
+
+    private CorrelationResult compareCompositions(final List<Double> immobile, final Long second) {
 
         //function that will drive
         final List<Double> exploring = getFunctionValues(second);
