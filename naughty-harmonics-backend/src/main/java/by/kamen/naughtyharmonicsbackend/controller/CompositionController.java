@@ -7,7 +7,6 @@ import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import by.kamen.naughtyharmonicsbackend.service.PdfCreatorService;
 import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
-import by.kamen.naughtyharmonicsbackend.service.impl.UniqueCompositionServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

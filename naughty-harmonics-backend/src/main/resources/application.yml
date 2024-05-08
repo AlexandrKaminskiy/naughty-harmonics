@@ -8,3 +8,4 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+clientId: '417615307974-tmf5c2h8u8tndege9riuq8882pl8kd7j.apps.googleusercontent.com'
