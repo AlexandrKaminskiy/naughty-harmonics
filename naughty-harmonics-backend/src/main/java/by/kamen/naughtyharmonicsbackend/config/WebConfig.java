@@ -56,7 +56,7 @@ public class WebConfig {
     private SecurityScheme createAuthorizationTokenScheme() {
         return new SecurityScheme()
             .type(SecurityScheme.Type.APIKEY)
-            .name("IdToken")
+            .name(AUTH_HEADER_NAME)
             .in(SecurityScheme.In.HEADER);
     }
 
@@ -72,8 +72,7 @@ public class WebConfig {
                     .requestMatchers("/login").permitAll()
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/v3/**").permitAll()
-                .anyRequest().authenticated()
-//                    .anyRequest().permitAll()
+                    .anyRequest().authenticated()
             )
             .addFilterAfter(oAuthGoogleFilter, UsernamePasswordAuthenticationFilter.class)
             .userDetailsService(customUserDetailsService)

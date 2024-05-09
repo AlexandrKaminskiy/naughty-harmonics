@@ -3,8 +3,6 @@ package by.kamen.naughtyharmonicsbackend.repository;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
 import by.kamen.naughtyharmonicsbackend.projection.CompositionIdProjection;
-import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
-import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,11 +16,6 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
     @Query(value = "SELECT c.id as id FROM nh.composition c", nativeQuery = true)
     List<CompositionIdProjection> findAllIds();
 
-    Page<Composition> findByNameContains(
-        final String name,
-        final Pageable pageable
-    );
-
     @Query(value = """
         SELECT
             c.id as id,
@@ -33,7 +26,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
             c.video_link as video_link,
             c.is_unique as is_unique
         FROM nh.composition c
-        WHERE c.name LIKE concat('%', :name, '%')
+        WHERE c.name LIKE concat('%', COALESCE(:name, ''), '%')
         """,
         nativeQuery = true,
         countQuery = "SELECT count(*) FROM nh.composition")

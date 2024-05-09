@@ -1,7 +1,10 @@
 package by.kamen.naughtyharmonicsbackend.service.impl;
 
+import by.kamen.naughtyharmonicsbackend.exception.NaughtyHarmonicsException;
+import by.kamen.naughtyharmonicsbackend.mapper.ClientMapper;
 import by.kamen.naughtyharmonicsbackend.model.Client;
 import by.kamen.naughtyharmonicsbackend.repository.ClientRepository;
+import by.kamen.naughtyharmonicsbackend.response.ClientResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,9 +14,16 @@ import org.springframework.stereotype.Service;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
     public Client getProfile(Long id) {
         return clientRepository.findById(id).orElseThrow();
+    }
+
+    public ClientResponse findClient(final String email) {
+        return clientRepository.getClientByEmail(email)
+            .map(clientMapper::toClientResponse)
+            .orElseThrow(() -> new NaughtyHarmonicsException("Cannot find client with email " + email));
     }
 
     public Client getClient(GoogleIdToken.Payload payload) {

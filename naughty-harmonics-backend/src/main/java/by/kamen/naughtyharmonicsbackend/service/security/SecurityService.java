@@ -36,7 +36,7 @@ public class SecurityService {
             .build();
     }
 
-    public Optional<String> validate(TokenDto tokenDto) {
+    public Optional<String> validate(final TokenDto tokenDto) {
 
         try {
             final GoogleIdToken idToken = verifier.verify(tokenDto.idToken());
@@ -44,13 +44,13 @@ public class SecurityService {
             final Client client = clientService.getClient(payload);
             final ClientDetails clientDetails = new ClientDetails(
                 client.getId(),
-                client.getName(),
+                client.getEmail(),
                 Collections.singletonList(new SimpleGrantedAuthority(client.getAuthority().name()))
             );
             final Authentication authentication = new UsernamePasswordAuthenticationToken(
                 clientDetails,
                 clientDetails.getAuthorities(),
-                Collections.emptyList()
+                clientDetails.getAuthorities()
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
