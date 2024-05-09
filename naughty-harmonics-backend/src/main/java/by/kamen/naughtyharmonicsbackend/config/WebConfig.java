@@ -8,7 +8,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,6 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -69,11 +72,17 @@ public class WebConfig {
                     .requestMatchers("/login").permitAll()
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/v3/**").permitAll()
-//                .anyRequest().authenticated()
-                    .anyRequest().permitAll()
+                .anyRequest().authenticated()
+//                    .anyRequest().permitAll()
             )
             .addFilterAfter(oAuthGoogleFilter, UsernamePasswordAuthenticationFilter.class)
             .userDetailsService(customUserDetailsService)
+            .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
+                httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(
+                    (request, response, accessDeniedException) -> response.setStatus(HttpStatus.FORBIDDEN.value())
+                    //todo fix
+                )
+            )
             .formLogin().disable()
             .logout().disable()
             .httpBasic(withDefaults());

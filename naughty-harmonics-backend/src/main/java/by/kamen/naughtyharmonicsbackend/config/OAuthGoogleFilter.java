@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,38 +23,23 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class OAuthGoogleFilter extends OncePerRequestFilter {
 
+    public static final String TOKEN_TYPE = "Bearer ";
     private final SecurityService securityService;
-
     @Override
     public void doFilterInternal(
         final HttpServletRequest request,
         @NonNull final HttpServletResponse response,
         @NonNull FilterChain chain
     ) throws ServletException, IOException {
-        if (request.getServletPath().equals("/login")) {
+        final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (authorization == null) {
             chain.doFilter(request, response);
             return;
         }
-        if (request.getServletPath().equals("/logout")) {
-            final Cookie cookie = new Cookie("idToken", null);
-            cookie.setHttpOnly(true);
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-            response.setStatus(200);
-            return;
-        }
-        final Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            chain.doFilter(request, response);
-            return;
-        }
-        Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals("idToken"))
-                .findFirst()
-                .ifPresent(cookie -> {
-                    System.out.println(cookie.getValue());
-                    securityService.validate(new TokenDto(cookie.getValue()));
-                });
+        final String token = StringUtils.substringAfter(authorization, TOKEN_TYPE);
+
+        securityService.validate(new TokenDto(token));
         chain.doFilter(request, response);
     }
 }

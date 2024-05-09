@@ -47,6 +47,7 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.0.6'
     implementation group: 'com.google.api-client', name: 'google-api-client', version: '2.2.0'
     implementation group: 'com.google.http-client', name: 'google-http-client-gson', version: '1.43.1'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
 }
 
 tasks.named('test') {

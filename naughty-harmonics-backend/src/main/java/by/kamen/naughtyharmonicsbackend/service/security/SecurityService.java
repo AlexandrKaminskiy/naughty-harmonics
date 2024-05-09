@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -44,17 +45,18 @@ public class SecurityService {
             final ClientDetails clientDetails = new ClientDetails(
                 client.getId(),
                 client.getName(),
-                Collections.emptyList()
+                Collections.singletonList(new SimpleGrantedAuthority(client.getAuthority().name()))
             );
             final Authentication authentication = new UsernamePasswordAuthenticationToken(
                 clientDetails,
-                null,
+                clientDetails.getAuthorities(),
                 Collections.emptyList()
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return Optional.of(tokenDto.idToken());
         } catch (Exception e) {
+            e.printStackTrace();
             SecurityContextHolder.clearContext();
             return Optional.empty();
         }

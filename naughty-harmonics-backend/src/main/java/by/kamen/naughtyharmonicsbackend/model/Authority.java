@@ -1,5 +1,5 @@
 package by.kamen.naughtyharmonicsbackend.model;
 
 public enum Authority {
-    ADMIN, AUTHORIZED, UNAUTHORIZED, BANNED
+    ADMIN, ROLE_USER, UNAUTHORIZED, BANNED
 }

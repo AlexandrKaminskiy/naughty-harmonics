@@ -7,11 +7,13 @@ import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import by.kamen.naughtyharmonicsbackend.service.PdfCreatorService;
 import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +32,7 @@ public class CompositionController {
     private final UniqueCompositionService uniqueCompositionService;
     private final PdfCreatorService pdfCreatorService;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public Page<CompositionDocumentResponse> findAll(
         @RequestParam(required = false) final String name,

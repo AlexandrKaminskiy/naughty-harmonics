@@ -9,15 +9,18 @@ import {TabComponent} from "./components/creator/tab/tab.component";
 import {AudioControlComponent} from "./components/creator/audio-control/audio-control.component";
 import {RegistryComponent} from "./components/main/registry/registry.component";
 import {InitComponent} from "./components/main/init/init.component";
+import {GoogleSigninButtonModule} from "@abacritt/angularx-social-login";
+import {AuthBlockComponent} from "./components/main/auth-block/auth-block.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
 
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent, AudioControlComponent, RegistryComponent, InitComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, NoteComponent, TactComponent, StaveComponent, SideBarComponent, TabComponent, AudioControlComponent, RegistryComponent, InitComponent, GoogleSigninButtonModule, AuthBlockComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'naughty-harmonics-front';
+
 }

@@ -4,6 +4,7 @@ import {ApiService} from "../../../util/apiService";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {CompositionDocument} from "../../../dto/compositionDocument";
 import {async, Observable, Subscription} from "rxjs";
+import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-social-login";
 
 @Component({
   selector: 'app-registry',
@@ -12,7 +13,8 @@ import {async, Observable, Subscription} from "rxjs";
     CompositionBlockComponent,
     NgForOf,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    GoogleSigninButtonModule
   ],
   templateUrl: './registry.component.html',
   styleUrl: './registry.component.css'
@@ -22,7 +24,7 @@ export class RegistryComponent implements OnInit {
   compositions: CompositionDocument[]
   compositionName: string = '';
 
-  constructor(public apiService: ApiService) {
+  constructor(public apiService: ApiService, public socialAuthService: SocialAuthService) {
   }
 
   ngOnInit() {
