@@ -1,8 +1,9 @@
 <div class="wrapper">
 
   <div class="profile-block" style="padding-top: 50px">
-    <img class="profile-image" src="{{client.photoUrl}}" alt="No towers?">
-    <div class="name"> {{client.name}} </div>
+    <img class="profile-image" [src]="client.photoUrl" alt="No towers?">
+    <div class="name"> {{client.firstName}} </div>
+    <div class="name"> {{client.lastName}} </div>
     <div class="email"> {{client.email}} </div>
 
     <div class="purchased-button" routerLink="/purchased" style="background: #6262ff">Purchased tabs</div>

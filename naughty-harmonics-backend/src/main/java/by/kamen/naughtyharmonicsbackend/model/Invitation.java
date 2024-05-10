@@ -19,4 +19,5 @@ public class Invitation extends PrimaryEntity {
 
     @ManyToOne
     private Client target;
+    private boolean accepted;
 }

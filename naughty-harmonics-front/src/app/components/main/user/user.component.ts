@@ -1,11 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {ClientDto} from "../../../dto/clientDto";
 import {ClientService} from "../../../util/clientService";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [],
+  imports: [
+    NgOptimizedImage
+  ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })

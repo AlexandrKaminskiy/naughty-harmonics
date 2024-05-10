@@ -11,7 +11,7 @@ export class AuthService {
   constructor(public httpClient: HttpClient, public router : Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-      return this.httpClient.get<boolean>('http://localhost:8080/', {withCredentials: true}).pipe(
+      return this.httpClient.get<boolean>('http://localhost:8080/client/login', {withCredentials: true}).pipe(
         tap(
           (res) => {
             of(res)
