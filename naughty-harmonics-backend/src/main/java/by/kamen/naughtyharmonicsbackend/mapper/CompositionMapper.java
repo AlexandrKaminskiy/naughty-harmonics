@@ -26,6 +26,9 @@ import java.util.stream.IntStream;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring")
 public interface CompositionMapper {
 
+    @Mapping(target = "public", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "banned", ignore = true)
     @Mapping(target = "unique", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "client", ignore = true)

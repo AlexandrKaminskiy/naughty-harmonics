@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/composition")
 @RequiredArgsConstructor
@@ -38,9 +40,23 @@ public class CompositionController {
     @GetMapping
     public Page<CompositionDocumentResponse> findAll(
         @RequestParam(required = false) final String name,
+        @RequestParam(required = false) final Integer complexity,
+        @RequestParam(required = false) final Integer bpm,
         @PageableDefault final Pageable pageable
     ) {
-        return compositionService.findAllCompositions(name, pageable);
+        return compositionService.findAllCompositions(
+            name,
+            complexity,
+            bpm,
+            pageable
+        );
+    }
+
+    @GetMapping("/user-compositions")
+    public List<CompositionDocumentResponse> findAllUserComposition(
+        @RequestParam final Long userId
+    ) {
+        return compositionService.findAllUserCompositions(userId);
     }
 
     @GetMapping("/{id}")

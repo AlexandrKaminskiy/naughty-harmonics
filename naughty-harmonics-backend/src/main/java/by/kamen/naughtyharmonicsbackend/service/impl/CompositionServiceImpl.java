@@ -1,5 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.service.impl;
 
+import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.exception.NaughtyHarmonicsException;
 import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,10 +27,26 @@ public class CompositionServiceImpl implements CompositionService {
     private final CompositionMapper compositionMapper;
 
     @Override
-    public Page<CompositionDocumentResponse> findAllCompositions(final String name, final Pageable pageable) {
-        return new PageImpl<>(compositionRepository.findCompositions(name, pageable).stream()
+    public Page<CompositionDocumentResponse> findAllCompositions(
+        final String name,
+        final Integer complexity,
+        final Integer bpm,
+        final Pageable pageable
+    ) {
+        return new PageImpl<>(compositionRepository.findByFilters(
+                name, complexity, bpm, pageable.getPageSize(), pageable.getOffset()
+            )
+            .stream()
             .map(compositionMapper::toCompositionDocumentResponse)
             .toList());
+    }
+
+    @Override
+    public List<CompositionDocumentResponse> findAllUserCompositions(final Long userId) {
+        return compositionRepository.findUserCompositions(userId)
+            .stream()
+            .map(compositionMapper::toCompositionDocumentResponse)
+            .toList();
     }
 
     @Override

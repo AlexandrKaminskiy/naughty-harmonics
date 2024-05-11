@@ -29,6 +29,15 @@ public class Composition extends PrimaryEntity {
     private int bpm;
     private String videoLink;
 
+    @Column(name = "is_public")
+    private boolean isPublic;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    @Column(name = "is_banned")
+    private boolean isBanned;
+
     @Column(name = "is_unique")
     private boolean unique;
 

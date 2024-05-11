@@ -8,4 +8,5 @@ public interface CompositionDocumentProjection {
     Integer getBpm();
     String getVideoLink();
     Boolean getIsUnique();
+    Integer getRating();
 }
