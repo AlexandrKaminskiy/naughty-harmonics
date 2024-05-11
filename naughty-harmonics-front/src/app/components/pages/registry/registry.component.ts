@@ -3,10 +3,8 @@ import {CompositionBlockComponent} from "../composition-block/composition-block.
 import {ApiService} from "../../../util/apiService";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {CompositionDocument} from "../../../dto/compositionDocument";
-import {async, Observable, Subscription} from "rxjs";
 import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-social-login";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {routes} from "../../../app.routes";
 
 @Component({
   selector: 'app-registry',
@@ -54,7 +52,6 @@ export class RegistryComponent implements OnInit {
   }
 
   fillName(e: any) {
-    console.log(12312312)
     this.name = e.target.value
   }
 

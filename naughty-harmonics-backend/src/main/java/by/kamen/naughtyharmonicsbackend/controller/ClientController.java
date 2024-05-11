@@ -51,7 +51,7 @@ public class ClientController {
         return clientService.findFriendList(clientDetails);
     }
 
-    @PostMapping("/friend-list")
+    @PostMapping("/friend")
     public void inviteOrAcceptFriend(
         @AuthenticationPrincipal final ClientDetails clientDetails,
         @RequestParam final Long targetUserId

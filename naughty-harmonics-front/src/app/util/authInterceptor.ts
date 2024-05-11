@@ -13,7 +13,6 @@ import {GoogleOauthService} from "./googleOauthService";
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>, next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-    console.log("work")
     req = req.clone({
       setHeaders: {
         'Authorization': `Bearer ${localStorage.getItem('idToken')}`,

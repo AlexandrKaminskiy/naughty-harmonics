@@ -37,6 +37,11 @@ export class ApiService {
     return this.httpClient.get<Composition>(`${BACKEND_HOST}/composition/${id}`)
   }
 
+  findUserCompositions(userId: number) {
+    return this.httpClient
+      .get<Array<CompositionDocument>>(`${BACKEND_HOST}/composition/user-compositions?userId=${userId}`)
+  }
+
   findByIdBrief(id: number) {
     return this.httpClient.get<CompositionDocument>(
       `${BACKEND_HOST}/composition/brief/${id}`

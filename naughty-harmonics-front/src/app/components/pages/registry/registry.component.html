@@ -15,11 +15,11 @@
 
 <table class="compositions">
   <tr style="border-width: 0; font-size: 13px">
-    <td style="width: 200px">Author</td>
-    <td style="width: 100px">Name</td>
-    <td style="width: 500px">Description</td>
-    <td style="width: 70px">Complexity</td>
-    <td style="width: 100px">Rating</td>
+    <th style="width: 200px">Author</th>
+    <th style="width: 100px">Name</th>
+    <th style="width: 500px">Description</th>
+    <th style="width: 70px">Complexity</th>
+    <th style="width: 100px">Rating</th>
   </tr>
   <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
     <td>{{i.clientName}}</td>
@@ -28,7 +28,4 @@
     <td>{{i.description}}</td>
     <td>{{i.id}}</td>
   </tr>
-<!--  <app-composition-block *ngFor="let i of compositions" [document]=i>-->
-
-<!--  </app-composition-block>-->
 </table>

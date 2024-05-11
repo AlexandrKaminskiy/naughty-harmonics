@@ -8,6 +8,7 @@
 }
 
 .wrapper {
+  display: inline-block;
   position: relative;
 }
 .profile-image {
@@ -62,4 +63,22 @@
   color: black;
   background-color: #d7d8ff;
   transition: 1s;
+}
+
+table {
+  margin: auto;
+}
+
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+table tr:nth-child(even) {
+  background-color: #ffffff;
 }

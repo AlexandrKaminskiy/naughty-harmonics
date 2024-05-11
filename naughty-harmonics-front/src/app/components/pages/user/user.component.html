@@ -8,4 +8,46 @@
 
     <div class="purchased-button" routerLink="/purchased" style="background: #6262ff">Purchased tabs</div>
   </div>
+
+
+</div>
+<div style="display: inline-block">
+  <table>
+    <tr style="border-width: 0; font-size: 13px">
+      <th style="width: 200px">Name</th>
+      <th style="width: 100px">Photo</th>
+    </tr>
+    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of friends">
+      <td>{{i.name}}</td>
+      <td>{{i.photoUrl}}</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr style="border-width: 0; font-size: 13px">
+      <th style="width: 200px">Name</th>
+      <th style="width: 100px">Photo</th>
+    </tr>
+    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of invitations">
+      <td>{{i.name}}</td>
+      <td>{{i.photoUrl}}</td>
+    </tr>
+  </table>
+
+  <table class="compositions">
+    <tr style="border-width: 0; font-size: 13px">
+      <th style="width: 200px">Author</th>
+      <th style="width: 100px">Name</th>
+      <th style="width: 500px">Description</th>
+      <th style="width: 70px">Complexity</th>
+      <th style="width: 100px">Rating</th>
+    </tr>
+    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions">
+      <td>{{i.clientName}}</td>
+      <td>{{i.name}}</td>
+      <td>{{i.complexity}}</td>
+      <td>{{i.description}}</td>
+      <td>{{i.id}}</td>
+    </tr>
+  </table>
 </div>
