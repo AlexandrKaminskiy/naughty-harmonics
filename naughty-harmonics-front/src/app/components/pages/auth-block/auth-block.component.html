@@ -1,0 +1,5 @@
+<div *ngIf="!localStorage.getItem('idToken')" style="width: 30%;">
+  <asl-google-signin-button class="login-button" type='standard' size='large'></asl-google-signin-button>
+</div>
+
+<div *ngIf="localStorage.getItem('idToken')" class="act-button sign-out" (click)="signOut()">Sign out</div>

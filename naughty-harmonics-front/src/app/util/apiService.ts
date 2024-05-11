@@ -14,9 +14,15 @@ export class ApiService {
   constructor(public httpClient: HttpClient) {
   }
 
-  findAll(name: any, page: number = 0 ) {
-    if (!name) name = 'test'
-    return this.httpClient.get<Page<CompositionDocument>>(`${BACKEND_HOST}/composition?page=${page}&name=${name}`)
+  findAll(name?: string, bpm?: any, complexity?: any, page?: any, size?: any): Observable<Page<CompositionDocument>> {
+    if (!name) name = ''
+    if (!bpm) bpm = ''
+    if (!complexity) complexity = ''
+    if (!page) page = ''
+    if (!size) size = ''
+    return this.httpClient.get<Page<CompositionDocument>>(
+      `${BACKEND_HOST}/composition?name=${name}&complexity=${complexity}&bpm=${bpm}&page=${page}&size=${size}`
+    )
   }
 
   saveSheet(composition: Composition): Observable<number> {
@@ -29,5 +35,11 @@ export class ApiService {
 
   findById(id: number) {
     return this.httpClient.get<Composition>(`${BACKEND_HOST}/composition/${id}`)
+  }
+
+  findByIdBrief(id: number) {
+    return this.httpClient.get<CompositionDocument>(
+      `${BACKEND_HOST}/composition/brief/${id}`
+    )
   }
 }

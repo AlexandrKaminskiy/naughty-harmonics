@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  padding-left: 200px;
+  padding-right: 200px;
+  background-image: url("/assets/background.jpg");
+  font-family: 'Proxima Nova', sans-serif;
+}
+
+.nav-link {
+  display: inline-block;
+  font-size: 16px;
+  vertical-align: middle;
+  opacity: 1;
+}
+
+.input-text {
+  border: 2px solid #0061f1;
+  width: 200px;
+  height: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.nav-link:hover {
+  color: #6262ff;
+  transition: 0.4s;
+}
+
+.nav-link:active {
+  color: #00649b;
+  transition: 0.1s;
+}
+
+
+.act-button {
+  width: 130px;
+  height: 30px;
+  background: #0061f1;
+  text-align: center;
+  padding-top: 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+.act-button:hover {
+  color: black;
+  background: #93d8ff;
+  transition: 0.4s;
+}
+
+.act-button:active {
+  color: black;
+  background: #00649b;
+  transition: 0.4s;
+}
+

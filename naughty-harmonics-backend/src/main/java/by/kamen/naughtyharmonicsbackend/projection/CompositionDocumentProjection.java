@@ -9,4 +9,7 @@ public interface CompositionDocumentProjection {
     String getVideoLink();
     Boolean getIsUnique();
     Integer getRating();
+    Long getClientId();
+    String getClientName();
+    String getPhotoUrl();
 }

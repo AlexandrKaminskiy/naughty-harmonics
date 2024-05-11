@@ -1,0 +1,36 @@
+.guitar-img {
+    float: right;
+    margin-top: -200px;
+}
+
+.quote {
+    font-size: 60px;
+    color: #0061f1;
+    position: absolute;
+}
+
+.logo {
+    position: absolute;
+}
+
+.quote-with-logo {
+    width: 50%;
+    position: relative;
+    display: inline-block;
+}
+
+.start-button {
+    border-radius: 10px;
+    background: #0061f1;
+    width: max-content;
+    padding: 7px 20px;
+    font-size: 20px;
+    color: white;
+    position: absolute;
+}
+
+.start-button:hover {
+    color: #212529;
+    background-color: #00a3ff;
+    transition: 0.5s;
+}

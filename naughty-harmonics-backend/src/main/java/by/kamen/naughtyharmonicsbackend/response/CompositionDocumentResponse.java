@@ -7,7 +7,10 @@ public record CompositionDocumentResponse(
     String description,
     Integer bpm,
     String videoLink,
-    boolean unique
+    String clientId,
+    boolean unique,
+    String clientName,
+    String photoUrl
 ) {
 
 }

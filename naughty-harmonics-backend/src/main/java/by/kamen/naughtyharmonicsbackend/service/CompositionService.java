@@ -33,4 +33,6 @@ public interface CompositionService {
     Long updateComposition(final Long id, final CompositionRequest compositionRequest);
 
     void updateCompositionUniqueStatus(final Long id, final boolean unique);
+
+    CompositionDocumentResponse findBriefInfo(final Long id);
 }

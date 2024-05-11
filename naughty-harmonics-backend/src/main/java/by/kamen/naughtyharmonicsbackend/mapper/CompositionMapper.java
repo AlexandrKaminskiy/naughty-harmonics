@@ -88,6 +88,9 @@ public interface CompositionMapper {
         return new TactResponse(tactDto.size(), notes, tactDto.serialNumber());
     }
 
+    @Mapping(target = "photoUrl", source = "photoUrl")
+    @Mapping(target = "clientName", source = "clientName")
+    @Mapping(target = "clientId", source = "clientId")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "bpm", source = "bpm")

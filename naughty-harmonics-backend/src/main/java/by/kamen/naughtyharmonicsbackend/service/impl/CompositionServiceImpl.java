@@ -1,6 +1,5 @@
 package by.kamen.naughtyharmonicsbackend.service.impl;
 
-import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.exception.NaughtyHarmonicsException;
 import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
@@ -82,5 +81,12 @@ public class CompositionServiceImpl implements CompositionService {
         final Composition composition = findCompositionModel(id);
         composition.setUnique(unique);
         compositionRepository.save(composition);
+    }
+
+    @Override
+    public CompositionDocumentResponse findBriefInfo(final Long id) {
+        return compositionRepository.findBriefInfo(id)
+            .map(compositionMapper::toCompositionDocumentResponse)
+            .orElseThrow(() -> new NaughtyHarmonicsException("Cannot find composition with id " + id));
     }
 }

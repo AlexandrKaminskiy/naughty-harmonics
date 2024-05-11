@@ -1,0 +1,6 @@
+.wrapper {
+  background-image: url('/assets/background.jpg');
+}
+.wrapper:before {
+  opacity: 10%
+}

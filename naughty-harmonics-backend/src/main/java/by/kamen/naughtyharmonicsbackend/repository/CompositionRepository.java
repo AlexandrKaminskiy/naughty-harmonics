@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CompositionRepository extends JpaRepository<Composition, Long> {
@@ -19,25 +20,27 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
     List<CompositionIdProjection> findAllIds();
 
     @Query(value = """
-        SELECT
-            c.id as id,
-            c.name as name,
-            c.complexity as complexity,
-            c.description as description,
-            c.bpm as bpm,
-            c.video_link as video_link,
-            c.is_unique as is_unique,
-            (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating
+        SELECT c.id                                                             as id,
+               c.name                                                           as name,
+               c.complexity                                                     as complexity,
+               c.description                                                    as description,
+               c.bpm                                                            as bpm,
+               c.video_link                                                     as videoLink,
+               c.is_unique                                                      as isUnique,
+               (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
+               c.client_id                                                      as clientId,
+               cl.name                                                          as clientName,
+               cl.photo_url                                                     as photoUrl
         FROM nh.composition c
+                 JOIN nh.client cl ON cl.id = c.client_id
         WHERE (:name IS NULL OR c.name LIKE concat('%', COALESCE(:name, ''), '%'))
-        AND (:complexity ISNULL OR c.complexity = :complexity)
-        AND (:bpm ISNULL OR c.bpm = :bpm)
-        AND c.is_public
-        AND NOT c.is_banned
-        AND NOT c.is_deleted
+          AND (:complexity ISNULL OR c.complexity = :complexity)
+          AND (:bpm ISNULL OR c.bpm = :bpm)
+          AND c.is_public
+          AND NOT c.is_banned
+          AND NOT c.is_deleted
         ORDER BY rating DESC
-        LIMIT :limit
-        OFFSET :offset
+        LIMIT :limit OFFSET :offset
         """,
         nativeQuery = true,
         countQuery = "SELECT count(*) FROM nh.composition")
@@ -47,6 +50,28 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
         @Param("bpm") final Integer bpm,
         @Param("limit") final Integer limit,
         @Param("offset") final Long offset
+    );
+
+    @Query(value = """
+        SELECT c.id                                                             as id,
+               c.name                                                           as name,
+               c.complexity                                                     as complexity,
+               c.description                                                    as description,
+               c.bpm                                                            as bpm,
+               c.video_link                                                     as videoLink,
+               c.is_unique                                                      as isUnique,
+               (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
+               c.client_id                                                      as clientId,
+               cl.name                                                          as clientName,
+               cl.photo_url                                                     as photoUrl
+        FROM nh.composition c
+                 JOIN nh.client cl ON cl.id = c.client_id
+        WHERE :id = c.id
+        """,
+        nativeQuery = true
+    )
+    Optional<CompositionDocumentProjection> findBriefInfo(
+        @Param("id") final Long id
     );
 
     @Query(value = """

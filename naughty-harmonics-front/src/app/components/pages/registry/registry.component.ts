@@ -5,6 +5,8 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {CompositionDocument} from "../../../dto/compositionDocument";
 import {async, Observable, Subscription} from "rxjs";
 import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-social-login";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {routes} from "../../../app.routes";
 
 @Component({
   selector: 'app-registry',
@@ -14,7 +16,9 @@ import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-so
     NgForOf,
     NgIf,
     AsyncPipe,
-    GoogleSigninButtonModule
+    GoogleSigninButtonModule,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './registry.component.html',
   styleUrl: './registry.component.css'
@@ -22,24 +26,47 @@ import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-so
 export class RegistryComponent implements OnInit {
 
   compositions: CompositionDocument[]
-  compositionName: string = '';
+  name: string = '';
+  bpm: number;
+  complexity: number;
 
-  constructor(public apiService: ApiService, public socialAuthService: SocialAuthService) {
+  constructor(
+    public apiService: ApiService,
+    public socialAuthService: SocialAuthService,
+    public router: Router
+  ) {
   }
 
   ngOnInit() {
-    this.apiService.findAll('')
+    this.apiService.findAll()
       .subscribe(it => this.compositions = it.content)
   }
 
 
   change($event: any) {
-    this.compositionName = $event.target.value
-    console.log(this.compositionName)
+    this.name = $event.target.value
+    console.log(this.name)
   }
 
   search() {
-    this.apiService.findAll(this.compositionName)
+    this.apiService.findAll(this.name, this.bpm, this.complexity, 0, 10)
       .subscribe(it => this.compositions = it.content)
+  }
+
+  fillName(e: any) {
+    console.log(12312312)
+    this.name = e.target.value
+  }
+
+  fillComplexity(e: any) {
+    this.complexity = +e.target.value
+  }
+
+  fillBpm(e: any) {
+    this.complexity = +e.target.value
+  }
+
+  toNoteInfoPage(i: number) {
+    this.router.navigate(['/info'], {queryParams: {id: i}})
   }
 }

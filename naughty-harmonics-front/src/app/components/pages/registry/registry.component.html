@@ -1,0 +1,34 @@
+<div>
+  <div style="display: inline-block; width: 100px">Name</div>
+  <input (input)="fillName($event)" type="text" class="input-text">
+</div>
+<div>
+  <div style="display: inline-block; width: 100px">Bpm</div>
+  <input (input)="fillBpm($event)" type="text" class="input-text">
+</div>
+<div>
+  <div style="display: inline-block; width: 100px">Complexity</div>
+  <input (input)="fillComplexity($event)" type="text" class="input-text">
+</div>
+
+<div (click)="search()" class="act-button">Find</div>
+
+<table class="compositions">
+  <tr style="border-width: 0; font-size: 13px">
+    <td style="width: 200px">Author</td>
+    <td style="width: 100px">Name</td>
+    <td style="width: 500px">Description</td>
+    <td style="width: 70px">Complexity</td>
+    <td style="width: 100px">Rating</td>
+  </tr>
+  <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
+    <td>{{i.clientName}}</td>
+    <td>{{i.name}}</td>
+    <td>{{i.complexity}}</td>
+    <td>{{i.description}}</td>
+    <td>{{i.id}}</td>
+  </tr>
+<!--  <app-composition-block *ngFor="let i of compositions" [document]=i>-->
+
+<!--  </app-composition-block>-->
+</table>

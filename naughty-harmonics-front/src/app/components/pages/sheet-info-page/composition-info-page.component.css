@@ -1,0 +1,45 @@
+.info-block {
+    width: 90%;
+    height: 500px;
+    background: #efefef;
+    border-radius: 20px;
+    display: flex;
+    margin-left: 100px;
+}
+
+.video-block {
+    padding-left: 50px;
+    padding-top: 50px;
+    display: inline-block;
+    height: 100%;
+}
+
+#name {
+    font-size: 50px;
+}
+
+#author {
+    font-size: 40px;
+}
+
+.text-info {
+    display: inline-block;
+    height: 500px;
+    width: 100%;
+}
+
+.act-button {
+    width: 130px;
+    height: 30px;
+    background: #0061f1;
+    text-align: center;
+    padding-top: 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.act-button:hover {
+    color: black;
+    background: #93d8ff;
+    transition: 1s;
+}

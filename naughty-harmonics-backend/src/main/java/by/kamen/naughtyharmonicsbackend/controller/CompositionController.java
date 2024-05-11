@@ -36,7 +36,6 @@ public class CompositionController {
     private final UniqueCompositionService uniqueCompositionService;
     private final PdfCreatorService pdfCreatorService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public Page<CompositionDocumentResponse> findAll(
         @RequestParam(required = false) final String name,
@@ -50,6 +49,13 @@ public class CompositionController {
             bpm,
             pageable
         );
+    }
+
+    @GetMapping("/brief/{id}")
+    public CompositionDocumentResponse findBriefInfo(
+        @PathVariable final Long id
+    ) {
+        return compositionService.findBriefInfo(id);
     }
 
     @GetMapping("/user-compositions")

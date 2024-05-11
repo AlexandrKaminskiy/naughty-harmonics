@@ -1,0 +1,52 @@
+.heading {
+  height: 70px;
+  width: 100%;
+  margin-bottom: 40px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  color: #212529;
+}
+
+.app-desc {
+  text-align: center;
+}
+
+.sign-button {
+  display: inline-block;
+  font-size: 30px;
+  width: 75px;
+  height: 40px;
+  float: right;
+  background: lightblue;
+  text-align: center;
+  border: lightblue solid thick;
+  vertical-align: middle;
+}
+
+.site-name {
+  font-size: 20px;
+  vertical-align: middle;
+  color: blue;
+  margin-right: 350px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  width: 700px;
+}
+
+
+.login-button {
+  float: right;
+  color: #f3fcff;
+  font-size: 20px;
+  padding: 7px 20px;;
+  border-radius: 10px;
+}
+
+.login-button:hover {
+  color: #212529;
+  transition: 0.5s;
+}
