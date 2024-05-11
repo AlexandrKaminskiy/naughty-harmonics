@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/client")
 @RequiredArgsConstructor
@@ -28,7 +30,28 @@ public class ClientController {
         return clientService.findClient(clientDetails.getUsername());
     }
 
-    @PostMapping("/friend-invitation")
+    @GetMapping("/invitation-list")
+    public List<ClientResponse> findInvitationList(
+        @AuthenticationPrincipal ClientDetails clientDetails
+    ) {
+        return clientService.findInvitationList(clientDetails);
+    }
+
+    @GetMapping("/invitations-from-client")
+    public List<ClientResponse> findInvitationsFromClient(
+        @AuthenticationPrincipal ClientDetails clientDetails
+    ) {
+        return clientService.findInvitationsFromClient(clientDetails);
+    }
+
+    @GetMapping("/friend-list")
+    public List<ClientResponse> findFriendList(
+        @AuthenticationPrincipal ClientDetails clientDetails
+    ) {
+        return clientService.findFriendList(clientDetails);
+    }
+
+    @PostMapping("/friend-list")
     public void inviteOrAcceptFriend(
         @AuthenticationPrincipal final ClientDetails clientDetails,
         @RequestParam final Long targetUserId

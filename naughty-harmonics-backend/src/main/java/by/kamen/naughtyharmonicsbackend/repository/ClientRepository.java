@@ -14,13 +14,28 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("""
         SELECT i.target
         FROM Invitation i
-        WHERE i.source = :id AND i.accepted = :isFriend
+        WHERE i.source.id = :id AND i.accepted
         UNION
         SELECT i1.source
         FROM Invitation i1
-        WHERE i1.target = :id AND i1.accepted = :isFriend
+        WHERE i1.target.id = :id AND i1.accepted
+        """)
+    List<Client> findClientFriends(
+        @Param("id") final Long id);
+
+    @Query("""
+        SELECT i.source
+        FROM Invitation i
+        WHERE i.target.id = :id AND NOT i.accepted
         """)
     List<Client> findClientInvitations(
-        @Param("id") final Long id,
-        @Param("isFriend") final boolean isFriend);
+        @Param("id") final Long id);
+
+    @Query("""
+        SELECT i.target
+        FROM Invitation i
+        WHERE i.source.id = :id AND NOT i.accepted
+        """)
+    List<Client> findInvitationsFromClient(
+        @Param("id") final Long id);
 }

@@ -23,6 +23,8 @@ public interface ClientService {
 
     List<ClientResponse> findInvitationList(final ClientDetails clientDetails);
 
+    List<ClientResponse> findInvitationsFromClient(final ClientDetails clientDetails);
+
     void declineFriendInvitation(
         final ClientDetails clientDetails,
         final Long targetUserId

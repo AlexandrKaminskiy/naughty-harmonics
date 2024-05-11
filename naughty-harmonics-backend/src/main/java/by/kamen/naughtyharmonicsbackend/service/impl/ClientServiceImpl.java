@@ -55,7 +55,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientResponse> findFriendList(final ClientDetails clientDetails) {
-        return clientRepository.findClientInvitations(clientDetails.getId(), true)
+        return clientRepository.findClientFriends(clientDetails.getId())
             .stream()
             .map(clientMapper::toClientResponse)
             .toList();
@@ -63,7 +63,15 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientResponse> findInvitationList(final ClientDetails clientDetails) {
-        return clientRepository.findClientInvitations(clientDetails.getId(), false)
+        return clientRepository.findClientInvitations(clientDetails.getId())
+            .stream()
+            .map(clientMapper::toClientResponse)
+            .toList();
+    }
+
+    @Override
+    public List<ClientResponse> findInvitationsFromClient(ClientDetails clientDetails) {
+        return clientRepository.findInvitationsFromClient(clientDetails.getId())
             .stream()
             .map(clientMapper::toClientResponse)
             .toList();
