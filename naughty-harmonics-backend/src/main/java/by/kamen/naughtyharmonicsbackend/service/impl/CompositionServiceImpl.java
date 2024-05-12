@@ -48,7 +48,6 @@ public class CompositionServiceImpl implements CompositionService {
         final Long currentUserId,
         final Long userId
     ) {
-        //todo test
         final boolean isFriend = invitationRepository.existFriend(currentUserId, userId);
         if (!isFriend) {
             return Collections.emptyList();
