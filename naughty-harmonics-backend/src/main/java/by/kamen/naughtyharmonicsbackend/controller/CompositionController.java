@@ -1,5 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.controller;
 
+import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.dto.CorrelationResult;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
@@ -16,6 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,9 +62,10 @@ public class CompositionController {
 
     @GetMapping("/user-compositions")
     public List<CompositionDocumentResponse> findAllUserComposition(
+        @AuthenticationPrincipal ClientDetails clientDetails,
         @RequestParam final Long userId
     ) {
-        return compositionService.findAllUserCompositions(userId);
+        return compositionService.findAllUserCompositions(clientDetails.getId(), userId);
     }
 
     @GetMapping("/{id}")

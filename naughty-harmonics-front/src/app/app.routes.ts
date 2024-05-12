@@ -10,9 +10,9 @@ import {CompositionInfoPageComponent} from "./components/pages/sheet-info-page/c
 
 export const routes: Routes = [
   {path: '', component: MainPageComponent},
-  {path: 'info', component: CompositionInfoPageComponent},
+  {path: 'info', component: CompositionInfoPageComponent, canActivate: [AuthService]},
   {path: 'profile', component: UserComponent, canActivate: [AuthService]},
-  {path: 'creation', component: AudioControlComponent},
+  {path: 'creation', component: AudioControlComponent, canActivate: [AuthService]},
   {path: 'registry', component: RegistryComponent, canActivate: [NoAuthService]},
   {path: 'unauthorized', component: UnauthorizedComponent},
 ];

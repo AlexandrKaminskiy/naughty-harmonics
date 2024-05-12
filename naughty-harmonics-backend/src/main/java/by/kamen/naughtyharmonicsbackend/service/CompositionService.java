@@ -1,14 +1,11 @@
 package by.kamen.naughtyharmonicsbackend.service;
 
-import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
-import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,6 +18,7 @@ public interface CompositionService {
     );
 
     List<CompositionDocumentResponse> findAllUserCompositions(
+        final Long currentUserId,
         final Long userId
     );
 

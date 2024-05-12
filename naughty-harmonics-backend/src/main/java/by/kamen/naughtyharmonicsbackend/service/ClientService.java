@@ -9,9 +9,8 @@ import java.util.List;
 
 public interface ClientService {
     Client getProfile(final Long id);
-
     ClientResponse findClient(final String email);
-
+    ClientResponse findClient(final Long id);
     Client getClient(final GoogleIdToken.Payload payload);
 
     void inviteOrAcceptFriend(

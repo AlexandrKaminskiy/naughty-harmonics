@@ -15,6 +15,10 @@ export class ClientService {
     return this.httpClient.get<ClientDto>(`${BACKEND_HOST}/client`)
   }
 
+  getUser(id: number) {
+    return this.httpClient.get<ClientDto>(`${BACKEND_HOST}/client/${id}`)
+  }
+
   getInvitationList() {
     return this.httpClient.get<Array<ClientDto>>(`${BACKEND_HOST}/client/invitation-list`)
   }

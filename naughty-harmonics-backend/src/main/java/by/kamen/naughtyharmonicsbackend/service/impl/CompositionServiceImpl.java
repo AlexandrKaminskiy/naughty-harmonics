@@ -4,6 +4,7 @@ import by.kamen.naughtyharmonicsbackend.exception.NaughtyHarmonicsException;
 import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.repository.CompositionRepository;
+import by.kamen.naughtyharmonicsbackend.repository.InvitationRepository;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +26,7 @@ public class CompositionServiceImpl implements CompositionService {
 
     private final CompositionRepository compositionRepository;
     private final CompositionMapper compositionMapper;
+    private final InvitationRepository invitationRepository;
 
     @Override
     public Page<CompositionDocumentResponse> findAllCompositions(
@@ -41,8 +44,16 @@ public class CompositionServiceImpl implements CompositionService {
     }
 
     @Override
-    public List<CompositionDocumentResponse> findAllUserCompositions(final Long userId) {
-        return compositionRepository.findUserCompositions(userId)
+    public List<CompositionDocumentResponse> findAllUserCompositions(
+        final Long currentUserId,
+        final Long userId
+    ) {
+        //todo test
+        final boolean isFriend = invitationRepository.existFriend(currentUserId, userId);
+        if (!isFriend) {
+            return Collections.emptyList();
+        }
+        return compositionRepository.findUserCompositions(currentUserId)
             .stream()
             .map(compositionMapper::toCompositionDocumentResponse)
             .toList();

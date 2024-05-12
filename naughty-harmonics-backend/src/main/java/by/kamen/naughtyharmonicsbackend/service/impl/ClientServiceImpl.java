@@ -37,6 +37,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public ClientResponse findClient(final Long id) {
+        return clientRepository.findById(id)
+            .map(clientMapper::toClientResponse)
+            .orElseThrow(() -> new NaughtyHarmonicsException("Cannot find client with id " + id));
+    }
+
+    @Override
     public Client getClient(GoogleIdToken.Payload payload) {
         return clientRepository.getClientByEmail(payload.getEmail()).orElseGet(() -> register(payload));
     }

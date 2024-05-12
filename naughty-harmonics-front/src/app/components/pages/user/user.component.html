@@ -12,23 +12,23 @@
 
 </div>
 <div style="display: inline-block">
-  <table>
+  <table *ngIf="current">
     <tr style="border-width: 0; font-size: 13px">
       <th style="width: 200px">Name</th>
       <th style="width: 100px">Photo</th>
     </tr>
-    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of friends">
+    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of friends" (click)="toUserPage(i.id)">
       <td>{{i.name}}</td>
       <td>{{i.photoUrl}}</td>
     </tr>
   </table>
 
-  <table>
+  <table *ngIf="current">
     <tr style="border-width: 0; font-size: 13px">
       <th style="width: 200px">Name</th>
       <th style="width: 100px">Photo</th>
     </tr>
-    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of invitations">
+    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of invitations" (click)="toUserPage(i.id)">
       <td>{{i.name}}</td>
       <td>{{i.photoUrl}}</td>
     </tr>
@@ -42,7 +42,7 @@
       <th style="width: 70px">Complexity</th>
       <th style="width: 100px">Rating</th>
     </tr>
-    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions">
+    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
       <td>{{i.clientName}}</td>
       <td>{{i.name}}</td>
       <td>{{i.complexity}}</td>

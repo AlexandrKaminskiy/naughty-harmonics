@@ -21,4 +21,15 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
         @Param("sourceId") final Long sourceId,
         @Param("targetId") final Long targetId
     );
+
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1
+            FROM Invitation i
+            WHERE ((i.source.id = :sourceId AND i.target.id = :targetId)
+            OR (i.target.id = :sourceId AND i.source.id = :targetId))
+            AND i.accepted
+            )
+        """)
+    boolean existFriend(final Long sourceId, final Long targetId);
 }
