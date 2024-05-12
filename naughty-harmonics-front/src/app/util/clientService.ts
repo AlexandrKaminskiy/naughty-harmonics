@@ -23,7 +23,19 @@ export class ClientService {
     return this.httpClient.get<Array<ClientDto>>(`${BACKEND_HOST}/client/invitation-list`)
   }
 
+  getInvitationFromList() {
+    return this.httpClient.get<Array<ClientDto>>(`${BACKEND_HOST}/client/invitations-from-client`)
+  }
+
   getFriendList() {
     return this.httpClient.get<Array<ClientDto>>(`${BACKEND_HOST}/client/friend-list`)
+  }
+
+  inviteOrAcceptFriend(targerUserId: number) {
+    return this.httpClient.post(`${BACKEND_HOST}/client/friend?targetUserId=${targerUserId}`, {})
+  }
+
+  declineFriend(userId: number) {
+    return this.httpClient.delete(`${BACKEND_HOST}/client/decline-friend-invitation?userId=${userId}`)
   }
 }

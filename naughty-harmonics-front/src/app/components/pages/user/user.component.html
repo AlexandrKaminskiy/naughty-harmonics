@@ -6,7 +6,21 @@
     <div class="name"> {{client.lastName}} </div>
     <div class="email"> {{client.email}} </div>
 
-    <div class="purchased-button" routerLink="/purchased" style="background: #6262ff">Purchased tabs</div>
+    <div *ngIf="!current" [ngSwitch]="userAction">
+      <div *ngSwitchCase="UserAction.FRIENDS">
+        <div class="act-button" (click)="delete()">Delete friend</div>
+      </div>
+      <div *ngSwitchCase="UserAction.NOTHING">
+        <div class="act-button" (click)="invite()">Invite</div>
+      </div>
+      <div *ngSwitchCase="UserAction.INVITE_TO">
+        <div class="act-button" (click)="delete()">Decline</div>
+        <div class="act-button" (click)="accept()">Accept</div>
+      </div>
+      <div *ngSwitchCase="UserAction.INVITE_FROM">
+        <div class="act-button" (click)="delete()">Decline invite</div>
+      </div>
+    </div>
   </div>
 
 
@@ -14,7 +28,7 @@
 <div style="display: inline-block">
   <table *ngIf="current">
     <tr style="border-width: 0; font-size: 13px">
-      <th style="width: 200px">Name</th>
+      <th style="width: 200px">FrName</th>
       <th style="width: 100px">Photo</th>
     </tr>
     <tr style="border-width: 0; font-size: 13px" *ngFor="let i of friends" (click)="toUserPage(i.id)">
@@ -25,7 +39,7 @@
 
   <table *ngIf="current">
     <tr style="border-width: 0; font-size: 13px">
-      <th style="width: 200px">Name</th>
+      <th style="width: 200px">InName</th>
       <th style="width: 100px">Photo</th>
     </tr>
     <tr style="border-width: 0; font-size: 13px" *ngFor="let i of invitations" (click)="toUserPage(i.id)">
