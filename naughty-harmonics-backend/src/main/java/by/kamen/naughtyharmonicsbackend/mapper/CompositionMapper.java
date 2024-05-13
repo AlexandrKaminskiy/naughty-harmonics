@@ -99,5 +99,9 @@ public interface CompositionMapper {
     @Mapping(target = "complexity", source = "complexity")
     @Mapping(target = "videoLink", source = "videoLink")
     @Mapping(target = "unique", source = "isUnique")
-    CompositionDocumentResponse toCompositionDocumentResponse(final CompositionDocumentProjection compositionDocumentProjection);
+    @Mapping(target = "banned", source = "isBanned")
+    @Mapping(target = "deleted", source = "isDeleted")
+    CompositionDocumentResponse toCompositionDocumentResponse(
+        final CompositionDocumentProjection compositionDocumentProjection
+    );
 }

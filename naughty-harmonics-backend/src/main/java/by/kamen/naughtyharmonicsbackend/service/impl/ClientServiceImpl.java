@@ -12,6 +12,7 @@ import by.kamen.naughtyharmonicsbackend.response.ClientResponse;
 import by.kamen.naughtyharmonicsbackend.service.ClientService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +26,17 @@ public class ClientServiceImpl implements ClientService {
     private final InvitationRepository invitationRepository;
 
     @Override
-    public Client getProfile(Long id) {
+    public Client getProfile(final Long id) {
         return clientRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Authority getClientRole(final ClientDetails clientDetails) {
+        return clientDetails.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .map(Authority::valueOf)
+            .findFirst()
+            .orElse(Authority.UNAUTHORIZED);
     }
 
     @Override

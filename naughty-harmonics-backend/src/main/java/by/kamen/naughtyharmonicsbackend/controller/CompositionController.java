@@ -18,6 +18,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,12 +41,14 @@ public class CompositionController {
 
     @GetMapping
     public Page<CompositionDocumentResponse> findAll(
+        @AuthenticationPrincipal final ClientDetails clientDetails,
         @RequestParam(required = false) final String name,
         @RequestParam(required = false) final Integer complexity,
         @RequestParam(required = false) final Integer bpm,
         @PageableDefault final Pageable pageable
     ) {
         return compositionService.findAllCompositions(
+            clientDetails,
             name,
             complexity,
             bpm,
@@ -62,10 +65,10 @@ public class CompositionController {
 
     @GetMapping("/user-compositions")
     public List<CompositionDocumentResponse> findAllUserComposition(
-        @AuthenticationPrincipal ClientDetails clientDetails,
+        @AuthenticationPrincipal final ClientDetails clientDetails,
         @RequestParam final Long userId
     ) {
-        return compositionService.findAllUserCompositions(clientDetails.getId(), userId);
+        return compositionService.findAllUserCompositions(clientDetails, userId);
     }
 
     @GetMapping("/{id}")
@@ -84,6 +87,35 @@ public class CompositionController {
         @RequestBody @Valid final CompositionRequest compositionRequest
     ) {
         return compositionService.updateComposition(id, compositionRequest);
+    }
+
+    @PutMapping("/publish/{id}")
+    public Long publish(
+        @PathVariable final Long id,
+        @RequestBody @Valid final CompositionRequest compositionRequest
+    ) {
+        return compositionService.updateComposition(id, compositionRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(
+        @PathVariable final Long id
+    ) {
+        compositionService.delete(id);
+    }
+
+    @PutMapping("/ban/{id}")
+    public void ban(
+        @PathVariable final Long id
+    ) {
+        compositionService.ban(id);
+    }
+
+    @PutMapping("/restore/{id}")
+    public void restore(
+        @PathVariable final Long id
+    ) {
+        compositionService.restore(id);
     }
 
     @PostMapping("/{id}")

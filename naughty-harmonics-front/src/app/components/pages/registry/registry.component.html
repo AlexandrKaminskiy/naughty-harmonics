@@ -13,15 +13,15 @@
 
 <div (click)="search()" class="act-button">Find</div>
 
-<table class="compositions">
-  <tr style="border-width: 0; font-size: 13px">
+<table class="table table-sm">
+  <tr >
     <th style="width: 200px">Author</th>
     <th style="width: 100px">Name</th>
     <th style="width: 500px">Description</th>
     <th style="width: 70px">Complexity</th>
     <th style="width: 100px">Rating</th>
   </tr>
-  <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
+  <tr *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
     <td>{{i.clientName}}</td>
     <td>{{i.name}}</td>
     <td>{{i.complexity}}</td>

@@ -47,4 +47,22 @@ export class ApiService {
       `${BACKEND_HOST}/composition/brief/${id}`
     )
   }
+
+  ban(id: number) {
+    return this.httpClient.put<CompositionDocument>(
+      `${BACKEND_HOST}/composition/ban/${id}`, {}
+    )
+  }
+
+  delete(id: number) {
+    return this.httpClient.delete<CompositionDocument>(
+      `${BACKEND_HOST}/composition/${id}`
+    )
+  }
+
+  restore(id: number) {
+    return this.httpClient.put<CompositionDocument>(
+      `${BACKEND_HOST}/composition/restore/${id}`, {}
+    )
+  }
 }

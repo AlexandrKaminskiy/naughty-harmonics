@@ -19,6 +19,10 @@ export class ClientService {
     return this.httpClient.get<ClientDto>(`${BACKEND_HOST}/client/${id}`)
   }
 
+  getUserRole() {
+    return this.httpClient.get<string>(`${BACKEND_HOST}/client/role`)
+  }
+
   getInvitationList() {
     return this.httpClient.get<Array<ClientDto>>(`${BACKEND_HOST}/client/invitation-list`)
   }
@@ -37,5 +41,9 @@ export class ClientService {
 
   declineFriend(userId: number) {
     return this.httpClient.delete(`${BACKEND_HOST}/client/decline-friend-invitation?userId=${userId}`)
+  }
+
+  hasRole(userRole: string, roleToHave: string): boolean {
+    return userRole == roleToHave
   }
 }

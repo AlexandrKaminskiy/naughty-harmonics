@@ -1,13 +1,16 @@
 package by.kamen.naughtyharmonicsbackend.service.impl;
 
+import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.exception.NaughtyHarmonicsException;
 import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
+import by.kamen.naughtyharmonicsbackend.model.Authority;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.repository.CompositionRepository;
 import by.kamen.naughtyharmonicsbackend.repository.InvitationRepository;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
 import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
+import by.kamen.naughtyharmonicsbackend.service.ClientService;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,16 +30,20 @@ public class CompositionServiceImpl implements CompositionService {
     private final CompositionRepository compositionRepository;
     private final CompositionMapper compositionMapper;
     private final InvitationRepository invitationRepository;
+    private final ClientService clientService;
 
     @Override
     public Page<CompositionDocumentResponse> findAllCompositions(
+        final ClientDetails clientDetails,
         final String name,
         final Integer complexity,
         final Integer bpm,
         final Pageable pageable
     ) {
+        final Authority clientRole = clientService.getClientRole(clientDetails);
+        final boolean isAdmin = clientRole == Authority.ROLE_ADMIN;
         return new PageImpl<>(compositionRepository.findByFilters(
-                name, complexity, bpm, pageable.getPageSize(), pageable.getOffset()
+                name, complexity, bpm, isAdmin, pageable.getPageSize(), pageable.getOffset()
             )
             .stream()
             .map(compositionMapper::toCompositionDocumentResponse)
@@ -45,14 +52,16 @@ public class CompositionServiceImpl implements CompositionService {
 
     @Override
     public List<CompositionDocumentResponse> findAllUserCompositions(
-        final Long currentUserId,
+        final ClientDetails clientDetails,
         final Long userId
     ) {
-        final boolean isFriend = invitationRepository.existFriend(currentUserId, userId);
+        final Authority clientRole = clientService.getClientRole(clientDetails);
+        final boolean isAdmin = clientRole == Authority.ROLE_ADMIN;
+        final boolean isFriend = invitationRepository.existFriend(clientDetails.getId(), userId);
         if (!isFriend) {
             return Collections.emptyList();
         }
-        return compositionRepository.findUserCompositions(currentUserId)
+        return compositionRepository.findUserCompositions(clientDetails.getId(), isAdmin)
             .stream()
             .map(compositionMapper::toCompositionDocumentResponse)
             .toList();
@@ -98,5 +107,30 @@ public class CompositionServiceImpl implements CompositionService {
         return compositionRepository.findBriefInfo(id)
             .map(compositionMapper::toCompositionDocumentResponse)
             .orElseThrow(() -> new NaughtyHarmonicsException("Cannot find composition with id " + id));
+    }
+
+    @Override
+    public void ban(final Long id) {
+        compositionRepository.findById(id).ifPresent(it -> {
+            it.setBanned(true);
+            compositionRepository.save(it);
+        });
+    }
+
+    @Override
+    public void restore(final Long id) {
+        compositionRepository.findById(id).ifPresent(it -> {
+            it.setBanned(false);
+            it.setDeleted(false);
+            compositionRepository.save(it);
+        });
+    }
+
+    @Override
+    public void delete(final Long id) {
+        compositionRepository.findById(id).ifPresent(it -> {
+            it.setDeleted(true);
+            compositionRepository.save(it);
+        });
     }
 }

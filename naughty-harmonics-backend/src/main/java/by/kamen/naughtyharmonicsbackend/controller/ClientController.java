@@ -1,6 +1,7 @@
 package by.kamen.naughtyharmonicsbackend.controller;
 
 import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
+import by.kamen.naughtyharmonicsbackend.model.Authority;
 import by.kamen.naughtyharmonicsbackend.response.ClientResponse;
 import by.kamen.naughtyharmonicsbackend.service.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,13 @@ public class ClientController {
         @AuthenticationPrincipal ClientDetails clientDetails
     ) {
         return clientService.findClient(clientDetails.getUsername());
+    }
+
+    @GetMapping("/role")
+    public Authority getUserRole(
+        @AuthenticationPrincipal ClientDetails clientDetails
+    ) {
+        return clientService.getClientRole(clientDetails);
     }
 
     @GetMapping("/{id}")

@@ -9,4 +9,6 @@ export interface CompositionDocument {
   clientId: number;
   unique: boolean;
   photoUrl: string;
+  banned: boolean;
+  deleted: boolean;
 }

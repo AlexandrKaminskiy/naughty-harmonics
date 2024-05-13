@@ -10,7 +10,9 @@ public record CompositionDocumentResponse(
     String clientId,
     boolean unique,
     String clientName,
-    String photoUrl
+    String photoUrl,
+    Boolean deleted,
+    Boolean banned
 ) {
 
 }

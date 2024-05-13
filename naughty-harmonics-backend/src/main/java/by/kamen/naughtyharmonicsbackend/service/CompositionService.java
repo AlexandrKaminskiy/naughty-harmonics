@@ -1,5 +1,6 @@
 package by.kamen.naughtyharmonicsbackend.service;
 
+import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public interface CompositionService {
     Page<CompositionDocumentResponse> findAllCompositions(
+        final ClientDetails clientDetails,
         final String name,
         final Integer complexity,
         final Integer bpm,
@@ -18,7 +20,7 @@ public interface CompositionService {
     );
 
     List<CompositionDocumentResponse> findAllUserCompositions(
-        final Long currentUserId,
+        final ClientDetails clientDetails,
         final Long userId
     );
 
@@ -33,4 +35,10 @@ public interface CompositionService {
     void updateCompositionUniqueStatus(final Long id, final boolean unique);
 
     CompositionDocumentResponse findBriefInfo(final Long id);
+
+    void ban(final Long id);
+
+    void restore(final Long id);
+
+    void delete(final Long id);
 }

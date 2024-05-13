@@ -11,6 +11,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SecurityService {
@@ -57,7 +59,7 @@ public class SecurityService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return Optional.of(tokenDto.idToken());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             SecurityContextHolder.clearContext();
             return Optional.empty();
         }

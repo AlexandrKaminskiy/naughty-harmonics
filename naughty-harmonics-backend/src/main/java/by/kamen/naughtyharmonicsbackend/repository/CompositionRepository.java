@@ -30,15 +30,17 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
                c.client_id                                                      as clientId,
                cl.name                                                          as clientName,
-               cl.photo_url                                                     as photoUrl
+               cl.photo_url                                                     as photoUrl,
+               c.is_banned                                                      as isDeleted,
+               c.is_deleted                                                     as isBanned
         FROM nh.composition c
                  JOIN nh.client cl ON cl.id = c.client_id
         WHERE (:name IS NULL OR c.name LIKE concat('%', COALESCE(:name, ''), '%'))
           AND (:complexity ISNULL OR c.complexity = :complexity)
           AND (:bpm ISNULL OR c.bpm = :bpm)
           AND c.is_public
-          AND NOT c.is_banned
-          AND NOT c.is_deleted
+          AND (:isAdmin OR NOT c.is_banned)
+          AND (:isAdmin OR NOT c.is_deleted)
         ORDER BY rating DESC
         LIMIT :limit OFFSET :offset
         """,
@@ -48,6 +50,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
         @Param("name") final String name,
         @Param("complexity") final Integer complexity,
         @Param("bpm") final Integer bpm,
+        @Param("isAdmin") final Boolean isAdmin,
         @Param("limit") final Integer limit,
         @Param("offset") final Long offset
     );
@@ -63,7 +66,9 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
                c.client_id                                                      as clientId,
                cl.name                                                          as clientName,
-               cl.photo_url                                                     as photoUrl
+               cl.photo_url                                                     as photoUrl,
+               c.is_banned                                                      as isDeleted,
+               c.is_deleted                                                     as isBanned
         FROM nh.composition c
                  JOIN nh.client cl ON cl.id = c.client_id
         WHERE :id = c.id
@@ -75,24 +80,26 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
     );
 
     @Query(value = """
-        SELECT
-            c.id as id,
-            c.name as name,
-            c.complexity as complexity,
-            c.description as description,
-            c.bpm as bpm,
-            c.video_link as video_link,
-            c.is_unique as is_unique,
-            (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating
+        SELECT c.id                                                             as id,
+               c.name                                                           as name,
+               c.complexity                                                     as complexity,
+               c.description                                                    as description,
+               c.bpm                                                            as bpm,
+               c.video_link                                                     as video_link,
+               c.is_unique                                                      as is_unique,
+               (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
+               c.is_banned                                                      as isDeleted,
+               c.is_deleted                                                     as isBanned
         FROM nh.composition c
-        JOIN nh.client cl ON c.client_id = cl.id
+                 JOIN nh.client cl ON c.client_id = cl.id
         WHERE cl.id = :userId
-        AND NOT c.is_banned
-        AND NOT c.is_deleted
+          AND (:isAdmin OR NOT c.is_banned)
+          AND (:isAdmin OR NOT c.is_deleted)
         ORDER BY rating DESC
         """,
         nativeQuery = true)
     List<CompositionDocumentProjection> findUserCompositions(
-        @Param("userId") final Long userId
+        @Param("userId") final Long userId,
+        @Param("isAdmin") final Boolean isAdmin
     );
 }

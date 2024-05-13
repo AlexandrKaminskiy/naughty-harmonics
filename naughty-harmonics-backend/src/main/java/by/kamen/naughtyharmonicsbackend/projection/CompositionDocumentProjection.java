@@ -12,4 +12,6 @@ public interface CompositionDocumentProjection {
     Long getClientId();
     String getClientName();
     String getPhotoUrl();
+    Boolean getIsDeleted();
+    Boolean getIsBanned();
 }

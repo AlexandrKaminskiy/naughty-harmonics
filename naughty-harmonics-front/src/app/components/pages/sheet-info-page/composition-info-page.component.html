@@ -1,24 +1,32 @@
 <div class="info-block">
-
-
-    <div class="video-block">
-        <iframe #video width="600px"
-                style="border-radius: 15px;"
-                height="400px"
-                frameborder="0"
-                allowfullscreen
-        >
-        </iframe>
+  <div *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" class="act-button" (click)="ban()">
+    Ban
+  </div>
+  <div *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)"
+       class="act-button" (click)="restore()">
+    Restore
+  </div>
+  <div *ngIf="isCurrentUser && !compositionDocument.deleted" class="act-button" (click)="delete()">
+    Delete
+  </div>
+  <div class="video-block">
+    <iframe #video width="600px"
+            style="border-radius: 15px;"
+            height="400px"
+            frameborder="0"
+            allowfullscreen
+    >
+    </iframe>
+  </div>
+  <div class="text-info" style="padding-left: 150px; ">
+    <div id="name" style="margin-top: 50px; margin-bottom: 20px">
+      {{compositionDocument.name}}
     </div>
-    <div class="text-info" style="padding-left: 150px; ">
-        <div id="name" style="margin-top: 50px; margin-bottom: 20px">
-            {{compositionDocument.name}}
-        </div>
-        <div id="author" style="margin-bottom: 20px">
-            Author: {{compositionDocument.clientName}}
-        </div>
-        <div style="font-size: 30px; margin-bottom: 20px">
-            Complexity: {{compositionDocument.complexity}}
-        </div>
+    <div id="author" style="margin-bottom: 20px">
+      Author: {{compositionDocument.clientName}}
     </div>
+    <div style="font-size: 30px; margin-bottom: 20px">
+      Complexity: {{compositionDocument.complexity}}
+    </div>
+  </div>
 </div>
