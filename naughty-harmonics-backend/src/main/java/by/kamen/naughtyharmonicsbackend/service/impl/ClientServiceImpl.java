@@ -104,6 +104,14 @@ public class ClientServiceImpl implements ClientService {
             .ifPresent(invitationRepository::delete);
     }
 
+    @Override
+    public void grant(final Long userId) {
+        clientRepository.findById(userId).stream().findFirst().ifPresent(it -> {
+            it.setAuthority(Authority.ROLE_ADMIN);
+            clientRepository.save(it);
+        });
+    }
+
     private Client register(final GoogleIdToken.Payload payload) {
         final Client client = new Client();
         client.setName((String) payload.get("name"));

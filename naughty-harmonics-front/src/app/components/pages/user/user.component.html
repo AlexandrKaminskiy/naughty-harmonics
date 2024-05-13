@@ -25,6 +25,8 @@
 
 
 </div>
+
+
 <div style="display: inline-block">
   <table *ngIf="current">
     <tr style="border-width: 0; font-size: 13px">
@@ -64,4 +66,7 @@
       <td>{{i.id}}</td>
     </tr>
   </table>
+  <div *ngIf="currentClient.authority == 'ROLE_ADMIN' && client.authority != 'ROLE_ADMIN'" class="act-button" (click)="grant()">
+    Grant
+  </div>
 </div>

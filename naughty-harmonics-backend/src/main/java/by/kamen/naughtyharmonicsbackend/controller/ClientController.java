@@ -75,6 +75,13 @@ public class ClientController {
         clientService.inviteOrAcceptFriend(clientDetails, targetUserId);
     }
 
+    @PostMapping("/grant/{userId}")
+    public void inviteOrAcceptFriend(
+        @PathVariable final Long userId
+    ) {
+        clientService.grant(userId);
+    }
+
     @DeleteMapping("/decline-friend-invitation")
     public void declineFriendInvitation(
         @AuthenticationPrincipal ClientDetails clientDetails,

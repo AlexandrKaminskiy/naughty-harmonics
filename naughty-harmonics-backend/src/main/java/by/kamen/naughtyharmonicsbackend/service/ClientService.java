@@ -30,4 +30,6 @@ public interface ClientService {
         final ClientDetails clientDetails,
         final Long targetUserId
     );
+
+    void grant(final Long userId);
 }

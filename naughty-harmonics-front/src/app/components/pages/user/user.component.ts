@@ -30,6 +30,7 @@ export class UserComponent implements OnInit {
   public invitationsFrom: Array<ClientDto>
   public compositions: Array<CompositionDocument>
   public current: boolean
+  public canGrant: boolean;
   public userAction: UserAction
 
   constructor(
@@ -127,4 +128,8 @@ export class UserComponent implements OnInit {
   }
 
   protected readonly UserAction = UserAction;
+
+  grant() {
+    this.clientService.grantAdmin(this.client.id).subscribe(() => window.location.reload())
+  }
 }

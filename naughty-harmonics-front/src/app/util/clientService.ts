@@ -43,7 +43,13 @@ export class ClientService {
     return this.httpClient.delete(`${BACKEND_HOST}/client/decline-friend-invitation?userId=${userId}`)
   }
 
+  grantAdmin(userId: number, userRole: string = 'ROLE_ADMIN') {
+    return this.httpClient.post(`${BACKEND_HOST}/client/grant/${userId}`, {})
+  }
+
   hasRole(userRole: string, roleToHave: string): boolean {
     return userRole == roleToHave
   }
+
+
 }
