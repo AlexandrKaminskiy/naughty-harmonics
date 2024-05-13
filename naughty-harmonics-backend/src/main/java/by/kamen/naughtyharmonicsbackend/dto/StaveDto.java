@@ -5,5 +5,5 @@ import java.util.List;
 /**
  * DTO for {@link Sheet}
  */
-public record StaveDto(String number, List<TactDto> tacts) {
+public record StaveDto(String number, List<TactDto> tacts, Instrument instrument) {
 }

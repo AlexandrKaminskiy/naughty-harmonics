@@ -120,13 +120,13 @@ export class TactComponent implements OnInit {
 
   changeWarningBorder(): string {
     if (this.activeBorder) {
-      return '2px solid rgba(255, 0, 255, .4)'
+      return '4px solid rgba(112, 75, 255, .4)'
     }
 
     if (this.getCurrentSize() != this.size) {
-      return '2px solid rgba(255, 0, 0, .4)'
+      return '4px solid rgba(255, 0, 0, .4)'
     } else {
-      return '2px solid rgba(0, 0, 0, .1)'
+      return '4px solid rgba(0, 0, 0, .1)'
     }
   }
 

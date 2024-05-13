@@ -14,13 +14,10 @@
      (keydown.shift.v)="vibrato()"
      (keydown.shift.c)="default()"
 >
-  <hr style="border: 1px solid; display: inline-block; width: 100%" [ngStyle]="{'border-color': backGround}" >
-  <div style="position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; top:0;
-   text-align: center;">
-
+  <div *ngIf="hasFocus" class="focused-square"></div>
+  <hr style="border: 1px solid; display: inline-block; width: 100%" [ngStyle]="{'border-color': backGround}">
+  <div style="position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; top:0;text-align: center;">
     <app-note-action [value]="value" [function]="functionType"></app-note-action>
-
-
   </div>
 
 </div>

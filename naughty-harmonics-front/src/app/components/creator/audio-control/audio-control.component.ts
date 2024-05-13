@@ -8,7 +8,7 @@ import {MusicActionType} from "../../../dto/musicActionType";
 import {MusicPositionService} from "../../../util/musicPositionService";
 import {PlaySoundService} from "../../../util/play-sound.service";
 import {SliderMovementInfo} from "../../../dto/sliderMovementInfo";
-import {SLIDER_NORMALIZATION, VERTICAL_TACT_MARGIN} from "../../../util/constants";
+import {SLIDER_NORMALIZATION, START_LEFT_OFFSET, START_TOP_OFFSET, VERTICAL_TACT_MARGIN} from "../../../util/constants";
 import {FrequencyService} from "../../../util/frequencyService";
 import {SliderContext} from "../../../dto/sliderContext";
 import {ApiService} from "../../../util/apiService";
@@ -29,8 +29,6 @@ import {UtilService} from "../../../util/utilService";
 })
 export class AudioControlComponent implements OnInit {
 
-  readonly START_LEFT_OFFSET = 10;
-  readonly START_TOP_OFFSET = 10;
   visibleStave: number = 0
   staveInfo: StaveInfo[]
   playing: boolean = false;
@@ -65,14 +63,14 @@ export class AudioControlComponent implements OnInit {
     if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave].sliderContext) {
       return this.staveInfo[this.visibleStave].sliderContext.top
     }
-    return this.START_TOP_OFFSET
+    return START_TOP_OFFSET
   }
 
   getLeftStaveOffset() {
     if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave].sliderContext) {
       return this.staveInfo[this.visibleStave].sliderContext.left
     }
-    return this.START_LEFT_OFFSET
+    return START_LEFT_OFFSET
   }
 
   handleMusicAction($event: PlayMusicAction) {
@@ -96,8 +94,8 @@ export class AudioControlComponent implements OnInit {
     this.clearTimeouts();
     // console.log(this.staveInfo[0].tacts)
     this.staveInfo.map((it, index) => {
-      it.sliderContext.left = this.START_LEFT_OFFSET
-      it.sliderContext.top = this.START_TOP_OFFSET
+      it.sliderContext.left = START_LEFT_OFFSET
+      it.sliderContext.top = START_TOP_OFFSET
       it.sliderContext.playIntervals = this.musicPositionService.calculateTime(it.tacts, this.bpm)
       it.sliderContext.currentInterval = 0
     })
@@ -128,8 +126,8 @@ export class AudioControlComponent implements OnInit {
     this.clearTimeouts();
 
     this.staveInfo.forEach(it => {
-      it.sliderContext.left = this.START_LEFT_OFFSET;
-      it.sliderContext.top = this.START_TOP_OFFSET;
+      it.sliderContext.left = START_LEFT_OFFSET;
+      it.sliderContext.top = START_TOP_OFFSET;
       it.sliderContext.currentInterval = 0;
       it.sliderContext.playIntervals = [];
     })
@@ -173,7 +171,7 @@ export class AudioControlComponent implements OnInit {
   private handleJump(sc: SliderContext, i: number) {
 
     if (sc.playIntervals[i].jumpBelow) {
-      sc.left = this.START_LEFT_OFFSET
+      sc.left = START_LEFT_OFFSET
       sc.top += sc.playIntervals[i].jumpHeight! + VERTICAL_TACT_MARGIN
     }
   }

@@ -42,6 +42,7 @@ public interface CompositionMapper {
 
     @Named("toSheetDtoFromSheetRequest")
     @Mapping(target = "number", source = "number")
+    @Mapping(target = "instrument", source = "instrument")
     @Mapping(target = "tacts", source = "tacts", qualifiedByName = "toTactDtoFromTactRequest")
     StaveDto toSheetDtoFromSheetRequest(final StaveRequest staveRequest);
 

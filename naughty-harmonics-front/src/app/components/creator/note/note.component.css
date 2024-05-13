@@ -6,3 +6,13 @@
 .line {
   border: 1px solid #a6a3a3; display: inline-block; width: 100%;
 }
+
+.focused-square {
+  top: -2px;
+  left: 4px;
+  border: 2px solid #a6a3a3;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  position: absolute;
+}

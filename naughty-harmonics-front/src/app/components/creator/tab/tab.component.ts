@@ -4,7 +4,8 @@ import {StaveComponent} from "../stave/stave.component";
 import {NgForOf} from "@angular/common";
 import {UtilService} from "../../../util/utilService";
 import {StaveInfo} from "../../../dto/staveInfo";
-import {NoteDto} from "../../../dto/note";
+import {Instrument} from "../../../dto/instrument";
+import {START_LEFT_OFFSET, START_TOP_OFFSET} from "../../../util/constants";
 
 @Component({
   selector: 'app-tab',
@@ -19,8 +20,6 @@ import {NoteDto} from "../../../dto/note";
 })
 export class TabComponent implements OnInit, OnChanges {
 
-  readonly START_LEFT_OFFSET = 10;
-  readonly START_TOP_OFFSET = 10;
 
   readonly startStavesCount: number = 1;
   @Input() staves: StaveInfo[]
@@ -55,15 +54,15 @@ export class TabComponent implements OnInit, OnChanges {
 
   addStave() {
     this.staves.push({
-      tacts: [], sliderContext: this.createSliderContext()
+      tacts: [], sliderContext: this.createSliderContext(), instrument: Instrument.GUITAR
     })
     this.stavesEmitter.emit(this.staves)
   }
 
   createSliderContext() {
     return {
-      left: this.START_LEFT_OFFSET,
-      top: this.START_TOP_OFFSET,
+      left: START_LEFT_OFFSET,
+      top: START_TOP_OFFSET,
       playIntervals: [],
       currentInterval: 0,
       intervals: [],

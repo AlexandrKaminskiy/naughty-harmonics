@@ -1,7 +1,9 @@
 export const VERTICAL_TACT_MARGIN = 120;
 export const NOTE_LENGTH = 32;
 export const START_TACT_LENGTH = 100;
-export const TACTS_WIDTH = 1200;
-export const SLIDER_NORMALIZATION = 1;
+export const TACTS_WIDTH = 1000;
+export const SLIDER_NORMALIZATION = 6;
 export const SIX_OPEN_FREQUENCY = 82
 export const BACKEND_HOST = 'http://localhost:8080'
+export const START_LEFT_OFFSET = 0;
+export const START_TOP_OFFSET = 0;

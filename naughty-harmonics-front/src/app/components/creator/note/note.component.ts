@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NoteDto} from "../../../dto/note";
 import {NoteAction} from "../../../dto/noteAction";
-import {NgClass, NgStyle} from "@angular/common";
+import {NgClass, NgIf, NgStyle} from "@angular/common";
 import {NoteDurationService} from "../../../util/noteDurationService";
 import {NoteActionComponent} from "../note-action/note-action.component";
 import {NoteFunctionType} from "../../../dto/noteFunctionType";
@@ -13,7 +13,8 @@ import {NOTE_LENGTH} from "../../../util/constants";
   imports: [
     NgStyle,
     NoteActionComponent,
-    NgClass
+    NgClass,
+    NgIf
   ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css'
@@ -25,6 +26,7 @@ export class NoteComponent implements OnInit {
   @Input() oldValue: NoteDto
   @Input() row: number;
   @Input() column: number;
+  hasFocus: boolean;
   value: string;
   duration: number
   freshFocus: boolean = false
@@ -65,9 +67,11 @@ export class NoteComponent implements OnInit {
   setFocusable() {
     this.backGround = 'pink'
     this.freshFocus = true
+    this.hasFocus = true
   }
 
   setUnfocus() {
+    this.hasFocus = false
     this.freshFocus = false
     this.backGround = '#a6a3a3'
 
@@ -116,7 +120,6 @@ export class NoteComponent implements OnInit {
   eraseColumn() {
     this.action.emit({pos: this.column, action: NoteAction.ERASE_COLUMN})
   }
-
 
   bandUp() {
     if (!this.value) return

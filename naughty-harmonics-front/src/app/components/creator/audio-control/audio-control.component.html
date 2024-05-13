@@ -1,21 +1,22 @@
-<div [ngStyle]="{top: this.getTopStaveOffset() + 'px', left: this.getLeftStaveOffset() + 'px'}"
-     class="current-position-line">
+<div style="position: relative">
+  <div [ngStyle]="{top: this.getTopStaveOffset() + 'px', left: this.getLeftStaveOffset() + 'px'}"
+       class="current-position-line">
 
+  </div>
+  <app-side-bar
+    [playing]="this.playing"
+    [paused]="this.paused"
+    (playMusicAction)="handleMusicAction($event)"
+    (saveEmitter)="saveSong($event)"
+    (normalizeEmitter)="normalizeStaves()"
+  >
+
+  </app-side-bar>
+  <app-tab
+    [staves]="this.staveInfo ? this.staveInfo : []"
+    (visibleStaveEmitter)="changeVisibleStave($event)"
+    (stavesEmitter)="updateStaves($event)">
+
+  </app-tab>
+  <input type="text" [value]="bpm" (blur)="setBpm($event)">
 </div>
-<app-side-bar
-  [playing]="this.playing"
-  [paused]="this.paused"
-  (playMusicAction) = "handleMusicAction($event)"
-  (saveEmitter) = "saveSong($event)"
-  (normalizeEmitter)="normalizeStaves()"
->
-
-</app-side-bar>
-<app-tab
-  [staves]="this.staveInfo ? this.staveInfo : []"
-  (visibleStaveEmitter)="changeVisibleStave($event)"
-  (stavesEmitter)="updateStaves($event)">
-
-</app-tab>
-<input type="text" [value]="bpm" (blur)="setBpm($event)">
-
