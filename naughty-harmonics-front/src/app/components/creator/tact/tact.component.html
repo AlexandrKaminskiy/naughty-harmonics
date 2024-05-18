@@ -1,4 +1,4 @@
-<div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()" >
+<div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()">
 
   <div class="column-block" *ngIf="showSize">
     <div style="position: absolute">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="column-block" *ngFor="let col of notes; index as i">
+  <div class="column-block" *ngFor="let col of notes; index as i" >
     <app-note-pause [size]="utilService.toRealDuration(getDurationOfColumn(i))" class="note-pause">
     </app-note-pause>
 
@@ -26,14 +26,14 @@
       [duration]="utilService.toRealDuration(getDurationOfColumn(i))">
     </app-tact-pause>
 
-    <app-note
-      [oldValue]="notes[i][j]"
-      [column]="i" [row]="j"
-      *ngFor="let row of col; index as j"
-      (noteValue)="changeTactValue($event)"
-      (action)="handleAction($event)"
-    >
-    </app-note>
+      <app-note #note
+        [oldValue]="notes[i][j]"
+        [column]="i" [row]="j"
+        *ngFor="let row of col; index as j"
+        (noteValue)="changeTactValue($event)"
+        (action)="handleAction($event)"
+      >
+      </app-note>
 
   </div>
 

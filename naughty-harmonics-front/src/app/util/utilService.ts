@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {NoteDto} from "../dto/note";
 import {NoteFunctionType} from "../dto/noteFunctionType";
+import {START_LEFT_OFFSET, START_TOP_OFFSET} from "./constants";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,17 @@ export class UtilService {
       {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT},
       {value: value, duration: duration, functionType: NoteFunctionType.DEFAULT}
     ]
+  }
+
+  createSliderContext() {
+    return {
+      left: START_LEFT_OFFSET,
+      top: START_TOP_OFFSET,
+      playIntervals: [],
+      currentInterval: 0,
+      intervals: [],
+      timeouts: []
+    }
   }
 
   toRealDuration(duration: number) {

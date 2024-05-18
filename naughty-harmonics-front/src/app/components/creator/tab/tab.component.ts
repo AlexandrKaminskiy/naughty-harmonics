@@ -32,19 +32,18 @@ export class TabComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.staves.length > 0) {
-      this.staves.forEach(it => {
-        it.sliderContext = this.createSliderContext()
-        this.stavesEmitter.emit(this.staves)
-      })
-    }
+    // if (this.staves.length > 0) {
+    //   this.staves.forEach(it => {
+    //     it.sliderContext = this.createSliderContext()
+    //     this.stavesEmitter.emit(this.staves)
+    //   })
+    // }
   }
 
   ngOnInit() {
     if (this.staves.length == 0) {
       this.addStave()
     }
-    // this.stavesEmitter.emit(this.staves)
   }
 
   deleteStave(i: number) {
@@ -54,7 +53,7 @@ export class TabComponent implements OnInit, OnChanges {
 
   addStave() {
     this.staves.push({
-      tacts: [], sliderContext: this.createSliderContext(), instrument: Instrument.GUITAR
+      tacts: [], sliderContext: this.utilService.createSliderContext(), instrument: Instrument.GUITAR
     })
     this.stavesEmitter.emit(this.staves)
   }

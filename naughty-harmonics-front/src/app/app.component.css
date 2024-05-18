@@ -4,3 +4,23 @@
 .wrapper:before {
   opacity: 10%
 }
+
+.user-image-box {
+  background-color: black;
+  margin: auto;
+  height: 100%;
+  width: 40px;
+}
+
+.info-text {
+  width: 25%;
+  height: 100%;
+  background-color: #00649b;
+}
+
+.comp-container {
+  display: inline-block;
+  height: 40px;
+  padding: 5px;
+  background-color: gainsboro;
+}

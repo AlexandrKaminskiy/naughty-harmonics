@@ -27,7 +27,6 @@ export class AuthBlockComponent {
 
   signOut() {
     this.googleOauthService.signOut()
-    this.router.navigate([''])
   }
 
   protected readonly localStorage = localStorage;

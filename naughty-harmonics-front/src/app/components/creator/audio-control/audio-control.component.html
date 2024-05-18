@@ -18,5 +18,9 @@
     (stavesEmitter)="updateStaves($event)">
 
   </app-tab>
-  <input type="text" [value]="bpm" (blur)="setBpm($event)">
+  <input type="text" [value]="bpm" (blur)="setBpm($event)" placeholder="Bpm">
+  <input type="text" [value]="compositionName" (input)="setCompositionName($event)" placeholder="Composition name">
+  <input type="text" [value]="videoLink" (input)="setVideoLink($event)" placeholder="Video link">
+  <input type="text" [value]="compositionComplexity" (input)="setComplexity($event)" placeholder="Complexity">
+  <input type="text" [value]="compositionDescription" (input)="setDescription($event)" placeholder="Description">
 </div>

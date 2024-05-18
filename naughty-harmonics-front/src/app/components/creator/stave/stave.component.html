@@ -2,7 +2,7 @@
   <div #tact
        style="display: inline-block;"
     [ngStyle]="{marginBottom: VERTICAL_TACT_MARGIN + 'px'}"
-    *ngFor="let i of tacts; index as j; trackBy: trackByTactValue"
+    *ngFor="let i of tacts; index as j;"
       id="{{j}}"
   >
     <app-tact style="display: block"

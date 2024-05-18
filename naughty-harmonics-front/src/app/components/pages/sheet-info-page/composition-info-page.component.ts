@@ -65,4 +65,8 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
     this.apiService.restore(this.compositionDocument.id).subscribe()
     window.location.reload();
   }
+
+  editComposition() {
+    this.router.navigate(["creation"], {queryParams: {id: this.compositionDocument.id}})
+  }
 }

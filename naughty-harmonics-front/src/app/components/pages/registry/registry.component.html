@@ -13,19 +13,33 @@
 
 <div (click)="search()" class="act-button">Find</div>
 
-<table class="table table-sm">
-  <tr >
-    <th style="width: 200px">Author</th>
-    <th style="width: 100px">Name</th>
-    <th style="width: 500px">Description</th>
-    <th style="width: 70px">Complexity</th>
-    <th style="width: 100px">Rating</th>
+<table>
+  <thead>
+  <tr>
+    <th>Песня</th>
+    <th>Композитор</th>
+    <th>Сложность</th>
+    <th>Описание</th>
   </tr>
+  </thead>
+  <tbody>
   <tr *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
+    <td><img src="{{i.photoUrl}}" alt="Song 2">{{i.name}}</td>
     <td>{{i.clientName}}</td>
-    <td>{{i.name}}</td>
     <td>{{i.complexity}}</td>
     <td>{{i.description}}</td>
-    <td>{{i.id}}</td>
   </tr>
+  </tbody>
 </table>
+
+<!--<table class="table table-sm">-->
+<!--  <tr >-->
+<!--    <th style="width: 200px">Author</th>-->
+<!--    <th style="width: 100px">Name</th>-->
+<!--    <th style="width: 500px">Description</th>-->
+<!--    <th style="width: 70px">Complexity</th>-->
+<!--    <th style="width: 100px">Rating</th>-->
+<!--  </tr>-->
+
+
+<!--</table>-->

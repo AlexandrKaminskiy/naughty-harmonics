@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {CordComponent} from "../cord/cord.component";
 import {NgForOf, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {NoteComponent} from "../note/note.component";
@@ -29,7 +39,7 @@ import {TactPauseComponent} from "../tact-pause/tact-pause.component";
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
 })
-export class TactComponent implements OnInit {
+export class TactComponent implements OnInit, AfterViewInit {
 
   @Input() sizeStr: string
   @Input() staveAcknowledged: boolean
@@ -43,9 +53,19 @@ export class TactComponent implements OnInit {
   @Input() notes: NoteDto[][]
   @Input() activeBorder: boolean
 
+  @ViewChildren("note") children: QueryList<ElementRef>
+
   size: number
 
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
+  }
+
+  ngAfterViewInit() {
+    console.log(this.children)
+    this.children.changes
+      .subscribe((next: QueryList<ElementRef>) => {
+        next.forEach(it => console.log('it.nativeElement.id'))
+      });
   }
 
   ngOnInit() {
@@ -58,7 +78,8 @@ export class TactComponent implements OnInit {
 
   changeTactValue($event: any) {
     this.notes[$event.column][$event.row] = {value: $event.value, duration: $event.duration, functionType: $event.functionType}
-
+    console.log($event)
+    // console.log(document.activeElement);
     if ($event.value && $event.column == this.notes.length - 1) {
       this.addColumn(this.notes.length)
     }

@@ -35,7 +35,11 @@ export class AudioControlComponent implements OnInit {
   paused: boolean = false;
   bpm: number = 300
   id: number
-  // sliderContexts: SliderContext[] = []
+
+  compositionName: string = '';
+  videoLink: string = '';
+  compositionComplexity: string = '';
+  compositionDescription: string = '';
 
   constructor(
     public musicPositionService: MusicPositionService,
@@ -53,7 +57,10 @@ export class AudioControlComponent implements OnInit {
       this.id = params['id'];
       if (this.id) {
         this.apiService.findById(this.id).subscribe(
-          it => this.staveInfo = it.staves,
+          it => {
+            this.staveInfo = it.staves
+            this.staveInfo.forEach(it => it.sliderContext = this.utilService.createSliderContext())
+          },
           () => this.router.navigate(['not-found']))
       }
     })
@@ -231,11 +238,11 @@ export class AudioControlComponent implements OnInit {
 
   saveSong($event: any) {
     const composition = {
-      name: 'test',
-      bpm: 100,
-      complexity: 10,
-      description: 'test desc',
-      videoLink: 'youtube.com',
+      name: this.compositionName,
+      bpm: +this.bpm,
+      complexity: +this.compositionComplexity,
+      description: this.compositionDescription,
+      videoLink: this.videoLink,
       staves: this.staveInfo
     };
 
@@ -257,6 +264,7 @@ export class AudioControlComponent implements OnInit {
     let isValid = true;
     for (let i = 0; i < arr.length - 1; i++) {
       if (!arr[i].some(it => it.value) &&
+        !arr[i + 1].some(it => it.value) &&
         arr[i][0].duration == arr[i + 1][0].duration &&
         arr[i][0].duration + arr[i + 1][0].duration <= 32
       ) {
@@ -271,6 +279,7 @@ export class AudioControlComponent implements OnInit {
     for (let i = 0; i < arr.length; i++) {
       if (i + 1 != arr.length &&
         !arr[i].some(it => it.value) &&
+        !arr[i + 1].some(it => it.value) &&
         arr[i][0].duration === arr[i + 1][0].duration &&
         arr[i][0].duration + arr[i + 1][0].duration <= 32) {
         result.push(this.utilService.createColumn(arr[i][0].duration * 2, ''));
@@ -280,5 +289,21 @@ export class AudioControlComponent implements OnInit {
       }
     }
     return this.check(result);
+  }
+
+  setCompositionName($event: any) {
+    this.compositionName = $event.target.value
+  }
+
+  setVideoLink($event: any) {
+    this.videoLink = $event.target.value
+  }
+
+  setComplexity($event: any) {
+    this.compositionComplexity = $event.target.value
+  }
+
+  setDescription($event: any) {
+    this.compositionDescription = $event.target.value
   }
 }

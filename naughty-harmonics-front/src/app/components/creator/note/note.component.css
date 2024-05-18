@@ -7,10 +7,14 @@
   border: 1px solid #a6a3a3; display: inline-block; width: 100%;
 }
 
+.note:focus {
+  outline: #000000 solid 2px;
+
+}
 .focused-square {
   top: -2px;
   left: 4px;
-  border: 2px solid #a6a3a3;
+  border: 2px solid #ffd783;
   width: 20px;
   height: 20px;
   background-color: transparent;

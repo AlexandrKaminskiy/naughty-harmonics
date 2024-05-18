@@ -34,6 +34,7 @@ export class StaveComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log(this.children)
     this.children.changes
       .subscribe((next: QueryList<ElementRef>) => {
         next.forEach(it => this.handleTactChange(it.nativeElement))

@@ -65,12 +65,17 @@ export class NoteComponent implements OnInit {
   }
 
   setFocusable() {
-    this.backGround = 'pink'
+    console.log("focus")
+
+    // this.backGround = 'pink'
     this.freshFocus = true
     this.hasFocus = true
+
   }
 
   setUnfocus() {
+    console.log("unfocus")
+
     this.hasFocus = false
     this.freshFocus = false
     this.backGround = '#a6a3a3'
@@ -82,9 +87,9 @@ export class NoteComponent implements OnInit {
           duration: this.duration,
           value: this.value,
           column: this.column,
-          row: this.row
+          row: this.row,
+          component: this
         })
-      console.log("unfocus")
 
     }
   }
