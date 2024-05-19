@@ -10,6 +10,8 @@ import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
 import by.kamen.naughtyharmonicsbackend.util.NotesConverterUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,8 +26,10 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class UniqueCompositionServiceImpl implements UniqueCompositionService {
 
-    public static final double UNIQUE_COEFFICIENT = 0.4;
-    private final CompositionService compositionService;
+    public static final double UNIQUE_COEFFICIENT = 0.9;
+    @Lazy
+    @Autowired
+    private CompositionService compositionService;
     private final CompositionRepository compositionRepository;
 
     @Override

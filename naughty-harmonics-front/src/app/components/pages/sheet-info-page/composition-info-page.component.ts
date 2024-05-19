@@ -38,7 +38,7 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
       }, error => this.router.navigate(['not-found']))
       this.clientService.getCurrentUser().subscribe(it => {
         this.isAdmin = this.clientService.hasRole(it.authority, 'ROLE_ADMIN')
-        this.isCurrentUser = it.id == this.compositionDocument.id
+        this.isCurrentUser = it.id == this.compositionDocument.clientId
       })
     })
   }

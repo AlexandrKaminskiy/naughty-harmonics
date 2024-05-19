@@ -5,6 +5,7 @@ import {CompositionDocument} from "../dto/compositionDocument";
 import {Composition} from "../dto/composition";
 import {Observable} from "rxjs";
 import {Page} from "../dto/page";
+import {PublishResponse} from "../dto/publishResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,12 @@ export class ApiService {
   restore(id: number) {
     return this.httpClient.put<CompositionDocument>(
       `${BACKEND_HOST}/composition/restore/${id}`, {}
+    )
+  }
+
+  publishSheet(id: number) {
+    return this.httpClient.post<PublishResponse>(
+      `${BACKEND_HOST}/composition/publish/${id}`, {}
     )
   }
 }

@@ -3,8 +3,6 @@ package by.kamen.naughtyharmonicsbackend.repository;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
 import by.kamen.naughtyharmonicsbackend.projection.CompositionIdProjection;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -41,6 +39,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
           AND c.is_public
           AND (:isAdmin OR NOT c.is_banned)
           AND (:isAdmin OR NOT c.is_deleted)
+          AND (c.is_public)
         ORDER BY rating DESC
         LIMIT :limit OFFSET :offset
         """,

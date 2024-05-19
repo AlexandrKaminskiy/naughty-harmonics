@@ -118,10 +118,10 @@ public class CompositionController {
         compositionService.restore(id);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/publish/{id}")
     public CorrelationResult checkIfUnique(
         @PathVariable final Long id
     ) {
-        return uniqueCompositionService.checkUnique(id);
+        return compositionService.publish(id);
     }
 }

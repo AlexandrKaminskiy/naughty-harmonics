@@ -1,10 +1,12 @@
 package by.kamen.naughtyharmonicsbackend.service.impl;
 
 import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
+import by.kamen.naughtyharmonicsbackend.dto.CorrelationResult;
 import by.kamen.naughtyharmonicsbackend.exception.NaughtyHarmonicsException;
 import by.kamen.naughtyharmonicsbackend.mapper.CompositionMapper;
 import by.kamen.naughtyharmonicsbackend.model.Authority;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
+import by.kamen.naughtyharmonicsbackend.repository.CompositionChangeRepository;
 import by.kamen.naughtyharmonicsbackend.repository.CompositionRepository;
 import by.kamen.naughtyharmonicsbackend.repository.InvitationRepository;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
@@ -31,6 +33,8 @@ public class CompositionServiceImpl implements CompositionService {
     private final CompositionMapper compositionMapper;
     private final InvitationRepository invitationRepository;
     private final ClientService clientService;
+    private final CompositionChangeRepository compositionChangeRepository;
+    private final UniqueCompositionServiceImpl uniqueCompositionService;
 
     @Override
     public Page<CompositionDocumentResponse> findAllCompositions(
@@ -132,5 +136,14 @@ public class CompositionServiceImpl implements CompositionService {
             it.setDeleted(true);
             compositionRepository.save(it);
         });
+    }
+
+    @Override
+    public CorrelationResult publish(final Long id) {
+        final CorrelationResult correlationResult = uniqueCompositionService.checkUnique(id);
+        final Composition compositionModel = findCompositionModel(id);
+        compositionModel.setPublic(correlationResult.isUnique());
+        compositionRepository.save(compositionModel);
+        return correlationResult;
     }
 }

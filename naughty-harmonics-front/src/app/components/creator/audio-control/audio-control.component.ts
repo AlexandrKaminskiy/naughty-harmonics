@@ -306,4 +306,9 @@ export class AudioControlComponent implements OnInit {
   setDescription($event: any) {
     this.compositionDescription = $event.target.value
   }
+
+  publishComposition() {
+    this.apiService.publishSheet(this.id).subscribe(it =>
+      alert(`unique ${it.isUnique} percent ${it.maxCorrelationValue * 100}%`))
+  }
 }

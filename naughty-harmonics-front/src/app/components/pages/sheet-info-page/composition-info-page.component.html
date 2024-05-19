@@ -29,7 +29,7 @@
       Complexity: {{compositionDocument.complexity}}
     </div>
   </div>
-  <div class="act-button" (click)="editComposition()">
+  <div *ngIf="isCurrentUser" class="act-button" (click)="editComposition()">
     Edit
   </div>
 </div>

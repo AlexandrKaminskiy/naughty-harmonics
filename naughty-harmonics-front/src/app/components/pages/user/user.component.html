@@ -28,44 +28,51 @@
 
 
 <div style="display: inline-block">
+
   <table *ngIf="current">
-    <tr style="border-width: 0; font-size: 13px">
-      <th style="width: 200px">FrName</th>
-      <th style="width: 100px">Photo</th>
+    <thead>
+    <tr>
+      <th>Name</th>
     </tr>
-    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of friends" (click)="toUserPage(i.id)">
-      <td>{{i.name}}</td>
-      <td>{{i.photoUrl}}</td>
+    </thead>
+    <tbody>
+    <tr *ngFor="let i of invitations" (click)="toUserPage(i.id)">
+      <td><img src="{{i.photoUrl}}" alt="Song 2">{{i.name}}</td>
     </tr>
+    </tbody>
   </table>
 
   <table *ngIf="current">
-    <tr style="border-width: 0; font-size: 13px">
-      <th style="width: 200px">InName</th>
-      <th style="width: 100px">Photo</th>
+    <thead>
+    <tr>
+      <th>Name</th>
     </tr>
-    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of invitations" (click)="toUserPage(i.id)">
-      <td>{{i.name}}</td>
-      <td>{{i.photoUrl}}</td>
+    </thead>
+    <tbody>
+    <tr *ngFor="let i of friends" (click)="toUserPage(i.id)">
+      <td><img src="{{i.photoUrl}}" alt="Song 2">{{i.name}}</td>
     </tr>
+    </tbody>
   </table>
 
-  <table class="compositions">
-    <tr style="border-width: 0; font-size: 13px">
-      <th style="width: 200px">Author</th>
-      <th style="width: 100px">Name</th>
-      <th style="width: 500px">Description</th>
-      <th style="width: 70px">Complexity</th>
-      <th style="width: 100px">Rating</th>
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Complexity</th>
+<!--      <th>Rating</th>-->
     </tr>
+    </thead>
+    <tbody>
     <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
-      <td>{{i.clientName}}</td>
       <td>{{i.name}}</td>
-      <td>{{i.complexity}}</td>
       <td>{{i.description}}</td>
-      <td>{{i.id}}</td>
+      <td>{{i.complexity}}</td>
     </tr>
+    </tbody>
   </table>
+
   <div *ngIf="currentClient.authority == 'ROLE_ADMIN' && client.authority != 'ROLE_ADMIN'" class="act-button" (click)="grant()">
     Grant
   </div>

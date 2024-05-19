@@ -1,6 +1,7 @@
 package by.kamen.naughtyharmonicsbackend.service;
 
 import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
+import by.kamen.naughtyharmonicsbackend.dto.CorrelationResult;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
 import by.kamen.naughtyharmonicsbackend.response.CompositionDocumentResponse;
@@ -41,4 +42,6 @@ public interface CompositionService {
     void restore(final Long id);
 
     void delete(final Long id);
+
+    CorrelationResult publish(final Long id);
 }
