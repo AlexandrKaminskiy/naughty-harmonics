@@ -3,10 +3,57 @@
 }
 
 .tactButton {
-  display: inline-block;
   width: 50px;
   text-align: center;
-  background-color: aqua;
-  height: 100%;
+  background-color: transparent;
+  border-color: #00649b;
+  border-width: 5px;
+  height: 50px;
+  border-radius: 10px;
+
   align-content: center;
+  border-style: solid;
+}
+
+
+.tactButton:hover {
+  background-color: #93d8ff;
+  transition: 1s;
+}
+
+.tactButton.plus:hover {
+  background-color: #a793ff;
+  transition: 1s;
+}
+
+.remove {
+  position: absolute;
+  left: 40px;
+  top: 5px;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+
+  border-radius: 3px;
+  transition: 0.5s;
+}
+
+.remove:hover {
+  background-color: #ff0068;
+  transition: 0.5s;
+}
+
+.staves-set {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: space-around;*/
+  position: fixed;
+  /*width: 150px;*/
+  /*height: 500px;*/
+  left: 1150px;
+  top: 320px;
+  /*border-width: 1em;*/
+  /*border-style: solid;*/
+  /*border-color: #00649b;*/
+  /*background: #efefef;*/
 }

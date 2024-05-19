@@ -1,11 +1,71 @@
-<div class="wrapper">
-  <div class="note-container">
-    <button (click)="play()">Play</button>
-    <button [disabled]="!paused" (click)="continue()">Continue</button>
-    <button [disabled]="!playing || paused" (click)="suspend()">Suspend</button>
-    <button [disabled]="!playing" (click)="stop()">Stop</button>
-    <button (click)="save()">Save</button>
-    <button (click)="normalize()">Normalize</button>
-    <button (click)="publish()">Publish</button>
-  </div>
+<div class="input-bar">
+    <button
+      (click)="save()"
+      class="control-button"
+      style="background: #969696; color: #f3fcff"
+    >
+      Save
+    </button>
+
+    <button
+      (click)="normalize()"
+      class="control-button"
+      style="background: #969696; color: #f3fcff"
+    >
+      Normalize
+    </button>
+
+    <button
+      (click)="publish()"
+      class="control-button"
+      style="background: #969696; color: #f3fcff"
+    >
+      Publish
+    </button>
+
+</div>
+
+<div class="toolbar">
+
+  <button
+    [disabled]="!playing"
+    (click)="stop()"
+    class="control-button"
+    style="background: #6262ff; background-size: 50px; color: #f3fcff"
+  >
+    Stop
+  </button>
+
+  <button
+    class="control-button"
+    style="background: #00bb00; color: #f3fcff"
+    (click)="play()"
+  >
+    Play
+  </button>
+
+  <button
+    [disabled]="!playing || paused"
+    (click)="suspend()"
+    class="control-button"
+    style="background: #969696; color: #f3fcff"
+  >
+    Pause
+  </button>
+
+  <button
+    [disabled]="!paused" (click)="continue()"
+    class="control-button"
+    style="background: #6fff3e; color: #000000"
+  >
+    Continue
+  </button>
+
+  <button
+    class="control-button"
+    style="background: #ff4141; color: #ffffff"
+    (click)="stop()"
+  >
+    Stop
+  </button>
 </div>

@@ -8,7 +8,7 @@ public record CompositionDocumentResponse(
     Integer bpm,
     String videoLink,
     String clientId,
-    boolean unique,
+    boolean isPublic,
     String clientName,
     String photoUrl,
     Boolean deleted,

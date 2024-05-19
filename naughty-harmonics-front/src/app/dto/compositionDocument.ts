@@ -7,7 +7,7 @@ export interface CompositionDocument {
   videoLink: string;
   clientName: string;
   clientId: number;
-  unique: boolean;
+  isPublic: boolean;
   photoUrl: string;
   banned: boolean;
   deleted: boolean;

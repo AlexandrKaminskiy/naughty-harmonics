@@ -38,9 +38,6 @@ public class Composition extends PrimaryEntity {
     @Column(name = "is_banned")
     private boolean isBanned;
 
-    @Column(name = "is_unique")
-    private boolean unique;
-
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private List<StaveDto> staves;

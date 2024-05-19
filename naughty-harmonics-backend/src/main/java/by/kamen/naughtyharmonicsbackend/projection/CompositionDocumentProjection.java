@@ -7,7 +7,7 @@ public interface CompositionDocumentProjection {
     String getDescription();
     Integer getBpm();
     String getVideoLink();
-    Boolean getIsUnique();
+    Boolean getIsPublic();
     Integer getRating();
     Long getClientId();
     String getClientName();

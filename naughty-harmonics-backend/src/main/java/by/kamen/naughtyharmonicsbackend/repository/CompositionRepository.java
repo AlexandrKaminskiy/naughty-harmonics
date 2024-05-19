@@ -17,6 +17,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
     @Query(value = "SELECT c.id as id FROM nh.composition c", nativeQuery = true)
     List<CompositionIdProjection> findAllIds();
 
+    Optional<Composition> findByIdAndIsDeletedFalseAndIsBannedFalse(final Long id);
     @Query(value = """
         SELECT c.id                                                             as id,
                c.name                                                           as name,
@@ -24,7 +25,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                c.description                                                    as description,
                c.bpm                                                            as bpm,
                c.video_link                                                     as videoLink,
-               c.is_unique                                                      as isUnique,
+               c.is_public                                                      as isPublic,
                (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
                c.client_id                                                      as clientId,
                cl.name                                                          as clientName,
@@ -61,7 +62,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                c.description                                                    as description,
                c.bpm                                                            as bpm,
                c.video_link                                                     as videoLink,
-               c.is_unique                                                      as isUnique,
+               c.is_public                                                      as isPublic,
                (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
                c.client_id                                                      as clientId,
                cl.name                                                          as clientName,
@@ -71,11 +72,14 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
         FROM nh.composition c
                  JOIN nh.client cl ON cl.id = c.client_id
         WHERE :id = c.id
+            AND (:isAdmin OR NOT c.is_banned)
+            AND (:isAdmin OR NOT c.is_deleted)
         """,
         nativeQuery = true
     )
     Optional<CompositionDocumentProjection> findBriefInfo(
-        @Param("id") final Long id
+        @Param("id") final Long id,
+        @Param("isAdmin") final Boolean isAdmin
     );
 
     @Query(value = """
@@ -85,7 +89,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                c.description                                                    as description,
                c.bpm                                                            as bpm,
                c.video_link                                                     as video_link,
-               c.is_unique                                                      as is_unique,
+               c.is_public                                                      as isPublic,
                (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
                c.is_banned                                                      as isDeleted,
                c.is_deleted                                                     as isBanned

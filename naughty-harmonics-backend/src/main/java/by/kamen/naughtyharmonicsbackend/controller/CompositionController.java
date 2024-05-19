@@ -58,9 +58,10 @@ public class CompositionController {
 
     @GetMapping("/brief/{id}")
     public CompositionDocumentResponse findBriefInfo(
-        @PathVariable final Long id
+        @PathVariable final Long id,
+        @AuthenticationPrincipal ClientDetails clientDetails
     ) {
-        return compositionService.findBriefInfo(id);
+        return compositionService.findBriefInfo(id, clientDetails);
     }
 
     @GetMapping("/user-compositions")
@@ -72,31 +73,30 @@ public class CompositionController {
     }
 
     @GetMapping("/{id}")
-    public CompositionResponse findById(@PathVariable final Long id) {
-        return compositionService.findComposition(id);
+    public CompositionResponse findById(
+        @PathVariable final Long id,
+        @AuthenticationPrincipal ClientDetails clientDetails
+    ) {
+        return compositionService.findComposition(id, clientDetails);
     }
 
     @PostMapping
-    public Long createComposition(@RequestBody @Valid final CompositionRequest compositionRequest) {
-        return compositionService.createComposition(compositionRequest);
+    public Long createComposition(
+        @RequestBody @Valid final CompositionRequest compositionRequest,
+        @AuthenticationPrincipal final ClientDetails clientDetails
+    ) {
+        return compositionService.createComposition(compositionRequest, clientDetails);
     }
 
     @PutMapping("/{id}")
     public Long updateComposition(
         @PathVariable final Long id,
-        @RequestBody @Valid final CompositionRequest compositionRequest
+        @RequestBody @Valid final CompositionRequest compositionRequest,
+        @AuthenticationPrincipal final ClientDetails clientDetails
     ) {
-        return compositionService.updateComposition(id, compositionRequest);
+        return compositionService.updateComposition(id, compositionRequest, clientDetails);
     }
-
-    @PutMapping("/publish/{id}")
-    public Long publish(
-        @PathVariable final Long id,
-        @RequestBody @Valid final CompositionRequest compositionRequest
-    ) {
-        return compositionService.updateComposition(id, compositionRequest);
-    }
-
+    
     @DeleteMapping("/{id}")
     public void delete(
         @PathVariable final Long id

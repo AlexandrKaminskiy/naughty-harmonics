@@ -1,9 +1,11 @@
 package by.kamen.naughtyharmonicsbackend.mapper;
 
+import by.kamen.naughtyharmonicsbackend.config.ClientDetails;
 import by.kamen.naughtyharmonicsbackend.dto.NoteDto;
 import by.kamen.naughtyharmonicsbackend.dto.StaveDto;
 import by.kamen.naughtyharmonicsbackend.dto.TactColumnDto;
 import by.kamen.naughtyharmonicsbackend.dto.TactDto;
+import by.kamen.naughtyharmonicsbackend.model.Client;
 import by.kamen.naughtyharmonicsbackend.model.Composition;
 import by.kamen.naughtyharmonicsbackend.projection.CompositionDocumentProjection;
 import by.kamen.naughtyharmonicsbackend.request.CompositionRequest;
@@ -29,16 +31,15 @@ public interface CompositionMapper {
     @Mapping(target = "public", ignore = true)
     @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "banned", ignore = true)
-    @Mapping(target = "unique", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "client", ignore = true)
-    @Mapping(target = "description", source = "description")
-    @Mapping(target = "bpm", source = "bpm")
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "complexity", source = "complexity")
-    @Mapping(target = "videoLink", source = "videoLink")
-    @Mapping(target = "staves", source = "staves", qualifiedByName = "toSheetDtoFromSheetRequest")
-    Composition toComposition(final CompositionRequest compositionRequest);
+    @Mapping(target = "client", source = "client")
+    @Mapping(target = "description", source = "compositionRequest.description")
+    @Mapping(target = "bpm", source = "compositionRequest.bpm")
+    @Mapping(target = "name", source = "compositionRequest.name")
+    @Mapping(target = "complexity", source = "compositionRequest.complexity")
+    @Mapping(target = "videoLink", source = "compositionRequest.videoLink")
+    @Mapping(target = "staves", source = "compositionRequest.staves", qualifiedByName = "toSheetDtoFromSheetRequest")
+    Composition toComposition(final CompositionRequest compositionRequest, Client client);
 
     @Named("toSheetDtoFromSheetRequest")
     @Mapping(target = "number", source = "number")
@@ -98,7 +99,7 @@ public interface CompositionMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "complexity", source = "complexity")
     @Mapping(target = "videoLink", source = "videoLink")
-    @Mapping(target = "unique", source = "isUnique")
+    @Mapping(target = "isPublic", source = "isPublic")
     @Mapping(target = "banned", source = "isBanned")
     @Mapping(target = "deleted", source = "isDeleted")
     CompositionDocumentResponse toCompositionDocumentResponse(

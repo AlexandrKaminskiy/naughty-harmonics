@@ -15,6 +15,8 @@ import {ApiService} from "../../../util/apiService";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NoteDto} from "../../../dto/note";
 import {UtilService} from "../../../util/utilService";
+import {ClientDto} from "../../../dto/clientDto";
+import {ClientService} from "../../../util/clientService";
 
 @Component({
   selector: 'app-audio-control',
@@ -35,10 +37,10 @@ export class AudioControlComponent implements OnInit {
   paused: boolean = false;
   bpm: number = 300
   id: number
-
+  client: ClientDto
   compositionName: string = '';
   videoLink: string = '';
-  compositionComplexity: string = '';
+  compositionComplexity: number = 5;
   compositionDescription: string = '';
 
   constructor(
@@ -48,6 +50,7 @@ export class AudioControlComponent implements OnInit {
     public apiService: ApiService,
     public activatedRoute: ActivatedRoute,
     public router: Router,
+    public clientService: ClientService,
     public utilService: UtilService
   ) {
   }
@@ -58,12 +61,17 @@ export class AudioControlComponent implements OnInit {
       if (this.id) {
         this.apiService.findById(this.id).subscribe(
           it => {
+            this.compositionName = it.name
+            this.compositionComplexity = it.complexity
+            this.compositionDescription = it.description
             this.staveInfo = it.staves
+            this.videoLink = it.videoLink
             this.staveInfo.forEach(it => it.sliderContext = this.utilService.createSliderContext())
           },
           () => this.router.navigate(['not-found']))
       }
     })
+    this.clientService.getCurrentUser().subscribe(it => this.client = it)
   }
 
   getTopStaveOffset() {
@@ -243,7 +251,8 @@ export class AudioControlComponent implements OnInit {
       complexity: +this.compositionComplexity,
       description: this.compositionDescription,
       videoLink: this.videoLink,
-      staves: this.staveInfo
+      staves: this.staveInfo,
+
     };
 
     if (!this.id) {

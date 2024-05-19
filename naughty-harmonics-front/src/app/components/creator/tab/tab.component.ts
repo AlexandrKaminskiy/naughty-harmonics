@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {StaveComponent} from "../stave/stave.component";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgStyle} from "@angular/common";
 import {UtilService} from "../../../util/utilService";
 import {StaveInfo} from "../../../dto/staveInfo";
 import {Instrument} from "../../../dto/instrument";
@@ -13,7 +13,8 @@ import {START_LEFT_OFFSET, START_TOP_OFFSET} from "../../../util/constants";
   imports: [
     SideBarComponent,
     StaveComponent,
-    NgForOf
+    NgForOf,
+    NgStyle
   ],
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.css'
@@ -46,9 +47,10 @@ export class TabComponent implements OnInit, OnChanges {
     }
   }
 
-  deleteStave(i: number) {
+  deleteStave($event: any, i: number) {
     this.staves.splice(i, 1)
     this.stavesEmitter.emit(this.staves)
+    $event.stopPropagation();
   }
 
   addStave() {

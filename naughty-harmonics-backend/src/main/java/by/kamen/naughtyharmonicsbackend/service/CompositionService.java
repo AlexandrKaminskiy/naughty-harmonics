@@ -25,17 +25,24 @@ public interface CompositionService {
         final Long userId
     );
 
-    CompositionResponse findComposition(final Long id);
+    CompositionResponse findComposition(final Long id, final ClientDetails clientDetails);
 
     Composition findCompositionModel(final Long id);
 
-    Long createComposition(final CompositionRequest compositionRequest);
+    Long createComposition(
+        final CompositionRequest compositionRequest,
+        final ClientDetails clientDetails
+    );
 
-    Long updateComposition(final Long id, final CompositionRequest compositionRequest);
+    Long updateComposition(
+        final Long id,
+        final CompositionRequest compositionRequest,
+        final ClientDetails clientDetails
+    );
 
     void updateCompositionUniqueStatus(final Long id, final boolean unique);
 
-    CompositionDocumentResponse findBriefInfo(final Long id);
+    CompositionDocumentResponse findBriefInfo(final Long id, final ClientDetails clientDetails);
 
     void ban(final Long id);
 

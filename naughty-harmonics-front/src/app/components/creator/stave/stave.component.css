@@ -1,0 +1,21 @@
+.input-info-bar {
+  font-size: 20px;
+  font-family: cursive;
+  position: absolute;
+  width: 400px;
+  height: 250px;
+  left: 1050px;
+  top: 250px;
+  border-radius:10px;
+  background: #efefef;
+}
+
+.input-name {
+  border-width: 0;
+  font-family: cursive;
+  border-radius: 0;
+  background-color: transparent;
+  outline: none;
+  margin: auto;
+  text-align: center;
+}

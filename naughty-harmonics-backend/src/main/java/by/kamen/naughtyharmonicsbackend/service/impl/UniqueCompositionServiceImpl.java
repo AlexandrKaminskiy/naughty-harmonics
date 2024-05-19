@@ -44,7 +44,6 @@ public class UniqueCompositionServiceImpl implements UniqueCompositionService {
             .map(it -> compareCompositions(immobile, it))
             .max(Comparator.comparingDouble(CorrelationResult::maxCorrelationValue))
             .stream()
-            .peek(it -> compositionService.updateCompositionUniqueStatus(id, it.isUnique()))
             .findFirst()
             .orElseGet(() -> new CorrelationResult(0, 0, true));
     }

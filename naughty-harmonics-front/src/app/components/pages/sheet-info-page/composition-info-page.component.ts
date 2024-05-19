@@ -4,6 +4,7 @@ import {ApiService} from "../../../util/apiService";
 import {CompositionDocument} from "../../../dto/compositionDocument";
 import {NgIf, NgSwitch} from "@angular/common";
 import {ClientService} from "../../../util/clientService";
+import {routes} from "../../../app.routes";
 
 @Component({
   selector: 'app-sheet-info-page',
@@ -58,7 +59,7 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
 
   delete() {
     this.apiService.delete(this.compositionDocument.id).subscribe()
-    window.location.reload();
+    this.router.navigate(['registry']).then(() => window.location.reload())
   }
 
   restore() {

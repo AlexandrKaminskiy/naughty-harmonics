@@ -1,17 +1,24 @@
 <app-stave *ngFor="let i of this.staves; index as j" [hidden]="visibleStave != j" [tacts]="staves[j].tacts"/>
 
 <div class="navigation-bar">
-  <div (click)="changeContext(j)" *ngFor="let i of utilService.createRange(this.staves.length); index as j" class="tactButton">
-    <div>
+
+</div>
+
+
+<div class="staves-set">
+
+  <div (click)="changeContext(j)" [ngStyle]="{borderColor: visibleStave == j ? '#00649b' : 'transparent' }" *ngFor="let i of utilService.createRange(this.staves.length); index as j" class="tactButton">
+    <div class="remove" (click)="deleteStave($event, j)">
+      <div style="margin-top: -3px">x</div>
+    </div>
+    <div style="font-size: 24px">
       {{i}}
     </div>
-    <div (click)="deleteStave(j)" style="background-color: aquamarine">
-      X
-    </div>
   </div>
-  <div class="tactButton" (click)="addStave()">
+  <div class="tactButton plus" (click)="addStave()">
     <div>
       +
     </div>
   </div>
 </div>
+
