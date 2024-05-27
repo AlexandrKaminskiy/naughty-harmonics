@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -123,5 +124,12 @@ public class CompositionController {
         @PathVariable final Long id
     ) {
         return compositionService.publish(id);
+    }
+
+    @GetMapping(value = "/document/{id}",
+        produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public byte[] getFile(@PathVariable Long id,
+                          @AuthenticationPrincipal ClientDetails clientDetails) {
+        return compositionService.generateDocument(id);
     }
 }

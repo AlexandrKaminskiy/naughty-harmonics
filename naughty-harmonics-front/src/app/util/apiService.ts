@@ -72,4 +72,18 @@ export class ApiService {
       `${BACKEND_HOST}/composition/publish/${id}`, {}
     )
   }
+
+  downloadFile(id: number) {
+    this.httpClient.get(`${BACKEND_HOST}/composition/document/${id}`,
+      {responseType: 'blob', observe: 'response', withCredentials: true})
+      .subscribe(resp => {
+        this.showFile(resp.body as Blob);
+      })
+  }
+
+  private showFile(data: Blob) {
+    const blob = new Blob([data], {type: 'application/pdf'});
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
 }

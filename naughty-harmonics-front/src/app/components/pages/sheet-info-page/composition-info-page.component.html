@@ -1,13 +1,22 @@
 <div class="info-block">
-  <div *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" class="act-button" (click)="ban()">
-    Ban
-  </div>
-  <div *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)"
-       class="act-button" (click)="restore()">
-    Restore
-  </div>
-  <div *ngIf="isCurrentUser && !compositionDocument.deleted" class="act-button" (click)="delete()">
-    Delete
+  <div style="height: 200px; display: flex; flex-direction:column; justify-content: space-evenly">
+    <div style="background-color: #ffd500" *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" class="act-button"
+         (click)="ban()">
+      Ban
+    </div>
+    <div style="background-color: #6686ff" *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)"
+         class="act-button" (click)="restore()">
+      Restore
+    </div>
+    <div  style="background-color: crimson" *ngIf="isCurrentUser && !compositionDocument.deleted" class="act-button" (click)="delete()">
+      Delete
+    </div>
+    <div *ngIf="isCurrentUser" class="act-button" (click)="editComposition()">
+      Edit
+    </div>
+    <div style="background-color: #146b00" *ngIf="isCurrentUser" class="act-button" (click)="downloadComposition()">
+      Download
+    </div>
   </div>
   <div class="video-block">
     <iframe #video width="600px"
@@ -18,7 +27,7 @@
     >
     </iframe>
   </div>
-  <div class="text-info" style="padding-left: 150px; ">
+  <div class="text-info" style="padding-left: 30px; ">
     <div id="name" style="margin-top: 50px; margin-bottom: 20px">
       {{compositionDocument.name}}
     </div>
@@ -29,7 +38,5 @@
       Complexity: {{compositionDocument.complexity}}
     </div>
   </div>
-  <div *ngIf="isCurrentUser" class="act-button" (click)="editComposition()">
-    Edit
-  </div>
+
 </div>

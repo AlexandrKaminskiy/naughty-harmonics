@@ -70,4 +70,8 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
   editComposition() {
     this.router.navigate(["creation"], {queryParams: {id: this.compositionDocument.id}})
   }
+
+  downloadComposition() {
+    this.apiService.downloadFile(this.compositionDocument.id)
+  }
 }

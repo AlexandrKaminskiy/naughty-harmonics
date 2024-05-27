@@ -17,13 +17,17 @@ import by.kamen.naughtyharmonicsbackend.service.ClientService;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -63,7 +67,7 @@ public class CompositionServiceImpl implements CompositionService {
         final Authority clientRole = clientService.getClientRole(clientDetails);
         final boolean isAdmin = clientRole == Authority.ROLE_ADMIN;
         final boolean isFriend = invitationRepository.existFriend(clientDetails.getId(), userId);
-        if (!isFriend) {
+        if (!Objects.equals(userId, clientDetails.getId()) && !isFriend) {
             return Collections.emptyList();
         }
         return compositionRepository.findUserCompositions(clientDetails.getId(), isAdmin)
@@ -165,5 +169,15 @@ public class CompositionServiceImpl implements CompositionService {
         compositionModel.setPublic(correlationResult.isUnique());
         compositionRepository.save(compositionModel);
         return correlationResult;
+    }
+
+    @Override
+    public byte[] generateDocument(Long id) {
+        Resource resource = new ClassPathResource("PDF.pdf");
+        try {
+            return resource.getContentAsByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

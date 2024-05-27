@@ -51,4 +51,6 @@ public interface CompositionService {
     void delete(final Long id);
 
     CorrelationResult publish(final Long id);
+
+    byte[] generateDocument(final Long id);
 }
