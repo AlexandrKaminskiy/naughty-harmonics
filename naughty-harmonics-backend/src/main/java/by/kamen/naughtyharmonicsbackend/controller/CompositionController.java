@@ -8,16 +8,12 @@ import by.kamen.naughtyharmonicsbackend.response.CompositionResponse;
 import by.kamen.naughtyharmonicsbackend.service.CompositionService;
 import by.kamen.naughtyharmonicsbackend.service.PdfCreatorService;
 import by.kamen.naughtyharmonicsbackend.service.UniqueCompositionService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -129,7 +126,7 @@ public class CompositionController {
     @GetMapping(value = "/document/{id}",
         produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public byte[] getFile(@PathVariable Long id,
-                          @AuthenticationPrincipal ClientDetails clientDetails) {
-        return compositionService.generateDocument(id);
+                          @AuthenticationPrincipal ClientDetails clientDetails) throws IOException {
+        return pdfCreatorService.createFromComposition(id);
     }
 }
