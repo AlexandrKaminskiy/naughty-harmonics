@@ -5,6 +5,7 @@ import {CompositionDocument} from "../../../dto/compositionDocument";
 import {NgIf, NgSwitch} from "@angular/common";
 import {ClientService} from "../../../util/clientService";
 import {routes} from "../../../app.routes";
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 @Component({
   selector: 'app-sheet-info-page',
@@ -12,11 +13,14 @@ import {routes} from "../../../app.routes";
   templateUrl: './composition-info-page.component.html',
   imports: [
     NgIf,
-    NgSwitch
+    NgSwitch,
+    PdfViewerModule
   ],
   styleUrls: ['./composition-info-page.component.css']
 })
 export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
+  pdfSrc = "http://localhost:8080/composition/document/154";
+
   public compositionDocument: CompositionDocument
   public canDownload: boolean;
   public isAdmin: boolean

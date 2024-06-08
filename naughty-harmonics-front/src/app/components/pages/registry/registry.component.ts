@@ -5,6 +5,8 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {CompositionDocument} from "../../../dto/compositionDocument";
 import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-social-login";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {animate, style, transition, trigger} from "@angular/animations";
+import {SortType} from "../../../dto/sortType";
 
 @Component({
   selector: 'app-registry',
@@ -19,7 +21,13 @@ import {Router, RouterLink, RouterLinkActive} from "@angular/router";
     RouterLinkActive
   ],
   templateUrl: './registry.component.html',
-  styleUrl: './registry.component.css'
+  styleUrl: './registry.component.css',
+  animations: [
+    trigger('slowAnimate', [
+      transition(':enter', [style({opacity: '0'}), animate(300)]),
+      transition(':leave', [style({opacity: '1'}), animate(100, style({opacity: '0'}))]),
+    ])
+  ]
 })
 export class RegistryComponent implements OnInit {
 
@@ -27,6 +35,8 @@ export class RegistryComponent implements OnInit {
   name: string = '';
   bpm: number;
   complexity: number;
+  filtersEnabled: boolean = false;
+  directions = [SortType.NONE, SortType.NONE, SortType.NONE, SortType.NONE, SortType.NONE]
 
   constructor(
     public apiService: ApiService,
@@ -65,5 +75,34 @@ export class RegistryComponent implements OnInit {
 
   toNoteInfoPage(i: number) {
     this.router.navigate(['/info'], {queryParams: {id: i}})
+  }
+
+  changeFiltersEnabled() {
+    this.filtersEnabled = !this.filtersEnabled;
+  }
+
+  sort(field: string, type: string, direction: number) {
+    var directionString: string
+    switch (this.directions[direction]) {
+      case SortType.ASC: directionString = 'desc'; this.directions[direction] = SortType.DESC; break
+      case SortType.NONE: directionString = 'asc'; this.directions[direction] = SortType.ASC; break
+      case SortType.DESC: directionString = 'asc'; this.directions[direction] = SortType.ASC; break
+    }
+
+    this.compositions.sort((a,b) =>
+      this.sortLogic(a, b,field,type,directionString))
+  }
+
+  private sortLogic(a: any, b: any, field: any, type: string, direction: string) {
+    if (type === 'string') {
+      if (a[field].toLowerCase() < b[field].toLowerCase()) {
+        return direction === 'asc' ? -1 : 1;
+      } else if (a[field].toLowerCase() > b[field].toLowerCase()) {
+        return direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    } else {
+      return direction === 'asc' ? a[field] - b[field] : b[field] - a[field];
+    }
   }
 }

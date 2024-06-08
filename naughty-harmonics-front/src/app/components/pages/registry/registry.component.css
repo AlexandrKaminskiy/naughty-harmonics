@@ -1,39 +1,88 @@
 body {
   font-family: Arial, sans-serif;
 }
-/*table {*/
-/*  width: 100%;*/
-/*  border-collapse: collapse;*/
-/*}*/
-/*th, td {*/
-/*  padding: 15px;*/
-/*  text-align: left;*/
-/*  font-size: 16px;*/
-/*}*/
-/*th {*/
-/*  !*background-color: white;*!*/
-/*  color: #999;*/
-/*  font-weight: normal;*/
-/*}*/
-/*td img {*/
-/*  width: 40px;*/
-/*  height: 40px;*/
-/*  border-radius: 5px;*/
-/*  margin-right: 10px;*/
-/*  vertical-align: middle;*/
-/*}*/
-/*.highlight {*/
-/*  background-color: #ff0000;*/
-/*  color: white;*/
-/*}*/
-/*.highlight td {*/
-/*  color: white;*/
-/*}*/
-/*.explicit {*/
-/*  font-size: 12px;*/
-/*  vertical-align: super;*/
-/*  margin-left: 5px;*/
-/*}*/
-/*tr:not(.highlight):hover {*/
-/*  background-color: #f2f2f2;*/
-/*}*/
+
+.input-name-container {
+  width: 700px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  display: -webkit-flex;
+}
+
+.input-container {
+
+}
+
+.input-filter-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+  height: 50px;
+  margin-top: 10px;
+  /*display: -webkit-flex;*/
+}
+
+
+.input-filter {
+  -webkit-flex: 1;
+  font-size: 25px;
+  font-family: Arial, sans-serif;;
+  border: 0;
+  outline: none;
+}
+
+.input-name {
+  -webkit-flex: 1;
+  font-size: 30px;
+  font-family: Arial, sans-serif;;
+  border: 0;
+  outline: none;
+}
+
+.find-button {
+  width: 100px;
+  font-size: 30px;
+  font-family: Arial, sans-serif;;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  background: #57a857;
+}
+
+.find-button:hover:active {
+  background: #1c561c;
+  transition: 0.4s;
+
+}
+
+.find-button:hover {
+  background-color: #75c775;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.filter-button {
+  background-repeat: no-repeat;
+  background-image: url('/assets/filter.png');
+  background-size: contain;
+  height: 30px;
+}
+
+.filter-button-container {
+  width: 30px;
+  padding: 12px;
+}
+
+.filter-button-container:hover {
+  background-color: #ffffff;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.field-sort:hover {
+  color: #ffffff;
+  background-color: #6c6c6c;
+  transition: 0.25s;
+  cursor: pointer;
+}

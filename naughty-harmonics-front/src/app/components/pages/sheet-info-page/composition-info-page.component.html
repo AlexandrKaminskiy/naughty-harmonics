@@ -1,14 +1,31 @@
+<!--<pdf-viewer [src]="{url: pdfSrc, withCredentials: true}"-->
+<!--            [render-text]="true"-->
+<!--            [original-size]="false"-->
+<!--            style="width: 700px; height: 900px">-->
+<!--</pdf-viewer>-->
+<div>
+  <pdf-viewer [src]="{url: pdfSrc, withCredentials: true}"
+              [render-text]="true"
+              [original-size]="false"
+              style="width: 700px; height: 500px">
+  </pdf-viewer>
+</div>
 <div class="info-block">
+
+
   <div style="height: 200px; display: flex; flex-direction:column; justify-content: space-evenly">
-    <div style="background-color: #ffd500" *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" class="act-button"
+    <div style="background-color: #ffd500"
+         *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" class="act-button"
          (click)="ban()">
       Ban
     </div>
-    <div style="background-color: #6686ff" *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)"
+    <div style="background-color: #6686ff"
+         *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)"
          class="act-button" (click)="restore()">
       Restore
     </div>
-    <div  style="background-color: crimson" *ngIf="isCurrentUser && !compositionDocument.deleted" class="act-button" (click)="delete()">
+    <div style="background-color: crimson" *ngIf="isCurrentUser && !compositionDocument.deleted" class="act-button"
+         (click)="delete()">
       Delete
     </div>
     <div *ngIf="isCurrentUser" class="act-button" (click)="editComposition()">

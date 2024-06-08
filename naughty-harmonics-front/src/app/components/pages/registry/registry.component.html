@@ -1,25 +1,25 @@
-<div>
-  <div style="display: inline-block; width: 100px">Name</div>
-  <input (input)="fillName($event)" type="text" class="input-text">
+<div class="input-container">
+  <div class="input-name-container">
+    <input (input)="fillName($event)" type="text" class="input-name" placeholder="Name">
+    <div (click)="search()" class="find-button">Find</div>
+    <div (click)="changeFiltersEnabled()" class="filter-button-container">
+      <div class="filter-button"></div>
+    </div>
+  </div>
+  <div @slowAnimate *ngIf="filtersEnabled" class="input-filter-container">
+    <input (input)="fillBpm($event)"  type="text" class="input-filter" placeholder="BPM" style="margin-right: 10px">
+    <input (input)="fillComplexity($event)" type="text" class="input-filter" placeholder="Complexity">
+  </div>
 </div>
-<div>
-  <div style="display: inline-block; width: 100px">Bpm</div>
-  <input (input)="fillBpm($event)" type="text" class="input-text">
-</div>
-<div>
-  <div style="display: inline-block; width: 100px">Complexity</div>
-  <input (input)="fillComplexity($event)" type="text" class="input-text">
-</div>
-
-<div (click)="search()" class="act-button">Find</div>
 
 <table>
   <thead>
   <tr>
-    <th>Composition</th>
-    <th>Author</th>
-    <th>Complexity</th>
-    <th>Description</th>
+    <th class="field-sort" (click)="sort('name', 'string', 0)">Composition</th>
+    <th class="field-sort" (click)="sort('clientName', 'string', 1)">Author</th>
+    <th class="field-sort" (click)="sort('complexity', 'number', 2)">Complexity</th>
+    <th class="field-sort" (click)="sort('description', 'string', 3)">Description</th>
+    <th class="field-sort" (click)="sort('bpm', 'number', 4)">BPM</th>
   </tr>
   </thead>
   <tbody>
@@ -28,18 +28,7 @@
     <td>{{i.clientName}}</td>
     <td>{{i.complexity}}</td>
     <td>{{i.description}}</td>
+    <td>{{i.bpm}}</td>
   </tr>
   </tbody>
 </table>
-
-<!--<table class="table table-sm">-->
-<!--  <tr >-->
-<!--    <th style="width: 200px">Author</th>-->
-<!--    <th style="width: 100px">Name</th>-->
-<!--    <th style="width: 500px">Description</th>-->
-<!--    <th style="width: 70px">Complexity</th>-->
-<!--    <th style="width: 100px">Rating</th>-->
-<!--  </tr>-->
-
-
-<!--</table>-->
