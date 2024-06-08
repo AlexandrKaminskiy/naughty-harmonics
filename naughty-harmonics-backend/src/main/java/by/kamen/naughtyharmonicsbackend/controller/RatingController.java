@@ -25,11 +25,24 @@ public class RatingController {
         return ratingService.getCompositionRating(compositionId);
     }
 
+    @GetMapping("/client")
+    public int getClientRating(@RequestParam final Long clientId) {
+        return ratingService.getClientRating(clientId);
+    }
+
     @PostMapping
-    public void rate(
+    public boolean rate(
         @AuthenticationPrincipal ClientDetails clientDetails,
         @RequestParam final Long compositionId
     ) {
-        ratingService.rate(clientDetails, compositionId);
+        return ratingService.rate(clientDetails, compositionId);
+    }
+
+    @GetMapping("/rated")
+    public boolean isRated(
+        @AuthenticationPrincipal ClientDetails clientDetails,
+        @RequestParam final Long compositionId
+    ) {
+        return ratingService.isCompositionRated(clientDetails, compositionId);
     }
 }

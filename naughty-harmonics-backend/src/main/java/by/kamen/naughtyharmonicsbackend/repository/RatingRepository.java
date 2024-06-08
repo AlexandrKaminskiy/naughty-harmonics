@@ -17,4 +17,11 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     Integer getCompositionRating(@Param("compositionId") Long compositionId);
 
     Optional<Rating> findByClientIdAndCompositionId(final Long clientId, final Long compositionId);
+
+    boolean existsByClientIdAndCompositionId(final Long clientId, final Long compositionId);
+
+    @Query("""
+        SELECT count(*) FROM Rating r WHERE r.composition.client.id = :clientId
+        """)
+    int getClientRating(@Param("clientId") Long clientId);
 }

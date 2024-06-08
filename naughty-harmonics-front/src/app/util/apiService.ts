@@ -86,4 +86,20 @@ export class ApiService {
     const url = window.URL.createObjectURL(blob);
     window.open(url);
   }
+
+  isRated(id: number) {
+    return this.httpClient.get<boolean>(`${BACKEND_HOST}/rating/rated?compositionId=${id}`)
+  }
+
+  rate(id: number) {
+    return this.httpClient.post<boolean>(`${BACKEND_HOST}/rating?compositionId=${id}`, {})
+  }
+
+  getRating(id: number) {
+    return this.httpClient.get<number>(`${BACKEND_HOST}/rating?compositionId=${id}`, {})
+  }
+
+  getClientRating(id: number) {
+    return this.httpClient.get<number>(`${BACKEND_HOST}/rating/client?clientId=${id}`, {})
+  }
 }

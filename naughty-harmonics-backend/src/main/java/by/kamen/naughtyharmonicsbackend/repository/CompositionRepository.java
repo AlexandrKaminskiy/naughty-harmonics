@@ -106,4 +106,6 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
         @Param("userId") final Long userId,
         @Param("isAdmin") final Boolean isAdmin
     );
+
+    Integer countByClientId(final Long clientId);
 }

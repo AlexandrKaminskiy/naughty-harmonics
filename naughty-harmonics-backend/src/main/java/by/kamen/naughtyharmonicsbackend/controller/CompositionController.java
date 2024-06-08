@@ -94,7 +94,7 @@ public class CompositionController {
     ) {
         return compositionService.updateComposition(id, compositionRequest, clientDetails);
     }
-    
+
     @DeleteMapping("/{id}")
     public void delete(
         @PathVariable final Long id
@@ -116,6 +116,11 @@ public class CompositionController {
         compositionService.restore(id);
     }
 
+    @GetMapping("/user-count")
+    public int getClientCompositions(@RequestParam Long clientId) {
+        return compositionService.clientCompositionsCount(clientId);
+    }
+
     @PostMapping("/publish/{id}")
     public CorrelationResult checkIfUnique(
         @PathVariable final Long id
@@ -125,8 +130,10 @@ public class CompositionController {
 
     @GetMapping(value = "/document/{id}",
         produces = MediaType.APPLICATION_PDF_VALUE)
-    public byte[] getFile(@PathVariable Long id,
-                          @AuthenticationPrincipal ClientDetails clientDetails) throws IOException {
+    public byte[] getFile(
+        @PathVariable Long id,
+        @AuthenticationPrincipal ClientDetails clientDetails
+    ) throws IOException {
         return pdfCreatorService.createFromComposition(id);
     }
 }

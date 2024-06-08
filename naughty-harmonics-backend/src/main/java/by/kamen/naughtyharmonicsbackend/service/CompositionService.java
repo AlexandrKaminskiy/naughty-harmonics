@@ -53,4 +53,6 @@ public interface CompositionService {
     CorrelationResult publish(final Long id);
 
     byte[] generateDocument(final Long id);
+
+    int clientCompositionsCount(final Long clientId);
 }

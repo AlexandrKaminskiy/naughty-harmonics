@@ -70,7 +70,7 @@ public class CompositionServiceImpl implements CompositionService {
         if (!Objects.equals(userId, clientDetails.getId()) && !isFriend) {
             return Collections.emptyList();
         }
-        return compositionRepository.findUserCompositions(clientDetails.getId(), isAdmin)
+        return compositionRepository.findUserCompositions(userId, isAdmin)
             .stream()
             .map(compositionMapper::toCompositionDocumentResponse)
             .toList();
@@ -179,5 +179,10 @@ public class CompositionServiceImpl implements CompositionService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public int clientCompositionsCount(final Long clientId) {
+        return compositionRepository.countByClientId(clientId);
     }
 }

@@ -20,17 +20,28 @@ public class RatingServiceImpl implements RatingService {
     private final CompositionService compositionService;
 
     @Override
-    public void rate(final ClientDetails clientDetails, final Long compositionId) {
+    public boolean rate(final ClientDetails clientDetails, final Long compositionId) {
         ratingRepository.findByClientIdAndCompositionId(clientDetails.getId(), compositionId)
             .ifPresentOrElse(ratingRepository::delete, () -> {
                 final Client profile = clientService.getProfile(clientDetails.getId());
                 final Composition composition = compositionService.findCompositionModel(compositionId);
                 ratingRepository.save(new Rating(composition, profile));
             });
+        return true;
     }
 
     @Override
     public Integer getCompositionRating(final Long compositionId) {
         return ratingRepository.getCompositionRating(compositionId);
+    }
+
+    @Override
+    public boolean isCompositionRated(final ClientDetails clientDetails, final Long compositionId) {
+        return ratingRepository.existsByClientIdAndCompositionId(clientDetails.getId(), compositionId);
+    }
+
+    @Override
+    public int getClientRating(final Long clientId) {
+        return ratingRepository.getClientRating(clientId);
     }
 }

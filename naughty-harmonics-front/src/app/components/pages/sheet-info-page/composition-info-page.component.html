@@ -1,59 +1,84 @@
-<!--<pdf-viewer [src]="{url: pdfSrc, withCredentials: true}"-->
-<!--            [render-text]="true"-->
-<!--            [original-size]="false"-->
-<!--            style="width: 700px; height: 900px">-->
-<!--</pdf-viewer>-->
-<div>
+<div style="display: inline-block">
   <pdf-viewer [src]="{url: pdfSrc, withCredentials: true}"
               [render-text]="true"
+              [page]="1"
               [original-size]="false"
-              style="width: 700px; height: 500px">
+              [show-all]="false"
+              style="width: 500px; height: 300px; border: 1px solid #ddd;border-radius: 5px;margin-bottom: 5px;"
+  >
   </pdf-viewer>
-</div>
-<div class="info-block">
-
-
-  <div style="height: 200px; display: flex; flex-direction:column; justify-content: space-evenly">
-    <div style="background-color: #ffd500"
-         *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" class="act-button"
-         (click)="ban()">
-      Ban
-    </div>
-    <div style="background-color: #6686ff"
-         *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)"
-         class="act-button" (click)="restore()">
-      Restore
-    </div>
-    <div style="background-color: crimson" *ngIf="isCurrentUser && !compositionDocument.deleted" class="act-button"
-         (click)="delete()">
-      Delete
-    </div>
-    <div *ngIf="isCurrentUser" class="act-button" (click)="editComposition()">
-      Edit
-    </div>
-    <div style="background-color: #146b00" *ngIf="isCurrentUser" class="act-button" (click)="downloadComposition()">
-      Download
-    </div>
-  </div>
   <div class="video-block">
-    <iframe #video width="600px"
-            style="border-radius: 15px;"
-            height="400px"
+    <iframe #video width="500px"
+            style=""
+            height="300px"
             frameborder="0"
             allowfullscreen
     >
     </iframe>
   </div>
-  <div class="text-info" style="padding-left: 30px; ">
-    <div id="name" style="margin-top: 50px; margin-bottom: 20px">
-      {{compositionDocument.name}}
-    </div>
-    <div id="author" style="margin-bottom: 20px">
-      Author: {{compositionDocument.clientName}}
-    </div>
-    <div style="font-size: 30px; margin-bottom: 20px">
-      Complexity: {{compositionDocument.complexity}}
-    </div>
+</div>
+
+<div class="container" style="display: inline-block">
+  <div class="title">{{compositionDocument.name}}</div>
+  <div class="user-link" (click)="toUserPage()">
+    <img src="{{compositionDocument.photoUrl}}" alt="Song 2" style="display: inline-block; border-radius: 4px; height: 40px">
+    <div style="display: inline-block; vertical-align: middle; margin-bottom: 30px; margin-left: 10px" class="uploader">{{compositionDocument.clientName}}</div>
+  </div>
+  <div class="description">{{compositionDocument.description}}</div>
+  <div *ngIf="isAdmin || isCurrentUser" class="button-container">
+    <button *ngIf="isCurrentUser && !compositionDocument.deleted" (click)="delete()" class="button">Delete</button>
+    <button *ngIf="isAdmin && !compositionDocument.banned && !compositionDocument.deleted" (click)="ban()" class="button">Ban</button>
+    <button *ngIf="isAdmin && (compositionDocument.deleted || compositionDocument.banned)" (click)="restore()" class="button">Restore</button>
+    <button *ngIf="isCurrentUser" class="act-button" (click)="editComposition()" class="button">Edit</button>
   </div>
 
+  <div class="feature-container">
+    <div class="feature-item">
+      <div class="feature-text">
+        <div class="feature-label">Instrument</div>
+        Acoustic guitar
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-text">
+        <div class="feature-label">Complexity</div>
+        {{compositionDocument.complexity}}
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-text">
+        <div class="feature-label">Beats per minute</div>
+        {{compositionDocument.bpm}}
+      </div>
+    </div>
+  </div>
+  <button (click)="downloadComposition()" class="button">Download tabs</button>
+  <button [ngStyle]="{backgroundColor: isRated ? 'red' : '#4d99ff'}"
+          (click)="rate()" class="button">
+    <div *ngIf="!isRated">Like song</div>
+    <div *ngIf="isRated">Unlike song</div>
+
+  </button>
+
+  <div class="section" style="margin-top: 20px">
+    <div class="section-title">Delivery Files</div>
+    <div class="section-content">
+      Adobe PDF<br>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="section">
+    <div class="section-title">Tact count</div>
+    <div class="section-content">
+      228
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-title">Likes</div>
+    <div class="section-content">
+      {{this.rating}}
+    </div>
+  </div>
 </div>

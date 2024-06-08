@@ -6,8 +6,8 @@
       <div class="name"> {{client.firstName}} </div>
       <div class="name"> {{client.lastName}} </div>
       <div class="email" style="margin-bottom: 15px"> {{client.email}} </div>
-      <div class="email" style="margin-bottom: 15px"> Compositions: 9</div>
-      <div class="email" style="margin-bottom: 40px"> Total rating: 32</div>
+      <div class="email" style="margin-bottom: 15px"> Compositions: {{compositions.length}}</div>
+      <div class="email" style="margin-bottom: 40px"> Total rating: {{rating}}</div>
 
       <div *ngIf="!current" [ngSwitch]="userAction">
         <div *ngSwitchCase="UserAction.FRIENDS">

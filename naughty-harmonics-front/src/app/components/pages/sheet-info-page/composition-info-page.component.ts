@@ -2,10 +2,11 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../util/apiService";
 import {CompositionDocument} from "../../../dto/compositionDocument";
-import {NgIf, NgSwitch} from "@angular/common";
+import {NgIf, NgStyle, NgSwitch} from "@angular/common";
 import {ClientService} from "../../../util/clientService";
 import {routes} from "../../../app.routes";
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import {BACKEND_HOST} from "../../../util/constants";
 
 @Component({
   selector: 'app-sheet-info-page',
@@ -14,13 +15,15 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
   imports: [
     NgIf,
     NgSwitch,
-    PdfViewerModule
+    PdfViewerModule,
+    NgStyle
   ],
   styleUrls: ['./composition-info-page.component.css']
 })
 export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
-  pdfSrc = "http://localhost:8080/composition/document/154";
-
+  public pdfSrc: string;
+  public rating: number
+  public isRated: boolean
   public compositionDocument: CompositionDocument
   public canDownload: boolean;
   public isAdmin: boolean
@@ -39,13 +42,20 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
       this.apiService.findByIdBrief(params['id']).subscribe(resp => {
         this.compositionDocument = resp
         console.log(resp)
-
+        this.pdfSrc = BACKEND_HOST + '/composition/document/' + this.compositionDocument.id
+        this.clientService.getCurrentUser().subscribe(it => {
+          this.getCompositionRating()
+          this.getIsRated()
+          this.isAdmin = this.clientService.hasRole(it.authority, 'ROLE_ADMIN')
+          this.isCurrentUser = it.id == this.compositionDocument.clientId
+        })
       }, error => this.router.navigate(['not-found']))
-      this.clientService.getCurrentUser().subscribe(it => {
-        this.isAdmin = this.clientService.hasRole(it.authority, 'ROLE_ADMIN')
-        this.isCurrentUser = it.id == this.compositionDocument.clientId
-      })
+
     })
+  }
+
+  toUserPage() {
+    this.router.navigate(['profile'], {queryParams: {id: this.compositionDocument.clientId}})
   }
 
   ngAfterViewInit() {
@@ -77,5 +87,24 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
 
   downloadComposition() {
     this.apiService.downloadFile(this.compositionDocument.id)
+  }
+
+  getCompositionRating() {
+    this.apiService.getRating(this.compositionDocument.id)
+      .subscribe(it => this.rating = it)
+  }
+
+  getIsRated() {
+    this.apiService.isRated(this.compositionDocument.id)
+      .subscribe(it => this.isRated = it)
+  }
+
+  rate() {
+    this.apiService.rate(this.compositionDocument.id)
+      .subscribe(it => {
+        this.getCompositionRating()
+        this.getIsRated()
+      })
+      // this.getCompositionRating()
   }
 }

@@ -32,6 +32,7 @@ export class UserComponent implements OnInit {
   public current: boolean
   public canGrant: boolean;
   public userAction: UserAction
+  public rating: number
 
   constructor(
     private clientService: ClientService,
@@ -44,23 +45,27 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.current = params['id'] == undefined;
       this.getFriendsAndInvitations(params['id']);
       this.clientService.getCurrentUser().subscribe(it => {
         this.currentClient = it;
+        this.current = params['id'] == undefined || it.id == params['id'];
+
         if (this.current) {
           this.client = it
+          this.getClientRating()
           this.getCompositions(it.id)
+        }
+
+        if (!this.current) {
+          this.clientService.getUser(params['id']).subscribe(it => {
+            this.client = it
+            this.getCompositions(it.id)
+            this.getClientRating()
+          })
         }
       })
 
-      if (!this.current) {
-        this.clientService.getUser(params['id']).subscribe(it => {
-          this.client = it
-          this.getCompositions(it.id)
 
-        })
-      }
     })
   }
 
@@ -100,8 +105,6 @@ export class UserComponent implements OnInit {
         })
       })
     })
-
-
   }
 
   toNoteInfoPage(id: number) {
@@ -131,5 +134,9 @@ export class UserComponent implements OnInit {
 
   grant() {
     this.clientService.grantAdmin(this.client.id).subscribe(() => window.location.reload())
+  }
+
+  getClientRating() {
+    this.apiService.getClientRating(this.client.id).subscribe(it => this.rating = it)
   }
 }
