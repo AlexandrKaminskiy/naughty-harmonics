@@ -7,6 +7,7 @@ import {ClientService} from "../../../util/clientService";
 import {routes} from "../../../app.routes";
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import {BACKEND_HOST} from "../../../util/constants";
+import {NgToastModule, NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-sheet-info-page',
@@ -16,7 +17,8 @@ import {BACKEND_HOST} from "../../../util/constants";
     NgIf,
     NgSwitch,
     PdfViewerModule,
-    NgStyle
+    NgStyle,
+    NgToastModule
   ],
   styleUrls: ['./composition-info-page.component.css']
 })
@@ -34,7 +36,8 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
     private apiService: ApiService,
     private activatedRoute: ActivatedRoute,
     private clientService: ClientService,
-    private router: Router) {
+    private router: Router,
+    public ngToastService: NgToastService) {
   }
 
   ngOnInit(): void {
@@ -86,6 +89,7 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
   }
 
   downloadComposition() {
+    this.ngToastService.info(`File download`, "INFO", 5000)
     this.apiService.downloadFile(this.compositionDocument.id)
   }
 

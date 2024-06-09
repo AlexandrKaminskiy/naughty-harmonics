@@ -128,10 +128,11 @@ public class CompositionController {
         return compositionService.publish(id);
     }
 
-    @GetMapping(value = "/document/{id}",
+    @GetMapping(value = "/document/{id}/{uuid}.pdf",
         produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public byte[] getFile(
         @PathVariable Long id,
+        @PathVariable String uuid,
         @AuthenticationPrincipal ClientDetails clientDetails
     ) throws IOException {
         return pdfCreatorService.createFromComposition(id);

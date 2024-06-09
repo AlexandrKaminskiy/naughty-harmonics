@@ -107,7 +107,6 @@ public class PdfCreatorServiceImpl implements PdfCreatorService {
 
         Composition compositionModel = compositionService.findCompositionModel(id);
         List<StaveDto> staves = compositionModel.getStaves();
-        StaveDto staveDto = staves.get(0);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (PdfWriter docWriter = new PdfWriter(baos);
              PdfDocument pdfDocument = new PdfDocument(docWriter)) {
@@ -117,137 +116,147 @@ public class PdfCreatorServiceImpl implements PdfCreatorService {
             data.setHeight(40);
             PdfFont customFont = PdfFontFactory.createFont(
                 "ofont.ru_Times New Roman.ttf",
-                PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED
+                PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED
             );
+            int k = 1;
+            for (var staveDto : staves) {
+                PdfPage page = pdfDocument.addNewPage();
+                height = page.getPageSizeWithRotation().getHeight();
+                width = page.getPageSizeWithRotation().getWidth();
+                PdfCanvas canvas = new PdfCanvas(page);
 
-            PdfPage page = pdfDocument.addNewPage();
-            height = page.getPageSizeWithRotation().getHeight();
-            width = page.getPageSizeWithRotation().getWidth();
-            PdfCanvas canvas = new PdfCanvas(page);
-
-            float songNameWidth = customFont.getWidth(compositionModel.getName(), 30);
-            canvas.saveState()
-                .moveText((width - songNameWidth) / 2, height - 40)
-                .setFontAndSize(customFont, 30)
-                .showText(compositionModel.getName())
-                .restoreState();
-
-            canvas.saveState()
-                .moveText(rightOffset, height - 70)
-                .setFontAndSize(customFont, 10)
-                .showText("By " + compositionModel.getClient().getName())
-                .restoreState();
-            canvas.saveState()
-                .moveText(rightOffset, height - 85)
-                .setFontAndSize(customFont, 10)
-                .showText("Bpm " + compositionModel.getBpm())
-                .restoreState();
-            double topOffset = startTopOffset;
-            drawLines(canvas, topOffset);
-            double currentOffset = rightOffset;
-
-            for (int i = 0; i < staveDto.tacts().size(); i++) {
-
-                if (i == 0 ||
-                    (!staveDto.tacts().get(i - 1).size().equals(staveDto.tacts().get(i).size()))) {
-                    if (currentOffset + offsetWithChangedTactSize > width - rightOffset - offsetWithoutChangedTactSize) {
-                        topOffset += (90 + 30);
-                        currentOffset = rightOffset + offsetWithoutChangedTactSize;
-
-                        if (topOffset + 90 > height) {
-                            topOffset = startTopOffset;
-                            page = pdfDocument.addNewPage();
-                            height = page.getPageSizeWithRotation().getHeight();
-                            width = page.getPageSizeWithRotation().getWidth();
-                            canvas = new PdfCanvas(page);
-                        }
-                        drawLines(canvas, topOffset);
-
-                    } else {
-                        drawLine(
-                            canvas,
-                            currentOffset,
-                            topOffset,
-                            currentOffset,
-                            topOffset + 5 * 15
-                        );
-                    }
-                    currentOffset += offsetWithChangedTactSize;
-                    drawText(
-                        canvas,
-                        staveDto.tacts().get(i).size().split("/")[0],
-                        currentOffset - 30,
-                        topOffset + 35,
-                        40,
-                        customFont
-                    );
-                    drawText(
-                        canvas,
-                        staveDto.tacts().get(i).size().split("/")[1],
-                        currentOffset - 30,
-                        topOffset + 65,
-                        40,
-                        customFont
-                    );
-                } else {
-                    if (currentOffset + offsetWithoutChangedTactSize > width - rightOffset - offsetWithoutChangedTactSize) {
-
-                        topOffset += (90 + 30);
-                        currentOffset = rightOffset + offsetWithoutChangedTactSize;
-
-                        if (topOffset + 90 > height) {
-                            topOffset = startTopOffset;
-                            page = pdfDocument.addNewPage();
-                            height = page.getPageSizeWithRotation().getHeight();
-                            width = page.getPageSizeWithRotation().getWidth();
-                            canvas = new PdfCanvas(page);
-                        }
-
-                        drawLines(canvas, topOffset);
-
-                    } else {
-                        drawLine(
-                            canvas,
-                            currentOffset,
-                            topOffset,
-                            currentOffset,
-                            topOffset + 5 * 15
-                        );
-                    }
-                    currentOffset += offsetWithoutChangedTactSize;
+                if (k == 1) {
+                    float songNameWidth = customFont.getWidth(compositionModel.getName(), 30);
+                    canvas.saveState()
+                        .moveText((width - songNameWidth) / 2, height - 40)
+                        .setFontAndSize(customFont, 30)
+                        .showText(compositionModel.getName())
+                        .restoreState();
+                    canvas.saveState()
+                        .moveText(rightOffset, height - 70)
+                        .setFontAndSize(customFont, 10)
+                        .showText("By " + compositionModel.getClient().getName())
+                        .restoreState();
+                    canvas.saveState()
+                        .moveText(rightOffset, height - 83)
+                        .setFontAndSize(customFont, 10)
+                        .showText("Bpm " + compositionModel.getBpm())
+                        .restoreState();
                 }
+                canvas.saveState()
+                    .moveText(rightOffset, height - 96)
+                    .setFontAndSize(customFont, 10)
+                    .showText("Stave " + k)
+                    .restoreState();
 
+                double topOffset = startTopOffset;
+                drawLines(canvas, topOffset);
+                double currentOffset = rightOffset;
 
-                for (var tc : staveDto.tacts().get(i).tactColumns()) {
-                    if (currentOffset > width - rightOffset - offsetWithoutChangedTactSize) {
-                        topOffset += (90 + 30);
-                        currentOffset = rightOffset + offsetWithoutChangedTactSize;
-                        drawLines(canvas, topOffset);
-                    }
-                    for (int j = 0; j < 6; j++) {
-                        if (tc.notes().get(j).value().length() != 0) {
-                            drawText(
+                for (int i = 0; i < staveDto.tacts().size(); i++) {
+
+                    if (i == 0 ||
+                        (!staveDto.tacts().get(i - 1).size().equals(staveDto.tacts().get(i).size()))) {
+                        if (currentOffset + offsetWithChangedTactSize > width - rightOffset - offsetWithoutChangedTactSize) {
+                            topOffset += (90 + 30);
+                            currentOffset = rightOffset + offsetWithoutChangedTactSize;
+
+                            if (topOffset + 90 > height) {
+                                topOffset = startTopOffset;
+                                page = pdfDocument.addNewPage();
+                                height = page.getPageSizeWithRotation().getHeight();
+                                width = page.getPageSizeWithRotation().getWidth();
+                                canvas = new PdfCanvas(page);
+                            }
+                            drawLines(canvas, topOffset);
+
+                        } else {
+                            drawLine(
                                 canvas,
-                                tc.notes().get(j).value(),
                                 currentOffset,
-                                topOffset + j * 15 + 3,
-                                10,
-                                customFont
+                                topOffset,
+                                currentOffset,
+                                topOffset + 5 * 15
                             );
                         }
+                        currentOffset += offsetWithChangedTactSize;
+                        drawText(
+                            canvas,
+                            staveDto.tacts().get(i).size().split("/")[0],
+                            currentOffset - 30,
+                            topOffset + 35,
+                            40,
+                            customFont
+                        );
+                        drawText(
+                            canvas,
+                            staveDto.tacts().get(i).size().split("/")[1],
+                            currentOffset - 30,
+                            topOffset + 65,
+                            40,
+                            customFont
+                        );
+                    } else {
+                        if (currentOffset + offsetWithoutChangedTactSize > width - rightOffset - offsetWithoutChangedTactSize) {
+
+                            topOffset += (90 + 30);
+                            currentOffset = rightOffset + offsetWithoutChangedTactSize;
+
+                            if (topOffset + 90 > height) {
+                                topOffset = startTopOffset;
+                                page = pdfDocument.addNewPage();
+                                height = page.getPageSizeWithRotation().getHeight();
+                                width = page.getPageSizeWithRotation().getWidth();
+                                canvas = new PdfCanvas(page);
+                            }
+
+                            drawLines(canvas, topOffset);
+
+                        } else {
+                            drawLine(
+                                canvas,
+                                currentOffset,
+                                topOffset,
+                                currentOffset,
+                                topOffset + 5 * 15
+                            );
+                        }
+                        currentOffset += offsetWithoutChangedTactSize;
                     }
 
-                    drawPause(canvas, currentOffset + 3, topOffset + 75, tc.duration());
 
-                    double finalCurrentOffset = currentOffset;
-                    double finalTopOffset = topOffset;
-                    PdfCanvas finalCanvas = canvas;
-                    tc.notes().stream().filter(it -> it.value().length() > 0).findFirst().orElseGet(() -> {
-                        drawImage(finalCanvas, (float) finalCurrentOffset - 5, (float) finalTopOffset + 15 + 40, data);
-                        return null;
-                    });
-                    currentOffset += noteOffset;
+                    for (var tc : staveDto.tacts().get(i).tactColumns()) {
+                        if (currentOffset > width - rightOffset - offsetWithoutChangedTactSize) {
+                            topOffset += (90 + 30);
+                            currentOffset = rightOffset + offsetWithoutChangedTactSize;
+                            drawLines(canvas, topOffset);
+                        }
+                        for (int j = 0; j < 6; j++) {
+                            if (tc.notes().get(j).value().length() != 0) {
+                                drawText(
+                                    canvas,
+                                    tc.notes().get(j).value(),
+                                    currentOffset,
+                                    topOffset + j * 15 + 3,
+                                    10,
+                                    customFont
+                                );
+                            }
+                        }
+
+                        drawPause(canvas, currentOffset + 3, topOffset + 75, tc.duration());
+
+                        double finalCurrentOffset = currentOffset;
+                        double finalTopOffset = topOffset;
+                        PdfCanvas finalCanvas = canvas;
+                        tc.notes().stream().filter(it -> it.value().length() > 0).findFirst().orElseGet(() -> {
+                            drawImage(finalCanvas, (float) finalCurrentOffset - 5, (float) finalTopOffset + 15 + 40, data);
+                            return null;
+                        });
+                        currentOffset += noteOffset;
+                    }
                 }
+                k++;
             }
         }
         return baos.toByteArray();

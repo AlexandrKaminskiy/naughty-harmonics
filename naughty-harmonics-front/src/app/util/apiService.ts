@@ -6,6 +6,7 @@ import {Composition} from "../dto/composition";
 import {Observable} from "rxjs";
 import {Page} from "../dto/page";
 import {PublishResponse} from "../dto/publishResponse";
+import * as uuid from "uuid";
 
 @Injectable({
   providedIn: 'root'
@@ -74,17 +75,35 @@ export class ApiService {
   }
 
   downloadFile(id: number) {
-    this.httpClient.get(`${BACKEND_HOST}/composition/document/${id}`,
-      {responseType: 'blob', observe: 'response', withCredentials: true})
-      .subscribe(resp => {
-        this.showFile(resp.body as Blob);
-      })
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('download', `song.pdf`);
+
+    link.setAttribute('href', `${BACKEND_HOST}/composition/document/${id}/song.pdf`);
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // this.httpClient.get(`${BACKEND_HOST}/composition/document/${id}`,
+    //   {responseType: 'blob', observe: 'response', withCredentials: true})
+    //   .subscribe(resp => {
+    //     this.showFile(resp.body as Blob);
+    //
+    //   })
   }
 
   private showFile(data: Blob) {
-    const blob = new Blob([data], {type: 'application/pdf'});
-    const url = window.URL.createObjectURL(blob);
-    window.open(url);
+    // const blob = new Blob([data], {type: 'application/pdf'});
+    // const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', 'abc.net/files/test.ino');
+    link.setAttribute('download', `products.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    // window.open(url);
   }
 
   isRated(id: number) {
