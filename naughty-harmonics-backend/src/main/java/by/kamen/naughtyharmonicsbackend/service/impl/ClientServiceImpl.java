@@ -16,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -119,8 +120,18 @@ public class ClientServiceImpl implements ClientService {
         client.setFirstName((String) payload.get("given_name"));
         client.setLastName((String) payload.get("family_name"));
         client.setPhotoUrl((String) payload.get("picture"));
+        client.setColors(generateColors());
         client.setAuthority(Authority.ROLE_USER);
         clientRepository.save(client);
         return client;
+    }
+
+    private String generateColors() {
+        final Random random = new Random();
+        int from = random.nextInt(Integer.MAX_VALUE);
+        from &= 0x00FFFFFF;
+        int to = random.nextInt(Integer.MAX_VALUE);
+        to &= 0x00FFFFFF;
+        return String.format("%06x", from) + String.format("%06x", to);
     }
 }

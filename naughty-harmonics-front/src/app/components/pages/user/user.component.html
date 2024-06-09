@@ -1,35 +1,63 @@
-<div>
-  <div class="wrapper">
+<div [ngStyle]="{background: 'linear-gradient(90deg, #' + colorFrom + ', #' + colorTo + ')'}" class="profile-header">
+  <div *ngIf="currentClient.authority == 'ROLE_ADMIN' && client.authority != 'ROLE_ADMIN'" class="views"
+       (click)="grant()">
+    Grant
+  </div>
 
-    <div class="profile-block" style="padding-top: 50px">
-      <img class="profile-image" [src]="client.photoUrl" alt="">
-      <div class="name"> {{client.firstName}} </div>
-      <div class="name"> {{client.lastName}} </div>
-      <div class="email" style="margin-bottom: 15px"> {{client.email}} </div>
-      <div class="email" style="margin-bottom: 15px"> Compositions: {{compositions.length}}</div>
-      <div class="email" style="margin-bottom: 40px"> Total rating: {{rating}}</div>
-
-      <div *ngIf="!current" [ngSwitch]="userAction">
-        <div *ngSwitchCase="UserAction.FRIENDS">
-          <div style="display: inline-block" class="act-button" (click)="delete()">Delete friend</div>
-        </div>
-        <div *ngSwitchCase="UserAction.NOTHING">
-          <div style="display: inline-block" class="act-button" (click)="invite()">Invite</div>
-        </div>
-        <div style="display: flex; justify-content: space-evenly" *ngSwitchCase="UserAction.INVITE_TO">
-          <div style="display: inline-block" class="act-button" (click)="delete()">Decline</div>
-          <div style="display: inline-block" class="act-button" (click)="accept()">Accept</div>
-        </div>
-        <div *ngSwitchCase="UserAction.INVITE_FROM">
-          <div style="display: inline-block" class="act-button" (click)="delete()">Decline invite</div>
-        </div>
-      </div>
+  <div *ngIf="!current" [ngSwitch]="userAction">
+    <div *ngSwitchCase="UserAction.FRIENDS">
+      <div (click)="delete()" class="edit-cover" data-tooltip="Delete friend">X</div>
+    </div>
+    <div *ngSwitchCase="UserAction.NOTHING">
+      <div (click)="invite()" class="edit-cover" style="font-size: 17px; text-align: center" data-tooltip="Invite friend">+</div>
+    </div>
+    <div style="display: flex; justify-content: space-evenly" *ngSwitchCase="UserAction.INVITE_TO">
+      <div (click)="delete()" class="edit-cover" data-tooltip="Decline">X</div>
+      <div (click)="accept()" style="right: 50px; font-size: 16px; width: 10px" class="edit-cover" data-tooltip="Accept">✔</div>
+    </div>
+    <div *ngSwitchCase="UserAction.INVITE_FROM">
+      <div (click)="delete()" class="edit-cover" data-tooltip="Decline">X</div>
     </div>
   </div>
 
+  <img [src]="client.photoUrl" alt="Profile Picture">
+  <h1>{{client.name}}</h1>
+  <div class="user-info" style="margin-bottom: 15px"> {{client.email}} </div>
+  <div class="user-info" style="margin-bottom: 15px"> Compositions: {{compositions.length}}</div>
+  <div class="user-info"> Total rating: {{rating}}</div>
+</div>
 
-  <div *ngIf="current" style="display: inline-block">
-    <div class="email">Friends</div>
+<!--<div *ngIf="!current" [ngSwitch]="userAction">-->
+<!--  <div *ngSwitchCase="UserAction.FRIENDS">-->
+<!--    <div style="display: inline-block" class="act-button" (click)="delete()">Delete friend</div>-->
+<!--  </div>-->
+<!--  <div *ngSwitchCase="UserAction.NOTHING">-->
+<!--    <div style="display: inline-block" class="act-button" (click)="invite()">Invite</div>-->
+<!--  </div>-->
+<!--  <div style="display: flex; justify-content: space-evenly" *ngSwitchCase="UserAction.INVITE_TO">-->
+<!--    <div style="display: inline-block" class="act-button" (click)="delete()">Decline</div>-->
+<!--    <div style="display: inline-block" class="act-button" (click)="accept()">Accept</div>-->
+<!--  </div>-->
+<!--  <div *ngSwitchCase="UserAction.INVITE_FROM">-->
+<!--    <div style="display: inline-block" class="act-button" (click)="delete()">Decline invite</div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div *ngIf="currentClient.authority == 'ROLE_ADMIN' && client.authority != 'ROLE_ADMIN'" class="act-button"-->
+<!--     (click)="grant()">-->
+<!--  Grant-->
+<!--</div>-->
+
+
+
+
+<div class="topnav">
+  <div *ngIf="current" (click)="changeTab('compositions')" [ngStyle]="{borderStyle: this.activeTab == 'compositions' ? 'none none solid none' : 'none'}">Compositions</div>
+  <div *ngIf="current" (click)="changeTab('friends')" [ngStyle]="{borderStyle: this.activeTab == 'friends' ? 'none none solid none' : 'none'}">Friends</div>
+  <div *ngIf="current" (click)="changeTab('invitations')" [ngStyle]="{borderStyle: this.activeTab == 'invitations' ? 'none none solid none' : 'none'}">Invitations</div>
+</div>
+
+<div>
+  <div *ngIf="current && this.activeTab == 'invitations'" style="display: inline-block">
     <table>
       <tbody>
       <tr *ngFor="let i of invitations" (click)="toUserPage(i.id)">
@@ -39,8 +67,7 @@
     </table>
   </div>
 
-  <div *ngIf="current" style="display: inline-block">
-    <div class="email">Invitations</div>
+  <div *ngIf="current && this.activeTab == 'friends'" style="display: inline-block">
     <table>
       <tbody>
       <tr *ngFor="let i of friends" (click)="toUserPage(i.id)">
@@ -49,26 +76,24 @@
       </tbody>
     </table>
   </div>
-  <table>
+
+  <table *ngIf="this.activeTab == 'compositions' || !current">
     <thead>
     <tr>
       <th>Name</th>
-      <th>Description</th>
       <th>Complexity</th>
+      <th>Description</th>
+      <th>BPM</th>
     </tr>
     </thead>
     <tbody>
-    <tr style="border-width: 0; font-size: 13px" *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
+    <tr *ngFor="let i of compositions" (click)="toNoteInfoPage(i.id)">
       <td><img src="{{i.photoUrl}}" alt="Song 2">{{i.name}}</td>
-      <td>{{i.description}}</td>
       <td>{{i.complexity}}</td>
-
+      <td>{{i.description}}</td>
+      <td>{{i.bpm}}</td>
     </tr>
     </tbody>
   </table>
 
-  <div *ngIf="currentClient.authority == 'ROLE_ADMIN' && client.authority != 'ROLE_ADMIN'" class="act-button"
-       (click)="grant()">
-    Grant
-  </div>
 </div>

@@ -31,7 +31,8 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                cl.name                                                          as clientName,
                cl.photo_url                                                     as photoUrl,
                c.is_banned                                                      as isDeleted,
-               c.is_deleted                                                     as isBanned
+               c.is_deleted                                                     as isBanned,
+               jsonb_array_length(staves)                                       as stavesCount
         FROM nh.composition c
                  JOIN nh.client cl ON cl.id = c.client_id
         WHERE (:name IS NULL OR c.name LIKE concat('%', COALESCE(:name, ''), '%'))
@@ -68,7 +69,8 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                cl.name                                                          as clientName,
                cl.photo_url                                                     as photoUrl,
                c.is_banned                                                      as isDeleted,
-               c.is_deleted                                                     as isBanned
+               c.is_deleted                                                     as isBanned,
+               jsonb_array_length(staves)                                       as stavesCount
         FROM nh.composition c
                  JOIN nh.client cl ON cl.id = c.client_id
         WHERE :id = c.id
@@ -93,7 +95,8 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
                c.is_public                                                      as isPublic,
                (SELECT count(*) FROM nh.rating r WHERE r.composition_id = c.id) as rating,
                c.is_banned                                                      as isDeleted,
-               c.is_deleted                                                     as isBanned
+               c.is_deleted                                                     as isBanned,
+               jsonb_array_length(staves)                                       as stavesCount
         FROM nh.composition c
                  JOIN nh.client cl ON c.client_id = cl.id
         WHERE cl.id = :userId

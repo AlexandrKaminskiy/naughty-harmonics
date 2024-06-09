@@ -1,11 +1,21 @@
 import {Component, OnInit} from "@angular/core";
 import {ClientDto} from "../../../dto/clientDto";
 import {ClientService} from "../../../util/clientService";
-import {NgForOf, NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase, NgSwitchDefault} from "@angular/common";
+import {
+  NgClass,
+  NgForOf,
+  NgIf,
+  NgOptimizedImage,
+  NgStyle,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault
+} from "@angular/common";
 import {CompositionDocument} from "../../../dto/compositionDocument";
 import {ApiService} from "../../../util/apiService";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserAction} from "../../../dto/userAction";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 @Component({
   selector: 'app-user',
@@ -16,7 +26,10 @@ import {UserAction} from "../../../dto/userAction";
     NgIf,
     NgSwitchCase,
     NgSwitch,
-    NgSwitchDefault
+    NgSwitchDefault,
+    NgStyle,
+    NgClass,
+    TooltipModule
   ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
@@ -33,6 +46,10 @@ export class UserComponent implements OnInit {
   public canGrant: boolean;
   public userAction: UserAction
   public rating: number
+  public colorFrom: string;
+  public colorTo: string;
+  public tabs = ['compositions', 'friends', 'invitations']
+  public activeTab = 'compositions'
 
   constructor(
     private clientService: ClientService,
@@ -52,6 +69,8 @@ export class UserComponent implements OnInit {
 
         if (this.current) {
           this.client = it
+          this.colorFrom = this.client.colors.match(/.{1,3}/g)!![0]
+          this.colorTo = this.client.colors.match(/.{1,3}/g)!![1]
           this.getClientRating()
           this.getCompositions(it.id)
         }
@@ -59,6 +78,8 @@ export class UserComponent implements OnInit {
         if (!this.current) {
           this.clientService.getUser(params['id']).subscribe(it => {
             this.client = it
+            this.colorFrom = this.client.colors.match(/.{1,3}/g)!![0]
+            this.colorTo = this.client.colors.match(/.{1,3}/g)!![1]
             this.getCompositions(it.id)
             this.getClientRating()
           })
@@ -128,6 +149,7 @@ export class UserComponent implements OnInit {
   accept() {
     this.clientService.inviteOrAcceptFriend(this.client.id).subscribe()
     this.userAction = UserAction.FRIENDS
+    window.location.reload()
   }
 
   protected readonly UserAction = UserAction;
@@ -138,5 +160,9 @@ export class UserComponent implements OnInit {
 
   getClientRating() {
     this.apiService.getClientRating(this.client.id).subscribe(it => this.rating = it)
+  }
+
+  changeTab(tab: string) {
+    this.activeTab = tab
   }
 }

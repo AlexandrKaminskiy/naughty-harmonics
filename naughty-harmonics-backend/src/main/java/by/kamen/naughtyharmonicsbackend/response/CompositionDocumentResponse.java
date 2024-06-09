@@ -12,7 +12,8 @@ public record CompositionDocumentResponse(
     String clientName,
     String photoUrl,
     Boolean deleted,
-    Boolean banned
+    Boolean banned,
+    Integer stavesCount
 ) {
 
 }

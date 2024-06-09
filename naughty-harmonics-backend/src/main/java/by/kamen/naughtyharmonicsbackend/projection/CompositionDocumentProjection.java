@@ -14,4 +14,5 @@ public interface CompositionDocumentProjection {
     String getPhotoUrl();
     Boolean getIsDeleted();
     Boolean getIsBanned();
+    Integer getStavesCount();
 }

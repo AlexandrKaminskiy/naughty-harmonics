@@ -9,6 +9,7 @@ public record ClientResponse(
     String firstName,
     String lastName,
     String photoUrl,
+    String colors,
     Authority authority
 ) {
 }

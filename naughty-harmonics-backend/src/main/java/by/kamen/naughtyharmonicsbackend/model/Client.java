@@ -28,6 +28,7 @@ public class Client extends PrimaryEntity {
     private String firstName;
     private String lastName;
     private String photoUrl;
+    private String colors;
 
     @ManyToMany
     @JoinTable(

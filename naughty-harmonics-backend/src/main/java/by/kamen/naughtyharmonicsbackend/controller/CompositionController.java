@@ -129,7 +129,7 @@ public class CompositionController {
     }
 
     @GetMapping(value = "/document/{id}",
-        produces = MediaType.APPLICATION_PDF_VALUE)
+        produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public byte[] getFile(
         @PathVariable Long id,
         @AuthenticationPrincipal ClientDetails clientDetails

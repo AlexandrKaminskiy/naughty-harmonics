@@ -50,6 +50,4 @@ export class ClientService {
   hasRole(userRole: string, roleToHave: string): boolean {
     return userRole == roleToHave
   }
-
-
 }

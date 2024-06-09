@@ -102,6 +102,7 @@ public interface CompositionMapper {
     @Mapping(target = "isPublic", source = "isPublic")
     @Mapping(target = "banned", source = "isBanned")
     @Mapping(target = "deleted", source = "isDeleted")
+    @Mapping(target = "stavesCount", source = "stavesCount")
     CompositionDocumentResponse toCompositionDocumentResponse(
         final CompositionDocumentProjection compositionDocumentProjection
     );

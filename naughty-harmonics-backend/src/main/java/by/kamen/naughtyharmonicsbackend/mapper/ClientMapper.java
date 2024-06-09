@@ -15,6 +15,7 @@ public interface ClientMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "photoUrl", source = "photoUrl")
     @Mapping(target = "email", source = "email")
+    @Mapping(target = "colors", source = "colors")
     @Mapping(target = "authority", source = "authority")
     ClientResponse toClientResponse(final Client client);
 }

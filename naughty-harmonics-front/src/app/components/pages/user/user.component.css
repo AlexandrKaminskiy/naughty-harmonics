@@ -27,13 +27,13 @@
   font-size: 30px;
 }
 
-.email {
+.user-info {
   text-align: center;
   font-size: 20px;
   margin-top: 10px;
   opacity: 50%;
-  color: black;
-  /*margin-bottom: 50px;*/
+  /*color: #ffffff;*/
+  margin-bottom: 20px;
 
   /*color: #fdfdfd;*/
 }
@@ -70,6 +70,142 @@
   transition: 1s;
 }
 
+
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+
+.profile-header {
+  /*background: linear-gradient(90deg, #d66d75, #e29587);*/
+  position: relative;
+  text-align: center;
+  color: white;
+  padding-bottom: 1px;
+}
+
+.profile-header img {
+  border-radius: 50%;
+  border: 3px solid #fff;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+}
+
+.profile-header h1 {
+  margin: 10px 0 5px 0;
+}
+
+.profile-header p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.profile-header .edit-cover {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-header .edit-cover:hover {
+  color: #343434;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.profile-header .edit-cover:active {
+  color: #000000;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.profile-header .views {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.profile-header .views:hover {
+  color: #343434;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.profile-header .views:active {
+  color: #000000;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.profile-header .social-icons {
+  margin: 20px 0;
+}
+
+.profile-header .social-icons img {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+}
+
+.search-bar {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.search-bar input[type="text"] {
+  padding: 10px;
+  width: 60%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #d66d75;
+  color: white;
+  cursor: pointer;
+}
+
+
+.topnav {
+  overflow: hidden;
+  cursor: pointer;
+  /*background-color: #333;*/
+}
+
+.topnav div {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  /*background-color: #66a3ff;*/
+
+}
+
+.topnav div:hover {
+  /*background-color: #ddd;*/
+  transition: 0.3s;
+  color: #5e5e5e;
+}
+
+.topnav div:active {
+  /*background-color: #2379ff;*/
+  transition: 0.3s;
+  color: white;
 }

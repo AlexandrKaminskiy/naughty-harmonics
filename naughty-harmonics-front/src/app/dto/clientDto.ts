@@ -5,5 +5,6 @@ export interface ClientDto {
     firstName: string;
     lastName: string;
     photoUrl: string;
-    authority: string
+    authority: string;
+    colors: string;
 }

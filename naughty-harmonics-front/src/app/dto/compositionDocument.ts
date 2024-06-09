@@ -11,4 +11,5 @@ export interface CompositionDocument {
   photoUrl: string;
   banned: boolean;
   deleted: boolean;
+  stavesCount: number;
 }
