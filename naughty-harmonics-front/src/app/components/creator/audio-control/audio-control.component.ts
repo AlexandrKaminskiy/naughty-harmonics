@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, inject, OnInit} from '@angular/core';
 import {SideBarComponent} from "../side-bar/side-bar.component";
 import {TabComponent} from "../tab/tab.component";
 import {PlayMusicAction} from "../../../dto/playMusicAction";
@@ -17,6 +17,9 @@ import {NoteDto} from "../../../dto/note";
 import {UtilService} from "../../../util/utilService";
 import {ClientDto} from "../../../dto/clientDto";
 import {ClientService} from "../../../util/clientService";
+import {CustomAlertComponent} from "../../pages/custom-alert/custom-alert.component";
+import {AlertModule} from "ngx-bootstrap/alert";
+import {NgToastModule, NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-audio-control',
@@ -24,7 +27,10 @@ import {ClientService} from "../../../util/clientService";
   imports: [
     SideBarComponent,
     TabComponent,
-    NgStyle
+    NgStyle,
+    CustomAlertComponent,
+    AlertModule,
+    NgToastModule
   ],
   templateUrl: './audio-control.component.html',
   styleUrl: './audio-control.component.css'
@@ -51,8 +57,14 @@ export class AudioControlComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public router: Router,
     public clientService: ClientService,
-    public utilService: UtilService
+    public utilService: UtilService,
+    public ngToastService: NgToastService
   ) {
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    $event.returnValue = true;
   }
 
   ngOnInit() {
@@ -75,14 +87,14 @@ export class AudioControlComponent implements OnInit {
   }
 
   getTopStaveOffset() {
-    if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave].sliderContext) {
+    if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave] && this.staveInfo[this.visibleStave].sliderContext) {
       return this.staveInfo[this.visibleStave].sliderContext.top
     }
     return START_TOP_OFFSET
   }
 
   getLeftStaveOffset() {
-    if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave].sliderContext) {
+    if (this.staveInfo && this.staveInfo.length != 0 && this.staveInfo[this.visibleStave] && this.staveInfo[this.visibleStave].sliderContext) {
       return this.staveInfo[this.visibleStave].sliderContext.left
     }
     return START_LEFT_OFFSET
@@ -260,6 +272,7 @@ export class AudioControlComponent implements OnInit {
     } else {
       this.apiService.updateSheet(this.id, composition).subscribe()
     }
+    this.ngToastService.info(`Song was saved!`, "INFO", 5000)
 
     console.log(this.id)
   }
@@ -317,7 +330,13 @@ export class AudioControlComponent implements OnInit {
   }
 
   publishComposition() {
-    this.apiService.publishSheet(this.id).subscribe(it =>
-      alert(`unique ${it.isUnique} percent ${it.maxCorrelationValue * 100}%`))
+
+    this.apiService.publishSheet(this.id).subscribe(it => {
+      if (it.isUnique) {
+        this.ngToastService.info(`Song was published! Unique percent ${it.maxCorrelationValue * 100}%`, "INFO", 5000)
+      } else {
+        this.ngToastService.danger(`Song wasn't published! Unique percent ${it.maxCorrelationValue * 100}%`, "INFO", 5000)
+      }
+    })
   }
 }

@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {TactComponent} from "../tact/tact.component";
 import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {UtilService} from "../../../util/utilService";
@@ -30,7 +39,7 @@ export class StaveComponent implements OnInit, AfterViewInit {
 
   @ViewChildren("tact") children: QueryList<ElementRef>
 
-  constructor(public utilService: UtilService) {
+  constructor(public utilService: UtilService, public cdRef: ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {
@@ -42,11 +51,14 @@ export class StaveComponent implements OnInit, AfterViewInit {
   }
 
   private handleTactChange(nativeElement: any) {
-    const rect = nativeElement.getBoundingClientRect();
-    this.tacts[nativeElement.id].topLeftCorner = rect.y
-    this.tacts[nativeElement.id].width = rect.width
-    this.tacts[nativeElement.id].height = rect.height
-    console.log(this.tacts[nativeElement.id].topLeftCorner)
+    requestAnimationFrame(() => {
+      const rect = nativeElement.getBoundingClientRect();
+      this.tacts[nativeElement.id].topLeftCorner = rect.y
+      this.tacts[nativeElement.id].width = rect.width
+      this.tacts[nativeElement.id].height = rect.height
+      console.log(this.tacts[nativeElement.id].topLeftCorner)
+    })
+
   }
 
   ngOnInit() {
@@ -114,6 +126,12 @@ export class StaveComponent implements OnInit, AfterViewInit {
 
     console.log(size)
     this.tacts[this.activeTact].sizeStr = size;
+    // setTimeout(() => {
+    //   this.cdRef.detectChanges();
+    // });
+
+
+    // this.cdRef.detectChanges()
   }
 
   trackByTactValue(index: number, item: TactInfo) {

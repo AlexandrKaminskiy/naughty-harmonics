@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -21,6 +21,7 @@ import {NotePauseComponent} from "../note-pause/note-pause.component";
 import {NoteActionComponent} from "../note-action/note-action.component";
 import {START_TACT_LENGTH} from "../../../util/constants";
 import {TactPauseComponent} from "../tact-pause/tact-pause.component";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 @Component({
   selector: 'app-tact',
@@ -34,7 +35,8 @@ import {TactPauseComponent} from "../tact-pause/tact-pause.component";
     NgOptimizedImage,
     NotePauseComponent,
     NoteActionComponent,
-    TactPauseComponent
+    TactPauseComponent,
+    TooltipModule
   ],
   templateUrl: './tact.component.html',
   styleUrl: './tact.component.css'
@@ -56,6 +58,7 @@ export class TactComponent implements OnInit, AfterViewInit {
   @ViewChildren("note") children: QueryList<ElementRef>
 
   size: number
+
 
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }

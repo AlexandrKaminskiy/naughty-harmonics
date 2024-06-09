@@ -1,5 +1,4 @@
-<div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()">
-
+<div [ngStyle]="{border: changeWarningBorder()}" style="margin-right: -2px" (focusin)="acknowledgeStaveActive()" data-tooltip="Click to edit tact">
   <div class="column-block" *ngIf="showSize">
     <div style="position: absolute">
       <div class="tact-digit" style="top: 14px">

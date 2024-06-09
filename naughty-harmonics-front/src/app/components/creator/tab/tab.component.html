@@ -7,7 +7,7 @@
 
 <div class="staves-set">
 
-  <div (click)="changeContext(j)" [ngStyle]="{borderColor: visibleStave == j ? '#00649b' : 'transparent' }" *ngFor="let i of utilService.createRange(this.staves.length); index as j" class="tactButton">
+  <div style="position: relative" (click)="changeContext(j)" data-tooltip="Change stave" [ngStyle]="{borderColor: visibleStave == j ? '#00649b' : 'transparent' }" *ngFor="let i of utilService.createRange(this.staves.length); index as j" class="tactButton">
     <div class="remove" (click)="deleteStave($event, j)">
       <div style="margin-top: -3px">x</div>
     </div>
@@ -15,7 +15,7 @@
       {{i}}
     </div>
   </div>
-  <div class="tactButton plus" (click)="addStave()">
+  <div class="tactButton plus" data-tooltip="Add stave" (click)="addStave()">
     <div>
       +
     </div>

@@ -15,10 +15,10 @@
   border-style: solid;
 }
 
-
-.tactButton:hover {
+.tactButton:hover:not(:has(.remove:hover)) {
   background-color: #93d8ff;
   transition: 1s;
+  cursor: pointer;
 }
 
 .tactButton.plus:hover {
@@ -28,19 +28,22 @@
 
 .remove {
   position: absolute;
-  left: 40px;
-  top: 5px;
+  left: 35px;
+  top: 0px;
   width: 15px;
   height: 15px;
   text-align: center;
+  background-color: #ff0068;
 
   border-radius: 3px;
   transition: 0.5s;
+
 }
 
 .remove:hover {
-  background-color: #ff0068;
+  background-color: #9a0000;
   transition: 0.5s;
+  cursor: pointer;
 }
 
 .staves-set {

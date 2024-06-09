@@ -6,6 +6,7 @@ import {NoteDurationService} from "../../../util/noteDurationService";
 import {NoteActionComponent} from "../note-action/note-action.component";
 import {NoteFunctionType} from "../../../dto/noteFunctionType";
 import {NOTE_LENGTH} from "../../../util/constants";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 @Component({
   selector: 'app-note',
@@ -14,7 +15,8 @@ import {NOTE_LENGTH} from "../../../util/constants";
     NgStyle,
     NoteActionComponent,
     NgClass,
-    NgIf
+    NgIf,
+    TooltipModule
   ],
   templateUrl: './note.component.html',
   styleUrl: './note.component.css'

@@ -6,6 +6,7 @@ import {UtilService} from "../../../util/utilService";
 import {StaveInfo} from "../../../dto/staveInfo";
 import {Instrument} from "../../../dto/instrument";
 import {START_LEFT_OFFSET, START_TOP_OFFSET} from "../../../util/constants";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 @Component({
   selector: 'app-tab',
@@ -14,7 +15,8 @@ import {START_LEFT_OFFSET, START_TOP_OFFSET} from "../../../util/constants";
     SideBarComponent,
     StaveComponent,
     NgForOf,
-    NgStyle
+    NgStyle,
+    TooltipModule
   ],
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.css'
@@ -49,6 +51,13 @@ export class TabComponent implements OnInit, OnChanges {
 
   deleteStave($event: any, i: number) {
     this.staves.splice(i, 1)
+    console.log(this.staves)
+    if (this.staves.length > 0) {
+      if (this.visibleStave != 0) {
+        this.visibleStave--
+        this.visibleStaveEmitter.emit(this.visibleStave)
+      }
+    }
     this.stavesEmitter.emit(this.staves)
     $event.stopPropagation();
   }

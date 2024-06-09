@@ -71,10 +71,18 @@
   font-size: 20px;
 }
 
+.control-button:enabled:hover:active{
+  opacity: 100%;
+  transition: 0.3s;
+}
+
 .control-button:enabled:hover{
   opacity: 70%;
+  transition: 0.3s;
 }
 
 .control-button:disabled{
   opacity: 50%;
+  transition: 0.3s;
+
 }
