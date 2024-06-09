@@ -28,9 +28,11 @@
       <app-note #note
         [oldValue]="notes[i][j]"
         [column]="i" [row]="j"
+        [events]="eventsSubject.asObservable()"
         *ngFor="let row of col; index as j"
         (noteValue)="changeTactValue($event)"
         (action)="handleAction($event)"
+        (noteLocation)="changeActiveNote($event)"
       >
       </app-note>
 

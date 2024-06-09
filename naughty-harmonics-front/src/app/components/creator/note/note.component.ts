@@ -7,6 +7,8 @@ import {NoteActionComponent} from "../note-action/note-action.component";
 import {NoteFunctionType} from "../../../dto/noteFunctionType";
 import {NOTE_LENGTH} from "../../../util/constants";
 import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {Observable} from "rxjs";
+import {NoteEmitterAction} from "../../../dto/noteEmitterAction";
 
 @Component({
   selector: 'app-note',
@@ -23,11 +25,14 @@ import {TooltipModule} from "ngx-bootstrap/tooltip";
 })
 export class NoteComponent implements OnInit {
 
+  @Output() noteLocation = new EventEmitter<[number, number]>
   @Output() noteValue = new EventEmitter<any>();
   @Output() action = new EventEmitter<any>();
   @Input() oldValue: NoteDto
   @Input() row: number;
   @Input() column: number;
+  @Input() events: Observable<[number, number, NoteEmitterAction]>;
+
   hasFocus: boolean;
   value: string;
   duration: number
@@ -44,6 +49,24 @@ export class NoteComponent implements OnInit {
     this.value = this.oldValue.value
     this.duration = this.oldValue.duration
     this.functionType = this.oldValue.functionType
+    this.events.subscribe(it => {
+      if (it[0] == this.row && it[1] == this.column) {
+        switch (it[2]) {
+          case NoteEmitterAction.VIBRATO: this.vibrato(); break;
+          case NoteEmitterAction.ADD_COLUMN: this.addColumn(); break;
+          case NoteEmitterAction.BAND_UP: this.bandUp(); break;
+          case NoteEmitterAction.BAND_DOWN: this.bandDown12(); break;
+          case NoteEmitterAction.BAND_UP_12: this.bandUp12(); break;
+          case NoteEmitterAction.BAND_DOWN_12: this.bandDown12(); break;
+          case NoteEmitterAction.DEFAULT: this.default(); break;
+          case NoteEmitterAction.REMOVE_COLUMN: this.removeColumn(); break;
+          case NoteEmitterAction.ERASE_COLUMN: this.eraseColumn(); break;
+        }
+        console.log(`row ${this.row} column ${this.column}`)
+      }
+      this.noteLocation.emit([-1, this.column])
+      this.updateValue()
+    });
   }
 
   onKeyDown($event: KeyboardEvent) {
@@ -69,13 +92,14 @@ export class NoteComponent implements OnInit {
   setFocusable() {
     console.log("focus")
 
+    this.noteLocation.emit([this.row, this.column])
     // this.backGround = 'pink'
     this.freshFocus = true
     this.hasFocus = true
 
   }
 
-  setUnfocus() {
+  updateValue() {
     console.log("unfocus")
 
     this.hasFocus = false
@@ -149,6 +173,7 @@ export class NoteComponent implements OnInit {
   }
 
   vibrato() {
+    if (!this.value) return
     this.functionType = NoteFunctionType.VIBRATO;
   }
 

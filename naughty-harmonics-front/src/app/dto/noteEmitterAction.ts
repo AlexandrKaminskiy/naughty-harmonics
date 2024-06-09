@@ -1,0 +1,16 @@
+export enum NoteEmitterAction {
+  BAND_UP,
+  BAND_DOWN,
+  BAND_UP_12,
+  BAND_DOWN_12,
+  VIBRATO,
+  SLIDE,
+  HAMMER,
+  DEFAULT,
+  ADD_COLUMN,
+  REMOVE_COLUMN,
+  ADD_PAUSE,
+  CHANGE_DURATION,
+  ERASE_COLUMN,
+
+}

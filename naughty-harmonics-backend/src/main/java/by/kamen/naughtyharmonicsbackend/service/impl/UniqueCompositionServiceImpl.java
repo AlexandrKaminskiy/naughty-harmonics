@@ -78,9 +78,6 @@ public class UniqueCompositionServiceImpl implements UniqueCompositionService {
             correlation.add(result / Math.sqrt(immobileSum * exploringSum));
         }
 
-        IntStream.range(0, correlation.size()).forEach(
-            it -> System.out.print("(" + it + "," + correlation.get(it) + "), ")
-        );
         final double maxCoefficient = correlation.stream()
             .max(Comparator.comparingDouble(Double::doubleValue))
             .orElse(0.0);

@@ -13,6 +13,8 @@ import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {UtilService} from "../../../util/utilService";
 import {TactInfo} from "../../../dto/tactInfo";
 import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../../util/constants";
+import {Subject} from "rxjs";
+import {NoteEmitterAction} from "../../../dto/noteEmitterAction";
 
 @Component({
   selector: 'app-stave',
@@ -27,6 +29,7 @@ import {TACTS_WIDTH, VERTICAL_TACT_MARGIN} from "../../../util/constants";
   styleUrl: './stave.component.css'
 })
 export class StaveComponent implements OnInit, AfterViewInit {
+
   @Input() id: number
   @Input() tacts: TactInfo[];
   readonly NOTE_LENGTH: number = 2
@@ -36,8 +39,11 @@ export class StaveComponent implements OnInit, AfterViewInit {
   activeTact: number;
   activeTactSize: string = '';
   tactSizeValue: string;
+  activeLocation: [number, number, number]
 
   @ViewChildren("tact") children: QueryList<ElementRef>
+
+  eventsSubject: Subject<[number, number, number, NoteEmitterAction]> = new Subject<[number, number, number, NoteEmitterAction]>();
 
   constructor(public utilService: UtilService, public cdRef: ChangeDetectorRef) {
   }
@@ -149,4 +155,14 @@ export class StaveComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly TACTS_WIDTH = TACTS_WIDTH;
+
+  changeActiveStaveLocation($event: [number, number, number]) {
+    this.activeLocation = $event
+  }
+
+  emitAction(noteEmitterAction: NoteEmitterAction) {
+    this.eventsSubject.next([this.activeLocation[0], this.activeLocation[1], this.activeLocation[2], noteEmitterAction])
+  }
+
+  protected readonly NoteEmitterAction = NoteEmitterAction;
 }

@@ -17,7 +17,6 @@ import {NoteDto} from "../../../dto/note";
 import {UtilService} from "../../../util/utilService";
 import {ClientDto} from "../../../dto/clientDto";
 import {ClientService} from "../../../util/clientService";
-import {CustomAlertComponent} from "../../pages/custom-alert/custom-alert.component";
 import {AlertModule} from "ngx-bootstrap/alert";
 import {NgToastModule, NgToastService} from "ng-angular-popup";
 
@@ -28,7 +27,6 @@ import {NgToastModule, NgToastService} from "ng-angular-popup";
     SideBarComponent,
     TabComponent,
     NgStyle,
-    CustomAlertComponent,
     AlertModule,
     NgToastModule
   ],

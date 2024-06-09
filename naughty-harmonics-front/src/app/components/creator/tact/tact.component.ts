@@ -22,6 +22,8 @@ import {NoteActionComponent} from "../note-action/note-action.component";
 import {START_TACT_LENGTH} from "../../../util/constants";
 import {TactPauseComponent} from "../tact-pause/tact-pause.component";
 import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {NoteEmitterAction} from "../../../dto/noteEmitterAction";
+import {Observable, Subject} from "rxjs";
 
 @Component({
   selector: 'app-tact',
@@ -51,14 +53,17 @@ export class TactComponent implements OnInit, AfterViewInit {
   @Output() tactInfo: EventEmitter<TactInfo> = new EventEmitter<TactInfo>()
   @Output() tactAction: EventEmitter<any> = new EventEmitter<any>()
   @Output() active: EventEmitter<any> = new EventEmitter<any>()
+  @Output() staveLocation: EventEmitter<[number, number, number]> = new EventEmitter<[number, number, number]>()
 
   @Input() notes: NoteDto[][]
   @Input() activeBorder: boolean
 
+  @Input() events: Observable<[number, number, number, NoteEmitterAction]>;
+  eventsSubject: Subject<[number, number, NoteEmitterAction]> = new Subject<[number, number, NoteEmitterAction]>();
+  activeNote: [number, number]
   @ViewChildren("note") children: QueryList<ElementRef>
 
   size: number
-
 
   constructor(public utilService: UtilService, public noteDurationService: NoteDurationService) {
   }
@@ -77,6 +82,11 @@ export class TactComponent implements OnInit, AfterViewInit {
     this.size = parseInt(parts[0]) * 32 / parseInt(parts[1])
     console.log(this.size)
     this.changeWarningBorder();
+    this.events.subscribe(it => {
+      if (it[0] == this.serialNumber) {
+        this.eventsSubject.next([it[1], it[2], it[3]])
+      }
+    });
   }
 
   changeTactValue($event: any) {
@@ -167,4 +177,9 @@ export class TactComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly START_TACT_LENGTH = START_TACT_LENGTH;
+
+  changeActiveNote($event: [number, number]) {
+    this.activeNote = $event
+    this.staveLocation.emit([this.serialNumber, $event[0], $event[1]])
+  }
 }

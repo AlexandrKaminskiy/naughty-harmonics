@@ -15,6 +15,8 @@
               [showSize]="showSize(j)"
               [staveAcknowledged]="tacts.length - 1 != j"
               [activeBorder]="activeTact == i.serialNumber"
+              [events]="eventsSubject.asObservable()"
+              (staveLocation)="changeActiveStaveLocation($event)"
     />
   </div>
 </div>
@@ -29,3 +31,10 @@
                placeholder="Size">
 
 </div>
+<button (click)="emitAction(NoteEmitterAction.VIBRATO)">Vibrato</button>
+<button (click)="emitAction(NoteEmitterAction.BAND_UP)">Band up</button>
+<button (click)="emitAction(NoteEmitterAction.BAND_DOWN)">Band down</button>
+<button (click)="emitAction(NoteEmitterAction.BAND_UP_12)">Band up 12</button>
+<button (click)="emitAction(NoteEmitterAction.BAND_DOWN_12)">Band down 12</button>
+<button (click)="emitAction(NoteEmitterAction.REMOVE_COLUMN)">Remove column</button>
+<button (click)="emitAction(NoteEmitterAction.ADD_COLUMN)">Add column</button>
