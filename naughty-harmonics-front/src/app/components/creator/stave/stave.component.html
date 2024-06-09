@@ -31,10 +31,18 @@
                placeholder="Size">
 
 </div>
-<button (click)="emitAction(NoteEmitterAction.VIBRATO)">Vibrato</button>
-<button (click)="emitAction(NoteEmitterAction.BAND_UP)">Band up</button>
-<button (click)="emitAction(NoteEmitterAction.BAND_DOWN)">Band down</button>
-<button (click)="emitAction(NoteEmitterAction.BAND_UP_12)">Band up 12</button>
-<button (click)="emitAction(NoteEmitterAction.BAND_DOWN_12)">Band down 12</button>
-<button (click)="emitAction(NoteEmitterAction.REMOVE_COLUMN)">Remove column</button>
-<button (click)="emitAction(NoteEmitterAction.ADD_COLUMN)">Add column</button>
+
+<div class="edit-notes-tools" style="top: 140px;width: 250px;">
+  <button data-tooltip="Vibrato 'Shift+v'" class="control-button" (click)="emitAction(NoteEmitterAction.VIBRATO)">~</button>
+  <button data-tooltip="Band Up '↑'" class="control-button" (click)="emitAction(NoteEmitterAction.BAND_UP)">↑</button>
+  <button data-tooltip="Band Down '↓'" class="control-button" (click)="emitAction(NoteEmitterAction.BAND_DOWN)">↓</button>
+  <button data-tooltip="Band Up 1/2 'Shift+↑'" class="control-button" (click)="emitAction(NoteEmitterAction.BAND_UP_12)">↑ 1/2</button>
+  <button data-tooltip="Band Down 1/2 'Shift+↓'" class="control-button" (click)="emitAction(NoteEmitterAction.BAND_DOWN_12)">↓ 1/2</button>
+</div>
+<div class="edit-notes-tools" style="top: 190px; width: 200px">
+  <button data-tooltip="Increase duration '+'" class="control-button" (click)="emitAction(NoteEmitterAction.INCREASE_DURATION)">+</button>
+  <button data-tooltip="Decrease duration '-'" class="control-button" (click)="emitAction(NoteEmitterAction.DECREASE_DURATION)">-</button>
+  <button data-tooltip="Delete note 'd'" class="control-button" (click)="emitAction(NoteEmitterAction.REMOVE_COLUMN)">Del</button>
+  <button data-tooltip="Add column 'Enter'" class="control-button" (click)="emitAction(NoteEmitterAction.ADD_COLUMN)">Add</button>
+
+</div>

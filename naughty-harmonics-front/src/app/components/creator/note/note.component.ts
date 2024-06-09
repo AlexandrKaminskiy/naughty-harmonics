@@ -61,6 +61,8 @@ export class NoteComponent implements OnInit {
           case NoteEmitterAction.DEFAULT: this.default(); break;
           case NoteEmitterAction.REMOVE_COLUMN: this.removeColumn(); break;
           case NoteEmitterAction.ERASE_COLUMN: this.eraseColumn(); break;
+          case NoteEmitterAction.INCREASE_DURATION: this.increaseDuration(); break;
+          case NoteEmitterAction.DECREASE_DURATION: this.decreaseDuration(); break;
         }
         console.log(`row ${this.row} column ${this.column}`)
       }
