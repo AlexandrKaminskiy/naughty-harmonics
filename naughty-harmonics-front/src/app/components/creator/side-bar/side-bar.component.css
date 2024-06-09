@@ -74,11 +74,13 @@
 .control-button:enabled:hover:active{
   opacity: 100%;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .control-button:enabled:hover{
   opacity: 70%;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .control-button:disabled{

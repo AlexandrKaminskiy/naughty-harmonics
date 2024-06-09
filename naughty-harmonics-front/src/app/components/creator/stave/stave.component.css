@@ -51,7 +51,7 @@
 
 .control-button:enabled:hover{
   background-color: #93d8ff;
-  opacity: 70%;
+  /*opacity: 70%;*/
   transition: 0.3s;
   cursor: pointer;
 }

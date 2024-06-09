@@ -24,11 +24,13 @@ body {
 .nav-link:hover {
   color: #6262ff;
   transition: 0.4s;
+  cursor: pointer;
 }
 
 .nav-link:active {
   color: #00649b;
   transition: 0.1s;
+  cursor: pointer;
 }
 
 
@@ -107,11 +109,8 @@ tr:not(.highlight):hover {
 }
 
 [data-tooltip]:hover::before {
-  /* needed - do not touch */
   opacity: 1;
   width: 120px;
-  /*width: fit-content;*/
-  /* customizable */
   background: #bbcfff;
   margin-top: -50px;
   margin-left: 20px;
@@ -120,25 +119,3 @@ tr:not(.highlight):hover {
 [data-tooltip]:not([data-tooltip-persistent])::before {
   pointer-events: none;
 }
-
-.tooltip-container {
-  width: 100px;
-  height: 30px;
-  background-color: #bbcfff;
-  /*transition: all 0.05s;*/
-  border-radius: 10px;
-  box-shadow: 2px 2px 1px silver;
-  padding: 5px;
-  vertical-align: middle;
-  text-align: center;
-  /*width: fit-content;*/
-  /*height: fit-content;*/
-  /*opacity: 1;*/
-  /*transition: 0.1s;*/
-  /*background-color: #7ca4da;*/
-}
-
-/*.tooltip-container:hover {*/
-/*  opacity: 1;*/
-/*  transition: 0.3s;*/
-/*}*/
