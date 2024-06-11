@@ -7,7 +7,7 @@
     </div>
   </div>
   <div @slowAnimate *ngIf="filtersEnabled" class="input-filter-container">
-    <input (input)="fillBpm($event)"  type="text" class="input-filter" placeholder="BPM" style="margin-right: 10px">
+    <input (input)="fillBpm($event)" type="text" class="input-filter" placeholder="BPM" style="margin-right: 10px">
     <input (input)="fillComplexity($event)" type="text" class="input-filter" placeholder="Complexity">
   </div>
 </div>
@@ -32,3 +32,7 @@
   </tr>
   </tbody>
 </table>
+<div style="margin-top: 20px">
+  <button class="pagination-button" [disabled]="page == 0" (click)="prev()">←</button>
+  <button class="pagination-button" (click)="next()">→</button>
+</div>

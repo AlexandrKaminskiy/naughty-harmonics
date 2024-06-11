@@ -87,3 +87,27 @@ body {
   transition: 0.25s;
   cursor: pointer;
 }
+
+.pagination-button {
+  background-color: #4d99ff; /* Blue background similar to the image */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 10px 20px; /* Padding for size */
+  font-size: 16px; /* Font size */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background color transition */
+  margin-right: 10px;
+}
+
+
+.pagination-button:hover:active {
+  background-color: #0e5fcb;
+  transition: 0.4s;
+}
+
+.pagination-button:hover {
+  background-color: #4b7dbe;
+  transition: 0.5s;
+  cursor: pointer;
+}

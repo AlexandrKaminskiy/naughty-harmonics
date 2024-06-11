@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {CompositionBlockComponent} from "../composition-block/composition-block.component";
 import {ApiService} from "../../../util/apiService";
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
@@ -37,13 +37,27 @@ export class RegistryComponent implements OnInit {
   complexity: number;
   filtersEnabled: boolean = false;
   directions = [SortType.NONE, SortType.NONE, SortType.NONE, SortType.NONE, SortType.NONE]
-
+  size = 10;
+  page = 0;
   constructor(
     public apiService: ApiService,
     public socialAuthService: SocialAuthService,
     public router: Router
   ) {
   }
+
+  // @HostListener("window:scroll", ["$event"])
+  // onWindowScroll() {
+  //   console.log(123)
+  //   let pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
+  //   let max = document.documentElement.scrollHeight;
+  //   console.log('pos' + pos + ';max' + max)
+  //   if (pos == max) {
+  //     this.size += 10
+  //     this.apiService.findAll(this.name, this.bpm, this.complexity, 0, this.size)
+  //       .subscribe(it => this.compositions = it.content)
+  //   }
+  // }
 
   ngOnInit() {
     this.apiService.findAll()
@@ -57,8 +71,13 @@ export class RegistryComponent implements OnInit {
   }
 
   search() {
-    this.apiService.findAll(this.name, this.bpm, this.complexity, 0, 10)
-      .subscribe(it => this.compositions = it.content)
+    this.apiService.findAll(this.name, this.bpm, this.complexity, this.page, 10)
+      .subscribe(it => {
+        this.compositions = it.content
+        if (this.compositions.length == 0 && this.page > 0) {
+          this.prev()
+        }
+      })
   }
 
   fillName(e: any) {
@@ -84,13 +103,22 @@ export class RegistryComponent implements OnInit {
   sort(field: string, type: string, direction: number) {
     var directionString: string
     switch (this.directions[direction]) {
-      case SortType.ASC: directionString = 'desc'; this.directions[direction] = SortType.DESC; break
-      case SortType.NONE: directionString = 'asc'; this.directions[direction] = SortType.ASC; break
-      case SortType.DESC: directionString = 'asc'; this.directions[direction] = SortType.ASC; break
+      case SortType.ASC:
+        directionString = 'desc';
+        this.directions[direction] = SortType.DESC;
+        break
+      case SortType.NONE:
+        directionString = 'asc';
+        this.directions[direction] = SortType.ASC;
+        break
+      case SortType.DESC:
+        directionString = 'asc';
+        this.directions[direction] = SortType.ASC;
+        break
     }
 
-    this.compositions.sort((a,b) =>
-      this.sortLogic(a, b,field,type,directionString))
+    this.compositions.sort((a, b) =>
+      this.sortLogic(a, b, field, type, directionString))
   }
 
   private sortLogic(a: any, b: any, field: any, type: string, direction: string) {
@@ -104,5 +132,18 @@ export class RegistryComponent implements OnInit {
     } else {
       return direction === 'asc' ? a[field] - b[field] : b[field] - a[field];
     }
+  }
+
+  prev() {
+    if (this.page == 0) {
+      return
+    }
+    this.page--
+    this.search()
+  }
+
+  next() {
+    this.page++
+    this.search()
   }
 }
