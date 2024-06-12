@@ -242,6 +242,48 @@ public class PdfCreatorServiceImpl implements PdfCreatorService {
                                     customFont
                                 );
                             }
+                            switch (tc.notes().get(j).functionType()) {
+                                case BAND_DOWN -> drawText(
+                                    canvas,
+                                    "↓",
+                                    currentOffset + 5,
+                                    topOffset + j * 15 + 3 - 7,
+                                    6,
+                                    customFont
+                                );
+                                case BAND_DOWN_12 -> drawText(
+                                    canvas,
+                                    "↓1/2",
+                                    currentOffset + 5,
+                                    topOffset + j * 15 + 3 - 7,
+                                    6,
+                                    customFont
+                                );
+                                case BAND_UP -> drawText(
+                                    canvas,
+                                    "↑",
+                                    currentOffset + 5,
+                                    topOffset + j * 15 + 3 - 7,
+                                    6,
+                                    customFont
+                                );
+                                case BAND_UP_12 -> drawText(
+                                    canvas,
+                                    "↑1/2",
+                                    currentOffset + 5,
+                                    topOffset + j * 15 + 3 - 7,
+                                    6,
+                                    customFont
+                                );
+                                case VIBRATO -> drawText(
+                                    canvas,
+                                    "~",
+                                    currentOffset,
+                                    topOffset + j * 15 + 3 - 7,
+                                    8,
+                                    customFont
+                                );
+                            }
                         }
 
                         drawPause(canvas, currentOffset + 3, topOffset + 75, tc.duration());
