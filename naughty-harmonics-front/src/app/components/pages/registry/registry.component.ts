@@ -89,7 +89,7 @@ export class RegistryComponent implements OnInit {
   }
 
   fillBpm(e: any) {
-    this.complexity = +e.target.value
+    this.bpm = +e.target.value
   }
 
   toNoteInfoPage(i: number) {

@@ -64,7 +64,9 @@ public class UniqueCompositionServiceImpl implements UniqueCompositionService {
             .map(it -> it * it)
             .reduce(Double::sum)
             .orElse(1.0);
-
+        if (exploringSum == 0) {
+            return new CorrelationResult(0, second, true);
+        }
         final List<Double> correlation = new ArrayList<>();
 
         for (int i = 0; i < immobile.size() + exploring.size() * 2; i++) {

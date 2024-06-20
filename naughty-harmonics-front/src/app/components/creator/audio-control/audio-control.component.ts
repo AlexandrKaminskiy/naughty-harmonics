@@ -76,6 +76,7 @@ export class AudioControlComponent implements OnInit {
             this.compositionDescription = it.description
             this.staveInfo = it.staves
             this.videoLink = it.videoLink
+            this.bpm = it.bpm
             this.staveInfo.forEach(it => it.sliderContext = this.utilService.createSliderContext())
           },
           () => this.router.navigate(['not-found']))
@@ -116,6 +117,7 @@ export class AudioControlComponent implements OnInit {
   }
 
   handleStartPlay() {
+    this.playSoundService.clear()
     this.clearTimeouts();
     // console.log(this.staveInfo[0].tacts)
     this.staveInfo.map((it, index) => {
@@ -328,12 +330,11 @@ export class AudioControlComponent implements OnInit {
   }
 
   publishComposition() {
-
     this.apiService.publishSheet(this.id).subscribe(it => {
       if (it.isUnique) {
-        this.ngToastService.info(`Song was published! Unique percent ${it.maxCorrelationValue * 100}%`, "INFO", 5000)
+        this.ngToastService.info(`Song was published! Unique percent ${(100 - it.maxCorrelationValue  * 100).toFixed(2)}%`, "INFO", 5000)
       } else {
-        this.ngToastService.danger(`Song wasn't published! Unique percent ${it.maxCorrelationValue * 100}%`, "INFO", 5000)
+        this.ngToastService.danger(`Song wasn't published! Unique percent ${(100 - it.maxCorrelationValue * 100).toFixed(2)}%`, "INFO", 5000)
       }
     })
   }

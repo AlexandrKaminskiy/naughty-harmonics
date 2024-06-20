@@ -224,7 +224,6 @@ public class PdfCreatorServiceImpl implements PdfCreatorService {
                         currentOffset += offsetWithoutChangedTactSize;
                     }
 
-
                     for (var tc : staveDto.tacts().get(i).tactColumns()) {
                         if (currentOffset > width - rightOffset - offsetWithoutChangedTactSize) {
                             topOffset += (90 + 30);
@@ -241,52 +240,55 @@ public class PdfCreatorServiceImpl implements PdfCreatorService {
                                     10,
                                     customFont
                                 );
+                                if (tc.notes().get(j).functionType() != null) {
+                                    switch (tc.notes().get(j).functionType()) {
+                                        case BAND_DOWN -> drawText(
+                                            canvas,
+                                            "↓",
+                                            currentOffset + 5,
+                                            topOffset + j * 15 + 3 - 7,
+                                            6,
+                                            customFont
+                                        );
+                                        case BAND_DOWN_12 -> drawText(
+                                            canvas,
+                                            "↓1/2",
+                                            currentOffset + 5,
+                                            topOffset + j * 15 + 3 - 7,
+                                            6,
+                                            customFont
+                                        );
+                                        case BAND_UP -> drawText(
+                                            canvas,
+                                            "↑",
+                                            currentOffset + 5,
+                                            topOffset + j * 15 + 3 - 7,
+                                            6,
+                                            customFont
+                                        );
+                                        case BAND_UP_12 -> drawText(
+                                            canvas,
+                                            "↑1/2",
+                                            currentOffset + 5,
+                                            topOffset + j * 15 + 3 - 7,
+                                            6,
+                                            customFont
+                                        );
+                                        case VIBRATO -> drawText(
+                                            canvas,
+                                            "~",
+                                            currentOffset,
+                                            topOffset + j * 15 + 3 - 7,
+                                            8,
+                                            customFont
+                                        );
+                                    }
+                                }
                             }
-                            switch (tc.notes().get(j).functionType()) {
-                                case BAND_DOWN -> drawText(
-                                    canvas,
-                                    "↓",
-                                    currentOffset + 5,
-                                    topOffset + j * 15 + 3 - 7,
-                                    6,
-                                    customFont
-                                );
-                                case BAND_DOWN_12 -> drawText(
-                                    canvas,
-                                    "↓1/2",
-                                    currentOffset + 5,
-                                    topOffset + j * 15 + 3 - 7,
-                                    6,
-                                    customFont
-                                );
-                                case BAND_UP -> drawText(
-                                    canvas,
-                                    "↑",
-                                    currentOffset + 5,
-                                    topOffset + j * 15 + 3 - 7,
-                                    6,
-                                    customFont
-                                );
-                                case BAND_UP_12 -> drawText(
-                                    canvas,
-                                    "↑1/2",
-                                    currentOffset + 5,
-                                    topOffset + j * 15 + 3 - 7,
-                                    6,
-                                    customFont
-                                );
-                                case VIBRATO -> drawText(
-                                    canvas,
-                                    "~",
-                                    currentOffset,
-                                    topOffset + j * 15 + 3 - 7,
-                                    8,
-                                    customFont
-                                );
-                            }
+
                         }
 
-                        drawPause(canvas, currentOffset + 3, topOffset + 75, tc.duration());
+                        drawPause(canvas, currentOffset + 3, topOffset + 75, 32 / tc.duration());
 
                         double finalCurrentOffset = currentOffset;
                         double finalTopOffset = topOffset;

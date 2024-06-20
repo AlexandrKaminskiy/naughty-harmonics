@@ -45,7 +45,7 @@ export class CompositionInfoPageComponent implements OnInit, AfterViewInit {
       this.apiService.findByIdBrief(params['id']).subscribe(resp => {
         this.compositionDocument = resp
         console.log(resp)
-        this.pdfSrc = BACKEND_HOST + '/composition/document/' + this.compositionDocument.id
+        this.pdfSrc = BACKEND_HOST + '/composition/document/' + this.compositionDocument.id + '/doc.pdf'
         this.clientService.getCurrentUser().subscribe(it => {
           this.getCompositionRating()
           this.getIsRated()

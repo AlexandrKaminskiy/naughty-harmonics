@@ -55,7 +55,7 @@ export class NoteComponent implements OnInit {
           case NoteEmitterAction.VIBRATO: this.vibrato(); break;
           case NoteEmitterAction.ADD_COLUMN: this.addColumn(); break;
           case NoteEmitterAction.BAND_UP: this.bandUp(); break;
-          case NoteEmitterAction.BAND_DOWN: this.bandDown12(); break;
+          case NoteEmitterAction.BAND_DOWN: this.bandDown(); break;
           case NoteEmitterAction.BAND_UP_12: this.bandUp12(); break;
           case NoteEmitterAction.BAND_DOWN_12: this.bandDown12(); break;
           case NoteEmitterAction.DEFAULT: this.default(); break;

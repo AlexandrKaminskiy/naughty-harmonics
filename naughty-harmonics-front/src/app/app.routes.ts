@@ -14,7 +14,7 @@ export const routes: Routes = [
   {path: '', component: MainPageComponent},
   {path: 'info', component: CompositionInfoPageComponent, canActivate: [AuthService]},
   {path: 'profile', component: UserComponent, canActivate: [AuthService]},
-  {path: 'creation', component: AudioControlComponent, canActivate: [NoAuthService]},
+  {path: 'creation', component: AudioControlComponent, canActivate: [AuthService]},
   {path: 'registry', component: RegistryComponent, canActivate: [AuthService]},
   {path: 'information', component: InformationComponent},
   {path: 'unauthorized', component: UnauthorizedComponent},

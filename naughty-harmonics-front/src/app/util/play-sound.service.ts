@@ -9,8 +9,15 @@ export class PlaySoundService {
   constructor(public mathService: SoundService) {
   }
 
+  // private audioCtx: AudioContext;
+
+  public init() {
+  }
+
   public playSound(rates: number[]) {
     const audioCtx = new AudioContext();
+
+
     const audioBuffer = audioCtx.createBuffer(2, 200000, 200000);
     const channelData = audioBuffer.getChannelData(0);
     const channelData1 = audioBuffer.getChannelData(1);
@@ -32,7 +39,7 @@ export class PlaySoundService {
     }
 
     for (let i = 0; i < channelData.length; i++) {
-      channelData1[i] = samples[i]
+      channelData1[i] = samples[i] * 0.9
     }
 
     const source = audioCtx.createBufferSource();
@@ -41,6 +48,14 @@ export class PlaySoundService {
 
     source.connect(audioCtx.destination);
     source.start(0, 0, 1);
+    source.stop(1)
+    setTimeout(() => audioCtx.close(), 1000)
+    // audioCtx.close()
+  }
 
+  clear() {
+    // if (audioCtx) {
+    //   audioCtx.close();
+    // }
   }
 }
