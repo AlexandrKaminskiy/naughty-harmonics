@@ -17,6 +17,7 @@ public interface CompositionRepository extends JpaRepository<Composition, Long> 
     @Query(value = "SELECT c.id as id FROM nh.composition c", nativeQuery = true)
     List<CompositionIdProjection> findAllIds();
 
+
     Optional<Composition> findByIdAndIsDeletedFalseAndIsBannedFalse(final Long id);
     @Query(value = """
         SELECT c.id                                                             as id,
